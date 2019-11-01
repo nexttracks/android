@@ -5,8 +5,7 @@ jdk:
 dist: xenial
 
 before_install:
-- openssl aes-256-cbc -K $encrypted_711dc5014a8e_key -iv $encrypted_711dc5014a8e_iv
-  -in keystore.jks.enc -out keystore.jks -d
+- openssl aes-256-cbc -K $encrypted_711dc5014a8e_key -iv $encrypted_711dc5014a8e_iv -in keystore.jks.enc -out keystore.jks -d
 - rvm install 2.6.5
 - gem install fastlane
 

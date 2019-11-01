@@ -3,6 +3,9 @@ language: android
 jdk:
 - openjdk11
 dist: xenial
+cache:
+  directories:
+  - /home/travis/.rvm/
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_711dc5014a8e_key -iv $encrypted_711dc5014a8e_iv -in keystore.jks.enc -out keystore.jks -d

@@ -5,13 +5,12 @@ jdk:
 dist: xenial
 cache:
   directories:
-  - /home/travis/.rvm/
-
+  - "/home/travis/.rvm/"
 before_install:
-- openssl aes-256-cbc -K $encrypted_711dc5014a8e_key -iv $encrypted_711dc5014a8e_iv -in keystore.jks.enc -out keystore.jks -d
+- openssl aes-256-cbc -K $encrypted_711dc5014a8e_key -iv $encrypted_711dc5014a8e_iv
+  -in keystore.jks.enc -out keystore.jks -d
 - rvm install 2.6.5
 - gem install fastlane
-
 android:
   components:
   - tools
@@ -19,14 +18,12 @@ android:
   - build-tools-29.0.2
   - android-29
   - extra-google-google_play_services
-
 before_script: cd project
 script: "./build_on_travis.sh"
-
 deploy:
   provider: releases
   api_key:
-    secure: Zc4ngOvwdHbimP2JZLaqG3QlEeE4smxiTuNIs7+YaxA2iqy2rXRyw4NJuvGPpq4GDxhAOU6wzHw0QgmworPfdjueAyvJHYpeo7qdE2GWTs/0WdSc/9R+2Qiw+bDSisdTdyoxnQ+ziqV6Fu6QLyg/FZIl8XbmsHXQaz1bz7C/l2Er+twkWlwVAMXmGhK5L/uzfnW09SUEtOeLMToosW+POm7+FmFLt7bnZAWUxrKdffHo+qvkSYasiKkcgcirfXPsNnMUliytoTgaLXW+wtTzkJNfrK/9YoKoMKFBk9KCDwV4BWVHJi1yr1jjMf1+dIOf0A4RoOlj8LWaXglOwn/+KIr8Iv7Vng/OVoIZLDMO9a4pFqCulpRW149XZsVuf4WjXFvc+OoocthxR4NA4h2yfFn3qG7i6PV19T/veoS52b+yKFqC0QZP9s+VQfVjMfCxkw0lZsWOrjsHAtMlcjBMrU1MXOBnxHGY8CangvCR6195bbwAkDZQiwmVY30lQ6BTDS1yYpEOMMcOAUrQNA+mvb54gnIUSQ2rSqnwf1+z7/qQZDX0eVlKWVeAN//+LhBMXU1vweAUsO8wJwXTOmaj+Fqs3IMLHoBFqhxTwatYmtAqgayk2frSe3xCc/n40C9tF7XpGtVRCOCyZNn4sfkwrnoVoPvwVtnsA1E+1ornZjM=
+    secure: GmSq8D3Uxuyy1ZxNgB4OaHePJLaDp9B1qNLhZQ4enhl5f0KA4quJaiTfmxu7pjXZs1ga093J+PG2MNAPBoEqUzGCUNxLKPnxjtce10tFG/e+V7k4AOqtv/ekXK/tmPwYQOmSBh7fRRfTuivqRTEyqtJ/XRKScJU7muTxBGcTnr1ppKFMXkulHidaSrLng1qZdH8HNk4dDL6VEnCK1XAdJcDq/fJQHPYJMXPpvoKTz+bAdZ+XegGpOZRAUiGHCrEQcaYMSv/6JWZB1ZWAUwPmMbUO2nNuOtoGvimSDHVa6gcppStvfjM7NhH93uzisSsBdqOonHlj33fjuBchhwTGZvxj4huWCW//vOIpEmv2B8e+FzowfzEyXJIC0KUDoys3PVK5WucgkxpIkja2EAxYH5gtktYPLe0EXu/VyEvfFiiZi1ZgUU86J8ibW3AyUsOtvhpocnnJ24YvGrfL1U1EqTwfONHHosl6DklYq/yhK0FmWrf7sNRXtwiCGftPSdsngP7Hp8bn14WENv3xKsxQQ6mGasc2OxJmbPR8uw+lwSjPC1VOQ0QtPr9lyTqqqumPDoOBxqmnOKJEufsYARt0wkqV/2/g+1C5EaZzCu2EYce8cGF3IsrcUIG09AHr/ytecrvP4ISclwftxrgkCtu7FlXT0eJrCgOnjdDIGJab7ho=
   file: app/build/outputs/apk/release/app-release.apk
   draft: true
   skip_cleanup: true

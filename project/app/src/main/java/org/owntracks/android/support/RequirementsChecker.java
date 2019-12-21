@@ -18,11 +18,7 @@ public class RequirementsChecker {
     }
 
     public boolean areRequirementsMet  () {
-        return isPlayCheckPassed() && isPermissionCheckPassed() && isInitialSetupCheckPassed();
-    }
-
-    public boolean isPlayCheckPassed() {
-        return GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS;
+        return isPermissionCheckPassed() && isInitialSetupCheckPassed();
     }
 
     public boolean isPermissionCheckPassed() {

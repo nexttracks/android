@@ -1,5 +1,7 @@
 ext.daggerVersion = '2.23'
 ext.playLibVersion = '17.0.0'
+ext.lostVersion = '3.0.2'
+ext.osmDroidVersion = '6.1.5'
 ext.okHttpVersion = '3.13.1'
 ext.jacksonVersion = '2.9.8'
 ext.materialDialogsVersion = '0.9.6.0'
@@ -20,6 +22,12 @@ dependencies {
     // Play Services libraries
     implementation "com.google.android.gms:play-services-maps:${playLibVersion}"
     implementation "com.google.android.gms:play-services-location:${playLibVersion}"
+
+    // lost library
+    implementation "com.mapzen.android:lost:${lostVersion}"
+
+    // open street map library
+    implementation "org.osmdroid:osmdroid-android:${osmDroidVersion}"
 
     // Utility libraries
     implementation "com.google.dagger:dagger:${daggerVersion}"

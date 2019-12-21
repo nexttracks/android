@@ -32,16 +32,11 @@ class WelcomeAdapter extends FragmentStatePagerAdapter  {
 
     }
 
-    void setupFragments(Fragment introFragment, Fragment versionFragment, Fragment playFragment, Fragment permissionFragment, Fragment finishFragment) {
+    void setupFragments(Fragment introFragment, Fragment versionFragment, Fragment permissionFragment, Fragment finishFragment) {
         fragments.add(introFragment);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             fragments.add(versionFragment);
-
-
-        if (!requirementsChecker.isPlayCheckPassed()) {
-            fragments.add(playFragment);
-        }
 
         if (!requirementsChecker.isPermissionCheckPassed()) {
             fragments.add(permissionFragment);

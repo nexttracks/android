@@ -16,7 +16,6 @@ import org.owntracks.android.ui.map.MapActivity;
 import org.owntracks.android.ui.welcome.finish.FinishFragment;
 import org.owntracks.android.ui.welcome.intro.IntroFragment;
 import org.owntracks.android.ui.welcome.permission.PermissionFragment;
-import org.owntracks.android.ui.welcome.play.PlayFragment;
 import org.owntracks.android.ui.welcome.version.VersionFragment;
 
 import javax.inject.Inject;
@@ -41,7 +40,7 @@ public class WelcomeActivity extends BaseActivity<UiWelcomeBinding, WelcomeMvvm.
         bindAndAttachContentView(R.layout.ui_welcome, savedInstanceState);
         setHasEventBus(false);
 
-        welcomeAdapter.setupFragments(new IntroFragment(), new VersionFragment(), new PlayFragment(), new PermissionFragment(), new FinishFragment());
+        welcomeAdapter.setupFragments(new IntroFragment(), new VersionFragment(), new PermissionFragment(), new FinishFragment());
 
         binding.viewPager.setAdapter(welcomeAdapter);
         binding.viewPager.addOnPageChangeListener(this);

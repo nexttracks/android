@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.android.gms.location.Geofence;
 
 import org.owntracks.android.support.interfaces.IncomingMessageProcessor;
 import org.owntracks.android.support.interfaces.OutgoingMessageProcessor;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.mapzen.android.lost.api.Geofence;
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "_type")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)

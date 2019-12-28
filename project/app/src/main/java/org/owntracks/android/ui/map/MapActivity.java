@@ -3,6 +3,7 @@ package org.owntracks.android.ui.map;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,17 +26,20 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
+import androidx.preference.PreferenceManager;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import org.greenrobot.eventbus.EventBus;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.CustomZoomButtonsController;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 import org.owntracks.android.R;
 import org.owntracks.android.databinding.UiMapBinding;
 import org.owntracks.android.model.FusedContact;
@@ -57,13 +61,13 @@ import javax.inject.Inject;
 
 import timber.log.Timber;
 
-public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> implements MapMvvm.View, View.OnClickListener, View.OnLongClickListener, PopupMenu.OnMenuItemClickListener, OnMapReadyCallback, Observer {
+public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> implements MapMvvm.View, View.OnClickListener, View.OnLongClickListener, PopupMenu.OnMenuItemClickListener, Observer {
     public static final String BUNDLE_KEY_CONTACT_ID = "BUNDLE_KEY_CONTACT_ID";
     private static final long ZOOM_LEVEL_STREET = 15;
     private final int PERMISSIONS_REQUEST_CODE = 1;
 
     private final WeakHashMap<String, Marker> mMarkers = new WeakHashMap<>();
-    private GoogleMap mMap;
+    private MapView map;
     private BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
     private boolean isMapReady = false;
     private Menu mMenu;
@@ -91,16 +95,24 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
 
         bindAndAttachContentView(R.layout.ui_map, savedInstanceState);
 
+
         setSupportToolbar(this.binding.toolbar, false, true);
         setDrawer(this.binding.toolbar);
+        Context ctx = getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        map = findViewById(R.id.mapView);
+        map.setTileSource(TileSourceFactory.MAPNIK);
 
-        // Workaround for Google Maps crash on Android 6
-        try {
-            binding.mapView.onCreate(savedInstanceState);
-        } catch (Exception e) {
-            Timber.e("not showing map due to issue   ");
-            isMapReady = false;
-        }
+        IMapController mapController = map.getController();
+        mapController.setZoom(15.0);
+        GeoPoint startPoint = new GeoPoint(52.5200, 13.4049);
+
+//        GeoPoint startPoint = LocationProcessor. // TODO: get current location here
+        mapController.setCenter(startPoint);
+
+        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
+        map.setMultiTouchControls(true);
+
         this.bottomSheetBehavior = BottomSheetBehavior.from(this.binding.bottomSheetLayout);
         this.binding.contactPeek.contactRow.setOnClickListener(this);
         this.binding.contactPeek.contactRow.setOnLongClickListener(this);
@@ -128,7 +140,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         });
         viewModel.getCenter().observe(this, o -> {
             if(o != null) {
-                updateCamera((LatLng) o);
+                mapController.setCenter((GeoPoint) o);
             }
         });
         checkAndRequestLocationPermissions();
@@ -145,12 +157,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
                     Activity currentActivity = this;
-                    new AlertDialog.Builder(this).setCancelable(true).setMessage(R.string.permissions_description).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(currentActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
-                        }
-                    }).show();
+                    new AlertDialog.Builder(this).setCancelable(true).setMessage(R.string.permissions_description).setPositiveButton("OK", (dialog, which) -> ActivityCompat.requestPermissions(currentActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE)).show();
                 } else {
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
                 }
@@ -177,7 +184,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
                     binding.distanceLabel.setVisibility(View.VISIBLE);
 
                     float[] distance = new float[2];
-                    Location.distanceBetween(viewModel.getCurrentLocation().latitude, viewModel.getCurrentLocation().longitude, c.getLatLng().latitude,c.getLatLng().longitude , distance);
+                    Location.distanceBetween(viewModel.getCurrentLocation().getLatitude(), viewModel.getCurrentLocation().getLongitude(), c.getGeoPoint().getLatitude(), c.getGeoPoint().getLongitude(), distance);
 
                     binding.distance.setText(String.format(Locale.getDefault(),"%d m",Math.round(distance[0])));
                 } else {
@@ -196,111 +203,24 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
     @Override
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
-        try {
-            if (binding.mapView != null)
-                binding.mapView.onSaveInstanceState(bundle);
-        } catch (Exception ignored) {
-            isMapReady = false;
-        }
     }
 
     @Override
     public void onDestroy() {
-        try {
-            if (binding.mapView != null)
-                binding.mapView.onDestroy();
-        } catch (Exception ignored) {
-            isMapReady = false;
-        }
+        map.onDetach();
         super.onDestroy();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        this.isMapReady = false;
-
-        try {
-            if (binding.mapView != null)
-                binding.mapView.onResume();
-
-            if (mMap == null) {
-                Timber.v("map not ready. Running initDelayed()");
-                this.isMapReady = false;
-                initMapDelayed();
-            } else {
-                Timber.v("map ready. Running onMapReady()");
-                this.isMapReady = true;
-                viewModel.onMapReady();
-            }
-
-        } catch (Exception e) {
-            Timber.e("not showing map due to crash in Google Maps library");
-            isMapReady = false;
-        }
-        handleIntentExtras(getIntent());
+        map.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        try {
-            if (binding.mapView != null)
-                binding.mapView.onPause();
-        } catch (Exception e) {
-            isMapReady = false;
-        }
-    }
-
-    private void handleIntentExtras(Intent intent) {
-        Timber.v("handleIntentExtras");
-
-        Bundle b = navigator.getExtrasBundle(intent);
-        if (b != null) {
-            Timber.v("intent has extras from drawerProvider");
-            String contactId = b.getString(BUNDLE_KEY_CONTACT_ID);
-            if (contactId != null) {
-
-                viewModel.restore(contactId);
-            }
-        }
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        try {
-            if (binding.mapView != null)
-                binding.mapView.onLowMemory();
-        } catch (Exception ignored) {
-            isMapReady = false;
-        }
-    }
-
-    @Override
-    public void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        handleIntentExtras(intent);
-        try {
-            if (binding.mapView != null)
-                binding.mapView.onLowMemory();
-        } catch (Exception ignored){
-            isMapReady = false;
-        }
-    }
-
-    private void initMapDelayed() {
-        isMapReady = false;
-
-        //runner.postOnMainHandlerDelayed();
-        runner.postOnMainHandlerDelayed(this::initMap, 500);
-    }
-
-    private void initMap() {
-        isMapReady = false;
-        try {
-            binding.mapView.getMapAsync(this);
-        } catch (Exception ignored) { }
+        map.onPause();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -391,44 +311,12 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         }
     }
 
-    // MAP CALLBACKS
-    @SuppressWarnings("MissingPermission")
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        Timber.v("onMapReady");
-
-        this.mMap = googleMap;
-        this.mMap.setIndoorEnabled(false);
-        this.mMap.setLocationSource(viewModel.getMapLocationSource());
-        this.mMap.setMyLocationEnabled(true);
-        this.mMap.getUiSettings().setMyLocationButtonEnabled(false);
-        this.mMap.setOnMapClickListener(viewModel.getOnMapClickListener());
-        this.mMap.setOnMarkerClickListener(viewModel.getOnMarkerClickListener());
-        this.mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-            @Override
-            public View getInfoWindow(Marker marker) {
-                return null;
-            }
-
-            @Override
-            public View getInfoContents(Marker marker) {
-                return null;
-            }
-        });
-        this.isMapReady = true;
-        viewModel.onMapReady();
-    }
-
-
-    private void updateCamera(@NonNull LatLng latLng) {
-        if(isMapReady)
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, ZOOM_LEVEL_STREET));
-    }
-
     @Override
     public void clearMarkers() {
         if (isMapReady)
-            mMap.clear();
+            for (Marker m : mMarkers.values()) {
+                m.remove(map);
+            }
         mMarkers.clear();
     }
 
@@ -439,7 +327,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
 
         Marker m = mMarkers.get(contact.getId());
         if(m != null)
-            m.remove();
+            m.remove(map);
     }
 
     @Override
@@ -452,13 +340,12 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         Timber.v("updating marker for contact: %s", contact.getId());
         Marker m = mMarkers.get(contact.getId());
 
-        if (m != null) {
-            m.setPosition(contact.getLatLng());
-        } else {
-            m = mMap.addMarker(new MarkerOptions().position(contact.getLatLng()).anchor(0.5f, 0.5f).visible(false));
-            m.setTag(contact.getId());
+        if (m == null){
+            m = new Marker(map, null);
+            map.getOverlays().add(new Marker(map, null));
             mMarkers.put(contact.getId(), m);
         }
+        m.setPosition(contact.getGeoPoint());
 
         contactImageProvider.setMarkerAsync(m, contact);
     }
@@ -471,8 +358,8 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
                 FusedContact c = viewModel.getActiveContact();
                 if (c != null && c.hasLocation()) {
                     try {
-                        LatLng l = c.getLatLng();
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + l.latitude + "," + l.longitude));
+                        GeoPoint l = c.getGeoPoint();
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + l.getLatitude() + "," + l.getLongitude()));
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     } catch (ActivityNotFoundException e) {

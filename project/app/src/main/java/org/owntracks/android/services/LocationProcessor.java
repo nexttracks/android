@@ -5,7 +5,7 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.location.Geofence;
+import com.mapzen.android.lost.api.Geofence;
 
 import org.owntracks.android.data.WaypointModel;
 import org.owntracks.android.data.repos.LocationRepo;

@@ -4,9 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.view.View;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,9 +17,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.Shadows;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadow.api.Shadow;
 import org.robolectric.shadows.ShadowApplication;
-import org.robolectric.shadows.gms.common.ShadowGoogleApiAvailability;
 
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
@@ -53,7 +48,7 @@ class TestApp extends App {
 
 
 @RunWith(RobolectricTestRunner.class)
-@Config(minSdk = LOLLIPOP, maxSdk = P, application = TestApp.class, shadows = {ShadowViewPager.class, ShadowGoogleApiAvailability.class})
+@Config(minSdk = LOLLIPOP, maxSdk = P, application = TestApp.class, shadows = {ShadowViewPager.class})
 public class WelcomeActivityTest {
 
     @Spy
@@ -62,9 +57,6 @@ public class WelcomeActivityTest {
 
     @Before
     public void setup() {
-        final ShadowGoogleApiAvailability shadowGoogleApiAvailability
-                = Shadow.extract(GoogleApiAvailability.getInstance());
-        shadowGoogleApiAvailability.setIsGooglePlayServicesAvailable(ConnectionResult.SUCCESS);
 
         ActivityController<WelcomeActivity> welcomeActivityActivityController = Robolectric.buildActivity(WelcomeActivity.class);
 

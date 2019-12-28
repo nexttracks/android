@@ -18,10 +18,7 @@ import androidx.collection.ArrayMap;
 import android.util.Base64;
 import android.widget.ImageView;
 
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Marker;
-
+import org.osmdroid.views.overlay.Marker;
 import org.owntracks.android.injection.qualifier.AppContext;
 import org.owntracks.android.injection.scopes.PerApplication;
 import org.owntracks.android.model.FusedContact;
@@ -66,7 +63,7 @@ public class ContactImageProvider {
         }
 
     }
-    private static class ContactDrawableWorkerTaskForMarker extends AsyncTask<FusedContact, Void, BitmapDescriptor> {
+    private static class ContactDrawableWorkerTaskForMarker extends AsyncTask<FusedContact, Void, BitmapDrawable> {
         final WeakReference<Marker> target;
 
         ContactDrawableWorkerTaskForMarker(Marker marker) {
@@ -74,12 +71,12 @@ public class ContactImageProvider {
         }
 
         @Override
-        protected BitmapDescriptor doInBackground(FusedContact... params) {
-            return BitmapDescriptorFactory.fromBitmap(getBitmapFromCache(params[0]));
+        protected BitmapDrawable doInBackground(FusedContact... params) {
+            return new BitmapDrawable(getBitmapFromCache(params[0]));
         }
 
         @Override
-        protected void onPostExecute(BitmapDescriptor result) {
+        protected void onPostExecute(BitmapDrawable result) {
 
             Marker marker = target.get();
             if(marker != null) {

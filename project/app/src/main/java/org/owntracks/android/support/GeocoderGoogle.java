@@ -34,6 +34,7 @@ public class GeocoderGoogle implements Geocoder {
                 return "not available";
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

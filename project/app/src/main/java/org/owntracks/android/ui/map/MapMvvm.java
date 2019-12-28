@@ -3,10 +3,7 @@ package org.owntracks.android.ui.map;
 import androidx.lifecycle.LiveData;
 import androidx.databinding.Bindable;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
-import com.google.android.gms.maps.model.LatLng;
-
+import org.osmdroid.util.GeoPoint;
 import org.owntracks.android.model.FusedContact;
 import org.owntracks.android.ui.base.view.MvvmView;
 import org.owntracks.android.ui.base.viewmodel.MvvmViewModel;
@@ -28,7 +25,7 @@ public interface MapMvvm {
     }
 
     interface ViewModel<V extends MvvmView> extends MvvmViewModel<V>  {
-        LatLng getCurrentLocation();
+        GeoPoint getCurrentLocation();
 
         @Bindable
         FusedContact getActiveContact();
@@ -43,13 +40,9 @@ public interface MapMvvm {
         boolean hasLocation();
         void onMapReady();
 
-        LocationSource getMapLocationSource();
-        GoogleMap.OnMapClickListener getOnMapClickListener();
-        GoogleMap.OnMarkerClickListener getOnMarkerClickListener();
-
         LiveData<FusedContact> getContact();
         LiveData<Boolean> getBottomSheetHidden();
-        LiveData<LatLng> getCenter();
+        LiveData<GeoPoint> getCenter();
 
         void sendLocation();
     }

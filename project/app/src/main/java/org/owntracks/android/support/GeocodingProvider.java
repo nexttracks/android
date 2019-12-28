@@ -30,6 +30,7 @@ public class GeocodingProvider {
     @Inject
     public GeocodingProvider(@AppContext Context context, Preferences preferences) {
         cache = new LruCache<>(40);
+        Timber.e("lost af");
         if("".equals(preferences.getOpenCageGeocoderApiKey())) {
             geocoder = new GeocoderGoogle(context);
         } else {

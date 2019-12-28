@@ -9,7 +9,7 @@ import androidx.databinding.BindingAdapter;
 import androidx.databinding.BindingConversion;
 import androidx.databinding.InverseMethod;
 
-import com.google.android.gms.location.Geofence;
+import com.mapzen.android.lost.api.Geofence;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.owntracks.android.R;

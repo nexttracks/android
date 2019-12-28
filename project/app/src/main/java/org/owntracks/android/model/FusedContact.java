@@ -5,10 +5,7 @@ import androidx.databinding.Bindable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-
-import com.google.android.gms.maps.model.LatLng;
-
-
+import org.osmdroid.util.GeoPoint;
 import org.owntracks.android.BR;
 import org.owntracks.android.messages.MessageCard;
 import org.owntracks.android.messages.MessageLocation;
@@ -132,8 +129,8 @@ public class FusedContact extends BaseObservable implements Comparable<FusedCont
         return id;
     }
 
-    public LatLng getLatLng() {
-        return new LatLng(this.messageLocation.getLatitude(), this.messageLocation.getLongitude());
+    public GeoPoint getGeoPoint() {
+        return new GeoPoint(this.messageLocation.getLatitude(), this.messageLocation.getLongitude());
     }
 
     private boolean deleted;

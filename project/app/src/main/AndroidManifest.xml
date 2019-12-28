@@ -20,7 +20,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- To autostart the app once the device boots -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!-- Not actively requested. Has to be enabled manually. Access to broker certificates in private storage on older APIs or on devices not providing files through content:// URIs -->
+    <!-- Not actively requested. Has to be enabled manually.  to broker certificates in private storage on older APIs or on devices not providing files through content:// URIs -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- Not actively requested. Has to be enabled manually. Required to write debug logfiles.  -->
 
@@ -30,7 +30,7 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <!-- To access Google Play Services -->
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+<!--    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />-->
 
     <!-- API v28 requires this for foreground services -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />

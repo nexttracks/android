@@ -2,6 +2,7 @@ package org.owntracks.android.ui.map;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,13 +10,11 @@ import androidx.databinding.Bindable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 import org.owntracks.android.data.repos.ContactsRepo;
 import org.owntracks.android.injection.scopes.PerActivity;
 import org.owntracks.android.messages.MessageClear;
@@ -33,11 +32,10 @@ import javax.inject.Inject;
 import timber.log.Timber;
 
 @PerActivity
-public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm.ViewModel<MapMvvm.View>, LocationSource, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener {
+public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm.ViewModel<MapMvvm.View>, MapView.OnClickListener {
     private final ContactsRepo contactsRepo;
     private final LocationProcessor locationProcessor;
     private FusedContact activeContact;
-    private LocationSource.OnLocationChangedListener mListener;
     private MessageProcessor messageProcessor;
     private Location mLocation;
 
@@ -49,7 +47,7 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
     private static int mode = VIEW_DEVICE;
     private MutableLiveData<FusedContact> liveContact = new MutableLiveData<>();
     private MutableLiveData<Boolean> liveBottomSheetHidden = new MutableLiveData<>();
-    private MutableLiveData<LatLng> liveCamera = new MutableLiveData<>();
+    private MutableLiveData<GeoPoint> liveCamera = new MutableLiveData<>();
 
     @Inject
     public MapViewModel(ContactsRepo contactsRepo, LocationProcessor locationRepo, MessageProcessor messageProcessor) {
@@ -68,18 +66,7 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
     }
 
     @Override
-    public LocationSource getMapLocationSource() {
-        return this;
-    }
-
-    @Override
-    public GoogleMap.OnMapClickListener getOnMapClickListener() {
-        return this;
-    }
-
-    @Override
-    public GoogleMap.OnMarkerClickListener getOnMarkerClickListener() {
-        return this;
+    public void onClick(View v) {
     }
 
     @Override
@@ -108,7 +95,7 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
     }
 
     @Override
-    public LiveData<LatLng> getCenter() {
+    public LiveData<GeoPoint> getCenter() {
         return liveCamera;
     }
 
@@ -136,7 +123,7 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
         liveBottomSheetHidden.postValue(false);
 
         if(center)
-            liveCamera.postValue(c.getLatLng());
+            liveCamera.postValue(c.getGeoPoint());
 
     }
 
@@ -160,8 +147,8 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
 
     @Override
     @Nullable
-    public LatLng getCurrentLocation() {
-        return mLocation != null ? new LatLng(mLocation.getLatitude(), mLocation.getLongitude()) : null;
+    public GeoPoint getCurrentLocation() {
+        return mLocation != null ? new GeoPoint(mLocation.getLatitude(), mLocation.getLongitude()) : null;
     }
 
     @Override
@@ -233,7 +220,7 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
         getView().updateMarker(c);
         if(c == activeContact) {
             liveContact.postValue(c);
-            liveCamera.postValue(c.getLatLng());
+            liveCamera.postValue(c.getGeoPoint());
         }
     }
 
@@ -253,9 +240,9 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
         Timber.v("location source updated");
 
         this.mLocation = l;
-        if (mListener != null) {
-            this.mListener.onLocationChanged(this.mLocation);
-        }
+//        if (mListener != null) {
+//            this.mListener.onLocationChanged(this.mLocation);
+//        }
         if(mode == VIEW_DEVICE) {
             liveCamera.postValue(getCurrentLocation());
         }
@@ -263,34 +250,34 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
     }
 
     // Map Callback
-    @Override
-    public void activate(OnLocationChangedListener onLocationChangedListener) {
-       Timber.v("location source activated");
-       mListener = onLocationChangedListener;
-       if (mLocation != null)
-           this.mListener.onLocationChanged(mLocation);
-    }
+//    @Override
+//    public void activate( onLocationChangedListener) {
+//       Timber.v("location source activated");
+//       mListener = onLocationChangedListener;
+//       if (mLocation != null)
+//           this.mListener.onLocationChanged(mLocation);
+//    }
 
     // Map Callback
-    @Override
-    public void deactivate() {
-        mListener = null;
-    }
+//    @Override
+//    public void deactivate() {
+//        mListener = null;
+//    }
 
     // Map Callback
-    @Override
-    public void onMapClick(LatLng latLng) {
-        setViewModeFree();
-    }
+//    @Override
+//    public void onMapClick(GeoPoint geoPoint) {
+//        setViewModeFree();
+//    }
 
     // Map Callback
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        if (marker.getTag() != null) {
-            setViewModeContact((String) marker.getTag(), false);
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onMarkerClick(Marker marker) {
+//        if (marker.getT() != null) {
+//            setViewModeContact((String) marker.getTag(), false);
+//        }
+//        return true;
+//    }
 
     @Override
     public void onBottomSheetLongClick() {

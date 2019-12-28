@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-
 public class RequirementsChecker {
     private final Preferences preferences;
     private final Context context;

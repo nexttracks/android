@@ -73,17 +73,12 @@
     <string name="preferencesExportFailed">Einstellungs-Export fehlgeschlagen</string>
     <string name="preferencesExportSuccess">Export erfolgreich</string>
     <string name="welcomeFixIssue">Korrigieren</string>
-    <string name="play_services_now_available">Google Play-Dienste sind jetzt verfügbar</string>
-    <string name="play_services_not_available">Google Play-Dienste sind nicht verfügbar</string>
-    <string name="play_services_update_required">Google Play-Dienste muss aktualisiert werden</string>
     <string name="transitionEntering">betritt</string>
     <string name="transitionLeaving">verlässt</string>
     <string name="errorPreferencesImportFailed">Import fehlgeschlagen</string>
     <string name="errorPreferencesImportFailedParseException">Konfiguration fehlerhaft</string>
     <string name="errorPreferencesImportFailedMemory">Nicht genug Speicher verfügbar</string>
-    <string name="welcome_play_description">Owntracks benötigt die Google Play-Dienste</string>
     <string name="icon_description_warning">Warnung</string>
-    <string name="welcome_play_heading">Google Play-Dienste</string>
     <string name="welcome_heading">Willkommen</string>
     <string name="welcome_description">Die folgenden Schritte werden Dir helfen, Owntracks einzurichten</string>
     <string name="mqtt_private_description">Owntracks mit deinem eigenen Server verwenden</string>

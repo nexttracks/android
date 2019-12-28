@@ -33,7 +33,7 @@ public class PermissionFragment extends BaseSupportFragment<UiWelcomePermissions
     }
 
     public void requestFix() {
-        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
     }
 
     @Override

@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.google.android.gms.maps.model.LatLng;
 
+import org.osmdroid.util.GeoPoint;
 import org.owntracks.android.model.FusedContact;
 import org.owntracks.android.support.interfaces.IncomingMessageProcessor;
 import org.owntracks.android.support.interfaces.OutgoingMessageProcessor;
@@ -40,7 +40,7 @@ public class MessageLocation extends MessageBase {
     private long tst;
     private String geocoder;
     private WeakReference<FusedContact> _contact;
-    private LatLng point;
+    private GeoPoint point;
     private String conn;
     private List<String> inregions;
 
@@ -162,8 +162,8 @@ public class MessageLocation extends MessageBase {
     }
 
     @JsonIgnore
-    public LatLng getLatLng() {
-        return point != null ? point : (point = new LatLng(lat, lon));
+    public GeoPoint getGeoPoint() {
+        return point != null ? point : (point = new GeoPoint(lat, lon));
     }
 
     @Override

@@ -3,6 +3,7 @@ package org.owntracks.android.ui.map;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +33,7 @@ import javax.inject.Inject;
 import timber.log.Timber;
 
 @PerActivity
-public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm.ViewModel<MapMvvm.View>, MapView.OnClickListener {
+public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm.ViewModel<MapMvvm.View>, MapView.OnClickListener, Marker.OnMarkerClickListener {
     private final ContactsRepo contactsRepo;
     private final LocationProcessor locationProcessor;
     private FusedContact activeContact;
@@ -63,10 +64,6 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
 
     @Override
     public void restoreInstanceState(@NonNull Bundle savedInstanceState) {
-    }
-
-    @Override
-    public void onClick(View v) {
     }
 
     @Override
@@ -212,12 +209,15 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
             setViewModeFree();
         }
         getView().removeMarker(c.getContact());
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FusedContact c) {
         getView().updateMarker(c);
+        Marker m = getView().getMarker(c);
+        if (m != null) {
+            m.setOnMarkerClickListener(this);
+        }
         if(c == activeContact) {
             liveContact.postValue(c);
             liveCamera.postValue(c.getGeoPoint());
@@ -265,19 +265,19 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
 //    }
 
     // Map Callback
-//    @Override
-//    public void onMapClick(GeoPoint geoPoint) {
-//        setViewModeFree();
-//    }
+    @Override
+    public void onClick(View v) {
+        setViewModeFree();
+    }
 
     // Map Callback
-//    @Override
-//    public boolean onMarkerClick(Marker marker) {
-//        if (marker.getT() != null) {
-//            setViewModeContact((String) marker.getTag(), false);
-//        }
-//        return true;
-//    }
+    @Override
+    public boolean onMarkerClick(Marker marker, MapView m) {
+        if (marker.getTitle() != null) {
+            setViewModeContact(marker.getTitle(), false);
+        }
+        return true;
+    }
 
     @Override
     public void onBottomSheetLongClick() {

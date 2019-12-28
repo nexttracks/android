@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.databinding.Bindable;
 
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 import org.owntracks.android.model.FusedContact;
 import org.owntracks.android.ui.base.view.MvvmView;
 import org.owntracks.android.ui.base.viewmodel.MvvmViewModel;
@@ -17,6 +19,7 @@ public interface MapMvvm {
         void setBottomSheetCollapsed();
         void setBottomSheetHidden();
 
+        Marker getMarker(FusedContact contact);
         void updateMarker(FusedContact contact);
         void removeMarker(FusedContact c);
         void clearMarkers();

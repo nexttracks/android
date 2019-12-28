@@ -41,6 +41,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import org.owntracks.android.R;
 import org.owntracks.android.databinding.UiMapBinding;
 import org.owntracks.android.model.FusedContact;
@@ -106,13 +107,13 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
 
         IMapController mapController = map.getController();
         mapController.setZoom(15.0);
-        GeoPoint startPoint = new GeoPoint(52.5200, 13.4049);
 
-//        GeoPoint startPoint = LocationProcessor. // TODO: get current location here
-        mapController.setCenter(startPoint);
-
-        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
+        map.setOnClickListener((MapViewModel) viewModel);
+        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
         map.setMultiTouchControls(true);
+
+        isMapReady = true;
+        viewModel.onMapReady();
 
         this.bottomSheetBehavior = BottomSheetBehavior.from(this.binding.bottomSheetLayout);
         this.binding.contactPeek.contactRow.setOnClickListener(this);
@@ -215,7 +216,11 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
     @Override
     public void onResume() {
         super.onResume();
-        map.onResume();
+        if (map != null) {
+            map.onResume();
+            isMapReady = true;
+            viewModel.onMapReady();
+        }
     }
 
     @Override
@@ -332,6 +337,14 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
     }
 
     @Override
+    public Marker getMarker(@Nullable FusedContact contact) {
+        if(contact == null)
+            return null;
+
+        return mMarkers.get(contact.getId());
+    }
+
+    @Override
     public void updateMarker(@Nullable FusedContact contact) {
         if (contact == null || !contact.hasLocation() || !isMapReady) {
             Timber.v("unable to update marker. null:%s, location:%s, mapReady:%s",contact == null, contact == null || contact.hasLocation(), isMapReady);
@@ -343,8 +356,12 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
 
         if (m == null){
             m = new Marker(map, null);
-            map.getOverlays().add(new Marker(map, null));
+            m.setTitle(contact.getId());
+            m.setAnchor(0.5f, 0.5f);
+            map.getOverlays().add(m);
             mMarkers.put(contact.getId(), m);
+        } else {
+            this.map.invalidate();
         }
         m.setPosition(contact.getGeoPoint());
 

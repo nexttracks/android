@@ -2,11 +2,14 @@ package org.owntracks.android.support;
 
 import android.content.Context;
 import androidx.databinding.BindingAdapter;
+
+import android.location.Address;
 import android.os.AsyncTask;
 import androidx.annotation.CallSuper;
 import androidx.collection.LruCache;
 import android.widget.TextView;
 
+import org.osmdroid.bonuspack.location.GeocoderNominatim;
 import org.owntracks.android.R;
 import org.owntracks.android.injection.qualifier.AppContext;
 import org.owntracks.android.injection.scopes.PerApplication;
@@ -14,7 +17,9 @@ import org.owntracks.android.messages.MessageLocation;
 import org.owntracks.android.model.FusedContact;
 import org.owntracks.android.services.BackgroundService;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -25,17 +30,12 @@ import timber.log.Timber;
 public class GeocodingProvider {
 
     private static LruCache<String, String> cache;
-    private static Geocoder geocoder;
+    private static GeocoderNominatim geocoder;
 
     @Inject
     public GeocodingProvider(@AppContext Context context, Preferences preferences) {
         cache = new LruCache<>(40);
-        Timber.e("lost af");
-        if("".equals(preferences.getOpenCageGeocoderApiKey())) {
-            geocoder = new GeocoderGoogle(context);
-        } else {
-            geocoder = new GeocoderOpencage(preferences.getOpenCageGeocoderApiKey());
-        }
+        geocoder = new GeocoderNominatim("OwnTracks App");
     }
 
     private static String getCache(MessageLocation m) {
@@ -152,7 +152,29 @@ public class GeocodingProvider {
                 return "Resolve failed";
             }
 
-            return geocoder.reverse(m.getLatitude(), m.getLongitude());
+            String address = "Resolve failed";
+            try {
+                List<Address> addresses = geocoder.getFromLocation(m.getLatitude(), m.getLongitude(), 1);
+                if (!addresses.isEmpty()) {
+                    Address addr = addresses.get(0);
+
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i <= addr.getMaxAddressLineIndex(); i++) {
+                        if (i > 0) {
+                            sb.append(", ");
+                        }
+                        String line = addr.getAddressLine(i);
+                        if (line != null) {
+                            sb.append(line);
+                        }
+                    }
+                    address = sb.toString();
+                }
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+
+            return address;
         }
 
         @Override

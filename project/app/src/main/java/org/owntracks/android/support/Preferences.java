@@ -327,17 +327,6 @@ public class Preferences {
         setBoolean(Keys.DONT_REUSE_HTTP_CLIENT,bool);
     }
 
-
-    @Import(key = Keys.OPENCAGE_GEOCODER_API_KEY)
-    public void setOpenCageGeocoderApiKey(String key) {
-        setString(Keys.OPENCAGE_GEOCODER_API_KEY, key);
-    }
-
-    @Export(key = Keys.OPENCAGE_GEOCODER_API_KEY, exportModeMqttPrivate = true, exportModeHttpPrivate = true)
-    public String getOpenCageGeocoderApiKey() {
-        return getString(Keys.OPENCAGE_GEOCODER_API_KEY, R.string.valEmpty);
-    }
-
     @Export(key =Keys.REMOTE_CONFIGURATION, exportModeMqttPrivate =true, exportModeHttpPrivate =true)
     public boolean getRemoteConfiguration() {
         return getBoolean(Keys.REMOTE_CONFIGURATION, R.bool.valRemoteConfiguration);
@@ -966,7 +955,6 @@ public class Preferences {
         public static final String NOTIFICATION_EVENTS              = "notificationEvents";
         public static final String NOTIFICATION_HIGHER_PRIORITY     = "notificationHigherPriority";
         public static final String NOTIFICATION_LOCATION            = "notificationLocation";
-        public static final String OPENCAGE_GEOCODER_API_KEY        = "opencageApiKey";
         public static final String PASSWORD                         = "password";
         public static final String PING                             = "ping";
         public static final String PORT                             = "port";

@@ -2,6 +2,7 @@ ext.daggerVersion = '2.23'
 ext.playLibVersion = '17.0.0'
 ext.lostVersion = '3.0.2'
 ext.osmDroidVersion = '6.1.5'
+ext.osmBonusPackVersion = '6.6.0'
 ext.okHttpVersion = '3.13.1'
 ext.jacksonVersion = '2.9.8'
 ext.materialDialogsVersion = '0.9.6.0'
@@ -26,8 +27,9 @@ dependencies {
     // lost library
     implementation "com.mapzen.android:lost:${lostVersion}"
 
-    // open street map library
+    // open street map libraries
     implementation "org.osmdroid:osmdroid-android:${osmDroidVersion}"
+    implementation "com.github.MKergall:osmbonuspack:${osmBonusPackVersion}"
 
     // Utility libraries
     implementation "com.google.dagger:dagger:${daggerVersion}"

@@ -42,7 +42,7 @@ public class ContactsViewModel extends BaseViewModel<ContactsMvvm.View> implemen
 
     @Override
     public void onContactClick(FusedContact c) {
-        if(!c.hasLocation())
+        if (!c.hasLocation())
             return;
 
         Bundle b = new Bundle();
@@ -59,6 +59,7 @@ public class ContactsViewModel extends BaseViewModel<ContactsMvvm.View> implemen
     public void onEvent(Events.FusedContactRemoved c) {
         //TODO: remove
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FusedContact c) {
         //TODO: Sort

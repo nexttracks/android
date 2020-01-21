@@ -273,6 +273,7 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
     // Map Callback
     @Override
     public boolean onMarkerClick(Marker marker, MapView m) {
+//        Toast.makeText((MapActivity)this.getView(), "Test", Toast.LENGTH_SHORT).show();
         if (marker.getTitle() != null) {
             setViewModeContact(marker.getTitle(), false);
         }

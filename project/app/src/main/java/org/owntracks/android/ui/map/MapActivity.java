@@ -10,6 +10,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,7 +38,10 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import org.owntracks.android.R;
 import org.owntracks.android.databinding.UiMapBinding;
 import org.owntracks.android.model.FusedContact;
@@ -106,6 +110,19 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         map.setOnClickListener((MapViewModel) viewModel);
         map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
         map.setMultiTouchControls(true);
+        MyLocationNewOverlay myLocationOverlay = new MyLocationNewOverlay(map);
+        myLocationOverlay.enableMyLocation();
+        myLocationOverlay.disableFollowLocation();
+        myLocationOverlay.setDrawAccuracyEnabled(true);
+        map.getOverlays().add(myLocationOverlay);
+
+        CopyrightOverlay mCopyrightOverlay = new CopyrightOverlay(this);
+        map.getOverlays().add(mCopyrightOverlay);
+        map.invalidate();
+//        new Handler().postDelayed(() -> {
+//            map.getOverlays().remove(mCopyrightOverlay);
+//            map.invalidate();
+//        }, 5000);
 
         isMapReady = true;
         viewModel.onMapReady();
@@ -372,7 +389,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         if (m == null){
             m = new Marker(map, null);
             m.setTitle(contact.getId());
-            m.setAnchor(0.5f, 0.5f);
+            m.setAnchor(0.0f, 0.0f);
             map.getOverlays().add(m);
             mMarkers.put(contact.getId(), m);
         } else {

@@ -115,6 +115,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         myLocationOverlay.disableFollowLocation();
         myLocationOverlay.setDrawAccuracyEnabled(true);
         map.getOverlays().add(myLocationOverlay);
+        map.setMinZoomLevel(2.5);
 
         CopyrightOverlay mCopyrightOverlay = new CopyrightOverlay(this);
         map.getOverlays().add(mCopyrightOverlay);

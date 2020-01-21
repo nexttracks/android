@@ -2,6 +2,7 @@ package org.owntracks.android.services;
 
 import android.location.Location;
 import android.os.Build;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 

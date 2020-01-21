@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -33,15 +32,12 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import org.greenrobot.eventbus.EventBus;
 import org.osmdroid.api.IMapController;
-import org.osmdroid.bonuspack.location.GeocoderNominatim;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import org.owntracks.android.R;
 import org.owntracks.android.databinding.UiMapBinding;
 import org.owntracks.android.model.FusedContact;
@@ -96,7 +92,6 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         }
 
         bindAndAttachContentView(R.layout.ui_map, savedInstanceState);
-
 
         setSupportToolbar(this.binding.toolbar, false, true);
         setDrawer(this.binding.toolbar);
@@ -221,12 +216,32 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
             isMapReady = true;
             viewModel.onMapReady();
         }
+        handleIntentExtras(getIntent());
+    }
+
+    private void handleIntentExtras(Intent intent) {
+        Timber.v("handleIntentExtras");
+
+        Bundle b = navigator.getExtrasBundle(intent);
+        if (b != null) {
+            Timber.v("intent has extras from drawerProvider");
+            String contactId = b.getString(BUNDLE_KEY_CONTACT_ID);
+            if (contactId != null) {
+                viewModel.restore(contactId);
+            }
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
         map.onPause();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntentExtras(intent);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -1,5 +1,4 @@
 ext.daggerVersion = '2.23'
-ext.playLibVersion = '17.0.0'
 ext.lostVersion = '3.0.2'
 ext.osmDroidVersion = '6.1.5'
 ext.osmBonusPackVersion = '6.6.0'
@@ -19,10 +18,6 @@ dependencies {
     implementation "androidx.annotation:annotation:1.1.0"
     implementation "com.google.android.material:material:1.1.0"
     implementation "androidx.work:work-runtime:2.3.0"
-
-    // Play Services libraries
-//    implementation "com.google.android.gms:play-services-maps:${playLibVersion}"
-//    implementation "com.google.android.gms:play-services-location:${playLibVersion}"
 
     // lost library
     implementation "com.mapzen.android:lost:${lostVersion}"
@@ -67,6 +62,5 @@ dependencies {
     testImplementation "org.mockito:mockito-core:2.24.5"
     testImplementation "org.powermock:powermock-module-junit4:2.0.0"
     testImplementation "org.powermock:powermock-api-mockito2:2.0.0"
-    testImplementation "org.robolectric:shadows-playservices:4.2"
     testImplementation 'org.robolectric:robolectric:4.3.1'
 }

@@ -157,18 +157,37 @@ public class GeocodingProvider {
                 List<Address> addresses = geocoder.getFromLocation(m.getLatitude(), m.getLongitude(), 1);
                 if (!addresses.isEmpty()) {
                     Address addr = addresses.get(0);
-
                     StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i <= addr.getMaxAddressLineIndex(); i++) {
-                        if (i > 0) {
-                            sb.append(", ");
+                    if (addr.getThoroughfare() != null) {
+                        sb.append(addr.getThoroughfare());
+                        if (addr.getSubThoroughfare() != null) {
+                            sb.append(" ");
+                            sb.append(addr.getSubThoroughfare());
                         }
-                        String line = addr.getAddressLine(i);
-                        if (line != null) {
-                            sb.append(line);
+                        sb.append(", ");
+                    }
+                    if (addr.getLocality() != null) {
+                        if (addr.getPostalCode() != null) {
+                            sb.append(addr.getPostalCode());
+                        }
+                        sb.append(" ");
+                        sb.append(addr.getLocality());
+                        sb.append(", ");
+                    }
+                    if (addr.getSubAdminArea() != null) {
+                        sb.append(addr.getSubAdminArea());
+                        sb.append(", ");
+                    }
+                    if (addr.getAdminArea() != null) {
+                        sb.append(addr.getAdminArea());
+                        sb.append(", ");
+                    }
+                    if (!sb.toString().isEmpty()) {
+                        address = sb.toString();
+                        if (address.endsWith(", ")) {
+                            address = address.substring(0, address.length() - 2);
                         }
                     }
-                    address = sb.toString();
                 }
             } catch(IOException e) {
                 e.printStackTrace();

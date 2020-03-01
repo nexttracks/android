@@ -1,7 +1,7 @@
 ext.daggerVersion = '2.23'
 ext.lostVersion = '3.0.2'
 ext.osmDroidVersion = '6.1.5'
-ext.osmBonusPackVersion = '6.6.0'
+ext.osmBonusPackVersion = 'b23710f40e' // switch to release (and remove jitpack repo) when house_number support is released
 ext.okHttpVersion = '3.13.1'
 ext.jacksonVersion = '2.9.8'
 ext.materialDialogsVersion = '0.9.6.0'

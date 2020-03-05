@@ -143,6 +143,8 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
     ServiceBridge serviceBridge;
     private boolean connected = false;
 
+    private boolean locationInit = false;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -564,6 +566,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
             Timber.e("FusedLocationClient not available");
             return;
         }
+
         int monitoring = preferences.getMonitoring();
 
         LocationRequest request = LocationRequest.create();
@@ -585,8 +588,11 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
                 request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
                 break;
         }
+
         Timber.d("location request params: mode %s, interval (s):%s, fastestInterval (s):%s, priority:%s, displacement (m):%s", monitoring, TimeUnit.MILLISECONDS.toSeconds(request.getInterval()), TimeUnit.MILLISECONDS.toSeconds(request.getFastestInterval()), request.getPriority(), request.getSmallestDisplacement());
+        mFusedLocationClient.removeLocationUpdates(lostApiClient, locationCallback);
         mFusedLocationClient.requestLocationUpdates(lostApiClient, request, locationCallback,  runner.getBackgroundHandler().getLooper());
+        locationInit = true;
     }
 
     private int getLocationRequestPriority() {
@@ -639,7 +645,6 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
 
         if (geofences.size() > 0) {
             GeofencingRequest.Builder b = new GeofencingRequest.Builder();
-//            b.setInitialTrigger(Geofence.GEOFENCE_TRANSITION_ENTER);
             GeofencingRequest request = b.addGeofences(geofences).build();
             mGeofencingClient.addGeofences(lostApiClient, request, getGeofencePendingIntent());
         }
@@ -784,15 +789,12 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
         return eventsNotificationCompatBuilder;
     }
 
-//    @Override
-//    public void onComplete(@NonNull Task<Location> task) {
-//        onLocationChanged(task.getResult(),MessageLocation.REPORT_TYPE_DEFAULT);
-//    }
-
-
     @Override
     public void onConnected() {
         this.connected = true;
+        if (!this.locationInit) {
+            setupLocationRequest();
+        }
     }
 
     @Override

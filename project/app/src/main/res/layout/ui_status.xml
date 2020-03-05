@@ -2,9 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="org.owntracks.android.support.DateFormatter"/>
+        <import type="org.nexttracks.android.support.DateFormatter"/>
         <import type="android.view.View"/>
-        <variable name="vm" type="org.owntracks.android.ui.status.StatusViewModel" />
+        <variable name="vm" type="org.nexttracks.android.ui.status.StatusViewModel" />
     </data>
 
 
@@ -84,7 +84,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{org.owntracks.android.support.widgets.BindingConversions.convertToString(vm.endpointQueue)}"
+                android:text="@{org.nexttracks.android.support.widgets.BindingConversions.convertToString(vm.endpointQueue)}"
                 android:ellipsize="none"
                 style="@style/ListItemPrimary" />
 

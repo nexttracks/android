@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="vm" type="org.owntracks.android.ui.regions.RegionsViewModel" />
+        <variable name="vm" type="org.nexttracks.android.ui.regions.RegionsViewModel" />
     </data>
 
     <LinearLayout
@@ -23,7 +23,7 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <org.owntracks.android.support.widgets.RecyclerView
+        <org.nexttracks.android.support.widgets.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

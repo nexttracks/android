@@ -32,7 +32,7 @@
         android:key="informationScreen"
         android:title="@string/preferencesInfo" >
         <!--suppress AndroidElementNotAllowed -->
-        <org.owntracks.android.support.widgets.ToolbarPreference
+        <org.nexttracks.android.support.widgets.ToolbarPreference
             android:key="information"
             android:title="@string/preferencesInfo" />
 
@@ -40,10 +40,6 @@
             android:key="documentation"
             android:summary="@string/preferencesDocumentationSummary"
             android:title="@string/preferencesDocumentation" />
-        <Preference
-            android:key="twitter"
-            android:summary="@string/preferencesTwitterSummary"
-            android:title="@string/preferencesTwitter" />
 
         <Preference
             android:key="repo"
@@ -55,7 +51,7 @@
             android:summary="@string/preferencesLicensesSummary"
             android:title="@string/preferencesLicenses">
             <!--suppress AndroidElementNotAllowed -->
-            <org.owntracks.android.support.widgets.ToolbarPreference
+            <org.nexttracks.android.support.widgets.ToolbarPreference
                 android:key="licenses"
                 android:title="@string/preferencesLicenses" />
 

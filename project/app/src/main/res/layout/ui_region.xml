@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
     <data>
         <import type="android.view.View"/>
-        <variable name="vm" type="org.owntracks.android.ui.region.RegionViewModel" />
+        <variable name="vm" type="org.nexttracks.android.ui.region.RegionViewModel" />
     </data>
 
     <LinearLayout
@@ -95,7 +95,7 @@
                     app:met_floatingLabel="normal"
                     app:met_baseColor="@color/textPrimary"
                     app:met_primaryColor="@color/accent"
-                    android:text='@={org.owntracks.android.support.widgets.BindingConversions.convertToStringZeroIsEmpty(vm.waypoint.geofenceRadius)}'
+                    android:text='@={org.nexttracks.android.support.widgets.BindingConversions.convertToStringZeroIsEmpty(vm.waypoint.geofenceRadius)}'
                     />
             </LinearLayout>
         </ScrollView>

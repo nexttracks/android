@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
-        <variable name="waypoint" type="org.owntracks.android.data.WaypointModel" />
+        <variable name="waypoint" type="org.nexttracks.android.data.WaypointModel" />
     </data>
 
     <LinearLayout

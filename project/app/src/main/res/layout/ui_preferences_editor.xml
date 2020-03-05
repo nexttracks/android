@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="vm" type="org.owntracks.android.ui.preferences.editor.EditorMvvm.ViewModel" />
+        <variable name="vm" type="org.nexttracks.android.ui.preferences.editor.EditorMvvm.ViewModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="fill_parent"

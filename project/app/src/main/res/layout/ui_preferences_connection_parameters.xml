@@ -5,7 +5,7 @@
     <data>
         <variable
             name="vm"
-            type="org.owntracks.android.ui.preferences.connection.dialog.ConnectionParametersViewModel" />
+            type="org.nexttracks.android.ui.preferences.connection.dialog.ConnectionParametersViewModel" />
     </data>
 
     <LinearLayout

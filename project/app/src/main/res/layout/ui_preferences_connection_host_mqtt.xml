@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="org.owntracks.android.ui.preferences.connection.dialog.ConnectionHostMqttDialogViewModel" />
+            type="org.nexttracks.android.ui.preferences.connection.dialog.ConnectionHostMqttDialogViewModel" />
     </data>
 
     <LinearLayout

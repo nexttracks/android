@@ -52,5 +52,5 @@ project/app/obfuscation
 
 *.jks
 # Google service account credentials
-project/app/owntracks-*.json
+project/app/nexttracks-*.json
 

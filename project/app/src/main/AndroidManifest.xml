@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.owntracks.android">
+    package="org.nexttracks.android">
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -45,7 +45,7 @@
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Theme.Owntracks"
+        android:theme="@style/Theme.Nexttracks"
         tools:ignore="UnusedAttribute"
         tools:replace="android:allowBackup"
         >
@@ -62,10 +62,6 @@
 
         <!-- Maps SDK requires this as of API v28 -->
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/GOOGLE_MAPS_API_KEY" />
 
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
@@ -151,7 +147,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="org.owntracks.android.fileprovider"
+            android:authorities="org.nexttracks.android.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -167,11 +163,11 @@
             tools:ignore="ExportedService">
 
             <intent-filter>
-                <action android:name="org.owntracks.android.CLEAR_NOTIFICATIONS" /> <!-- INTENT_ACTION_CLEAR_NOTIFICATIONS -->
-                <action android:name="org.owntracks.android.SEND_LOCATION_USER" /> <!-- INTENT_ACTION_SEND_LOCATION_PING -->
-                <action android:name="org.owntracks.android.SEND_EVENT_CIRCULAR" /> <!-- INTENT_ACTION_SEND_WAYPOINTS -->
-                <action android:name="org.owntracks.android.REREQUEST_LOCATION_UPDATES" /> <!-- REREQUEST_LOCATION_UPDATES -->
-                <action android:name="org.owntracks.android.CHANGE_MONITORING" /> <!-- INTENT_ACTION_CHANGE_MONITORING -->
+                <action android:name="org.nexttracks.android.CLEAR_NOTIFICATIONS" /> <!-- INTENT_ACTION_CLEAR_NOTIFICATIONS -->
+                <action android:name="org.nexttracks.android.SEND_LOCATION_USER" /> <!-- INTENT_ACTION_SEND_LOCATION_PING -->
+                <action android:name="org.nexttracks.android.SEND_EVENT_CIRCULAR" /> <!-- INTENT_ACTION_SEND_WAYPOINTS -->
+                <action android:name="org.nexttracks.android.REREQUEST_LOCATION_UPDATES" /> <!-- REREQUEST_LOCATION_UPDATES -->
+                <action android:name="org.nexttracks.android.CHANGE_MONITORING" /> <!-- INTENT_ACTION_CHANGE_MONITORING -->
             </intent-filter>
         </service>
 

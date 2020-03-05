@@ -9,7 +9,7 @@
 
 		<variable
 			name="vm"
-			type="org.owntracks.android.ui.welcome.WelcomeMvvm.ViewModel"/>
+			type="org.nexttracks.android.ui.welcome.WelcomeMvvm.ViewModel"/>
 	</data>
 
 	<androidx.constraintlayout.widget.ConstraintLayout
@@ -58,7 +58,7 @@
 			app:layout_constraintRight_toRightOf="@+id/btn_next"/>
 
 
-		<org.owntracks.android.support.widgets.PausableViewPager
+		<org.nexttracks.android.support.widgets.PausableViewPager
 			android:id="@+id/viewPager"
 			android:layout_width="0dp"
 			android:layout_height="0dp"

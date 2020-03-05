@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string name="app_name">Owntracks</string>
+    <string name="app_name">Nexttracks</string>
     <string name="preferencesServer">"Verbindung"</string>
     <string name="preferencesWebsocket">WebSockets nutzen</string>
     <string name="preferencesUserUsername">"Benutzername"</string>
@@ -80,16 +80,16 @@
     <string name="errorPreferencesImportFailedMemory">Nicht genug Speicher verfügbar</string>
     <string name="icon_description_warning">Warnung</string>
     <string name="welcome_heading">Willkommen</string>
-    <string name="welcome_description">Die folgenden Schritte werden Dir helfen, Owntracks einzurichten</string>
-    <string name="mqtt_private_description">Owntracks mit deinem eigenen Server verwenden</string>
-    <string name="mqtt_public_description">Teste Owntracks und teile Deine Position anonym mit anderen Nutzern</string>
+    <string name="welcome_description">Die folgenden Schritte werden Dir helfen, Nexttracks einzurichten</string>
+    <string name="mqtt_private_description">Nexttracks mit deinem eigenen Server verwenden</string>
+    <string name="mqtt_public_description">Teste Nexttracks und teile Deine Position anonym mit anderen Nutzern</string>
     <string name="mode_heading">Modus</string>
-    <string name="icon_description_owntracks">Owntracks</string>
+    <string name="icon_description_nexttracks">Nexttracks</string>
     <string name="permissions_heading">Berechtigungen</string>
     <string name="permissions_granted">Berechtigungen wurden erteilt</string>
-    <string name="permissions_description">Owntracks benötigt Zugriff auf Deinen Standort. Bitte erteile diese Berechtigung, bevor es weitergeht.</string>
+    <string name="permissions_description">Nexttracks benötigt Zugriff auf Deinen Standort. Bitte erteile diese Berechtigung, bevor es weitergeht.</string>
     <string name="done_heading">Fertig</string>
-    <string name="enjoy_description">Viel Spaß mit Owntracks</string>
+    <string name="enjoy_description">Viel Spaß mit Nexttracks</string>
     <string name="icon_description_done">Fertig</string>
     <string name="title_activity_load">Konfigurations import</string>
     <string name="menuCurrentLoction">Aktuelle position</string>

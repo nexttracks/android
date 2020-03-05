@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="vm" type="org.owntracks.android.ui.base.viewmodel.NoOpViewModel" />
+        <variable name="vm" type="org.nexttracks.android.ui.base.viewmodel.NoOpViewModel" />
     </data>
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout

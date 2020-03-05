@@ -20,7 +20,7 @@
 -dontobfuscate
 -optimizations !field/removal/writeonly,!field/marking/private,!class/merging/*,!code/allocation/variable
 
--keep public class org.owntracks.android.** {
+-keep public class org.nexttracks.android.** {
   public protected private *;
 }
 
@@ -59,7 +59,7 @@ public static java.lang.String TABLENAME;
  -dontwarn com.fasterxml.jackson.databind.**
  -keep class org.codehaus.** { *; }
 
--keep public class org.owntracks.android.messages.** {
+-keep public class org.nexttracks.android.messages.** {
  *;
  }
 

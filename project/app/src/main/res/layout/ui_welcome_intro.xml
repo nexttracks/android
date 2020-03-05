@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <import type="org.owntracks.android.App"/>
+        <import type="org.nexttracks.android.App"/>
     </data>
 
     <RelativeLayout
@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:contentDescription="@string/icon_description_owntracks" />
+            android:contentDescription="@string/icon_description_nexttracks" />
 
 
         <TextView

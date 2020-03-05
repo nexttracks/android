@@ -13,7 +13,7 @@ android {
     compileSdkVersion 29
     testOptions.unitTests.includeAndroidResources = true
     defaultConfig {
-        applicationId "org.owntracks.android"
+        applicationId "org.nexttracks.android"
         minSdkVersion 21
         targetSdkVersion 29
 
@@ -22,7 +22,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [eventBusIndex: 'org.owntracks.android.EventBusIndex']
+                arguments = [eventBusIndex: 'org.nexttracks.android.EventBusIndex']
             }
         }
         resConfigs "en", "de"
@@ -31,15 +31,15 @@ android {
 
     signingConfigs {
         debug {
-            keyAlias 'debug.owntracks.org'
+            keyAlias 'nexttracks-debug'
             keyPassword '__DEBUG__'
-            storeFile file('./debug-keystore.jks')
+            storeFile file('./debug.keystore')
             storePassword '__DEBUG__'
         }
         release {
             keyAlias 'upload'
             keyPassword System.getenv("KEYSTORE_PASSPHRASE")
-            storeFile file('../owntracks.release.keystore.jks')
+            storeFile file('../release.keystore')
             storePassword System.getenv("KEYSTORE_PASSPHRASE")
         }
     }
@@ -50,7 +50,6 @@ android {
             shrinkResources true
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "string", "GOOGLE_MAPS_API_KEY", "${google_maps_api_key != null ? google_maps_api_key : "PLACEHOLDER_API_KEY"}"
             signingConfig signingConfigs.release
         }
 
@@ -59,7 +58,6 @@ android {
             shrinkResources false
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "string", "GOOGLE_MAPS_API_KEY", "${google_maps_api_key != null ? google_maps_api_key : "PLACEHOLDER_API_KEY"}"
             applicationIdSuffix '.debug'
             testCoverageEnabled true
             signingConfig signingConfigs.debug

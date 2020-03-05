@@ -1,8 +1,8 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Theme.Owntracks" parent="Theme.Owntracks.Base" />
+    <style name="Theme.Nexttracks" parent="Theme.Nexttracks.Base" />
 
-    <style name="Theme.Owntracks.Base" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Nexttracks.Base" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/background</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsTranslucent">true</item>

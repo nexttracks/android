@@ -6,12 +6,12 @@
 
         <import type="android.view.View" />
 
-        <import type="org.owntracks.android.services.MessageProcessorEndpointHttp" />
-        <import type="org.owntracks.android.support.widgets.BindingConversions" />
+        <import type="org.nexttracks.android.services.MessageProcessorEndpointHttp" />
+        <import type="org.nexttracks.android.support.widgets.BindingConversions" />
 
         <variable
             name="vm"
-            type="org.owntracks.android.ui.preferences.connection.ConnectionMvvm.ViewModel" />
+            type="org.nexttracks.android.ui.preferences.connection.ConnectionMvvm.ViewModel" />
     </data>
 
 

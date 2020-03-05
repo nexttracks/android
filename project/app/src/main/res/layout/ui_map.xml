@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="vm" type="org.owntracks.android.ui.map.MapViewModel" />
-        <import type="org.owntracks.android.support.DateFormatter"/>
+        <variable name="vm" type="org.nexttracks.android.ui.map.MapViewModel" />
+        <import type="org.nexttracks.android.support.DateFormatter"/>
         <import type="android.view.View" />
     </data>
 

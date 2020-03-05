@@ -158,7 +158,6 @@ public class GeocodingProvider {
                 if (!addresses.isEmpty()) {
                     Address addr = addresses.get(0);
                     StringBuilder sb = new StringBuilder();
-                    Timber.d("Address: %s", addr.toString());
                     if (addr.getThoroughfare() != null) {
                         sb.append(addr.getThoroughfare());
                         if (addr.getSubThoroughfare() != null) {

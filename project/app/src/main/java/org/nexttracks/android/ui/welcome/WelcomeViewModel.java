@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.nexttracks.android.App;
 import org.nexttracks.android.injection.scopes.PerActivity;
 import org.nexttracks.android.support.Preferences;
 import org.nexttracks.android.ui.base.viewmodel.BaseViewModel;
@@ -46,10 +47,8 @@ public class WelcomeViewModel extends BaseViewModel<WelcomeMvvm.View> implements
     public void onDoneClicked() {
         Timber.v("onDoneClicked next:%s, done:%s", nextEnabled, doneEnabled);
         preferences.setSetupCompleted();
-        navigator.startActivity(MapActivity.class, null, Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        App.restart();
     }
-
-
 
     @Override
     public void setNextEnabled(boolean enabled) {

@@ -2,6 +2,7 @@ package org.nexttracks.android.ui.welcome.permission;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,9 @@ import org.nexttracks.android.support.Events;
 import org.nexttracks.android.ui.base.BaseSupportFragment;
 import org.nexttracks.android.ui.welcome.WelcomeMvvm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 public class PermissionFragment extends BaseSupportFragment<UiWelcomePermissionsBinding, PermissionFragmentMvvm.ViewModel> implements PermissionFragmentMvvm.View {
@@ -33,7 +37,14 @@ public class PermissionFragment extends BaseSupportFragment<UiWelcomePermissions
     }
 
     public void requestFix() {
-        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
+        List<String> permissions = new ArrayList<String>();
+        permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            permissions.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+        }
+        permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        requestPermissions(permissions.toArray(new String[0]), PERMISSIONS_REQUEST_CODE);
     }
 
     @Override

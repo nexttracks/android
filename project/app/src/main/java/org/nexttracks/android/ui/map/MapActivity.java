@@ -56,6 +56,8 @@ import org.nexttracks.android.support.widgets.BindingConversions;
 import org.nexttracks.android.ui.base.BaseActivity;
 import org.nexttracks.android.ui.welcome.WelcomeActivity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.WeakHashMap;
 
@@ -170,11 +172,18 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
     private void checkAndRequestLocationPermissions() {
         if (!requirementsChecker.isPermissionCheckPassed()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                List<String> permissions = new ArrayList<String>();
+                permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    permissions.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+                }
                 if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
                     Activity currentActivity = this;
-                    new AlertDialog.Builder(this).setCancelable(true).setMessage(R.string.permissions_description).setPositiveButton("OK", (dialog, which) -> ActivityCompat.requestPermissions(currentActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE)).show();
+                    permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+                    permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    new AlertDialog.Builder(this).setCancelable(true).setMessage(R.string.permissions_description).setPositiveButton("OK", (dialog, which) -> ActivityCompat.requestPermissions(currentActivity, permissions.toArray(new String[0]), PERMISSIONS_REQUEST_CODE)).show();
                 } else {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_CODE);
+                    ActivityCompat.requestPermissions(this, permissions.toArray(new String[0]), PERMISSIONS_REQUEST_CODE);
                 }
             }
         }

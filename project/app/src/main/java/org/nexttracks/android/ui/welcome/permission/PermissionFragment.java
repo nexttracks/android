@@ -1,9 +1,15 @@
 package org.nexttracks.android.ui.welcome.permission;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +27,7 @@ import org.nexttracks.android.ui.welcome.WelcomeMvvm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -36,6 +43,7 @@ public class PermissionFragment extends BaseSupportFragment<UiWelcomePermissions
         return setAndBindContentView(inflater, container, R.layout.ui_welcome_permissions, savedInstanceState);
     }
 
+    @SuppressLint("BatteryLife")
     public void requestFix() {
         List<String> permissions = new ArrayList<String>();
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -45,6 +53,16 @@ public class PermissionFragment extends BaseSupportFragment<UiWelcomePermissions
         permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         requestPermissions(permissions.toArray(new String[0]), PERMISSIONS_REQUEST_CODE);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Intent intent = new Intent();
+            String packageName = Objects.requireNonNull(getContext()).getPackageName();
+            PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
+            if (pm != null && !pm.isIgnoringBatteryOptimizations(packageName)) {
+                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + packageName));
+                startActivity(intent);
+            }
+        }
     }
 
     @Override

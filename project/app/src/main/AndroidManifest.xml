@@ -35,6 +35,9 @@
     <!-- API v28 requires this for foreground services -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+    <!-- To keep the app in the background -->
+    <uses-permission  android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+
     <application
         android:name=".App"
         android:allowBackup="true"

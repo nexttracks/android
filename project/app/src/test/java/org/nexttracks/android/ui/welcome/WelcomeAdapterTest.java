@@ -15,7 +15,6 @@ import org.nexttracks.android.support.RequirementsChecker;
 import org.nexttracks.android.ui.welcome.finish.FinishFragment;
 import org.nexttracks.android.ui.welcome.intro.IntroFragment;
 import org.nexttracks.android.ui.welcome.permission.PermissionFragment;
-import org.nexttracks.android.ui.welcome.play.PlayFragment;
 import org.nexttracks.android.ui.welcome.version.VersionFragment;
 
 import java.lang.reflect.Field;
@@ -76,9 +75,8 @@ public class WelcomeAdapterTest {
     public void getCount() throws Exception {
         setFinalStatic(Build.VERSION.class.getField("SDK_INT"), androidVersion);
         when(requirementsChecker.isInitialSetupCheckPassed()).thenReturn(initialSetupCheckPassed);
-        when(requirementsChecker.isPlayCheckPassed()).thenReturn(playCheckPassed);
         when(requirementsChecker.isPermissionCheckPassed()).thenReturn(permissionCheckPassed);
-        welcomeAdapter.setupFragments(new IntroFragment(), new VersionFragment(), new PlayFragment(), new PermissionFragment(), new FinishFragment());
+        welcomeAdapter.setupFragments(new IntroFragment(), new VersionFragment(), new PermissionFragment(), new FinishFragment());
         assertEquals(expectedFragments, welcomeAdapter.getCount());
     }
 

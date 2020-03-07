@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="valPubTopic" formatted="false" translatable="false">owntracks/%u/%d</string>
-    <string name="valSubTopic" translatable="false">owntracks/+/+</string>
+    <string name="valSubTopic" translatable="false">owntracks/#</string>
 
     <integer name="valPort">8883</integer>
     <integer name="valPubQos">1</integer>

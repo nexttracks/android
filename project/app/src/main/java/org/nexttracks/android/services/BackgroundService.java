@@ -143,8 +143,6 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
     ServiceBridge serviceBridge;
     private boolean connected = false;
 
-    private boolean locationInit = false;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -180,11 +178,6 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
 
         setupNotificationChannels();
         startForeground(NOTIFICATION_ID_ONGOING, getOngoingNotification());
-
-        setupLocationRequest();
-        setupLocationPing();
-
-        setupGeofences();
 
         eventBus.register(this);
         eventBus.postSticky(new Events.ServiceStarted());
@@ -592,7 +585,6 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
         Timber.d("location request params: mode %s, interval (s):%s, fastestInterval (s):%s, priority:%s, displacement (m):%s", monitoring, TimeUnit.MILLISECONDS.toSeconds(request.getInterval()), TimeUnit.MILLISECONDS.toSeconds(request.getFastestInterval()), request.getPriority(), request.getSmallestDisplacement());
         mFusedLocationClient.removeLocationUpdates(lostApiClient, locationCallback);
         mFusedLocationClient.requestLocationUpdates(lostApiClient, request, locationCallback,  runner.getBackgroundHandler().getLooper());
-        locationInit = true;
     }
 
     private int getLocationRequestPriority() {
@@ -635,7 +627,8 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
                 geofences.add(new Geofence.Builder()
                         .setRequestId(Long.toString(w.getId()))
                         .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
-                        .setNotificationResponsiveness((int) TimeUnit.MINUTES.toMillis(2))
+// TODO: implement in lost myself?
+//                        .setNotificationResponsiveness((int) TimeUnit.MINUTES.toMillis(2))
                         .setCircularRegion(w.getGeofenceLatitude(), w.getGeofenceLongitude(), w.getGeofenceRadius())
                         .setExpirationDuration(Geofence.NEVER_EXPIRE).build());
             } catch (IllegalArgumentException e) {
@@ -792,9 +785,9 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
     @Override
     public void onConnected() {
         this.connected = true;
-        if (!this.locationInit) {
-            setupLocationRequest();
-        }
+        setupLocationRequest();
+        setupLocationPing();
+        setupGeofences();
     }
 
     @Override

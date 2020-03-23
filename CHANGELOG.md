@@ -1,5 +1,13 @@
 # Changelog
 
+### Version 3.0.1
+
+* change subTopic to allow additional topic names
+* fix a crash caused by the geofencing
+* fix the tests
+* fix the display of the notifications count
+* fix the position of the mylocation icon
+
 ### Version 3.0.0
 
 * added openstreetmap as map (osmdroid) and as geocoding provider (osmbonuspack)

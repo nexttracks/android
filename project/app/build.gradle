@@ -6,7 +6,7 @@ plugins {
 
 def versionMajor = 3
 def versionMinor = 0
-def versionPatch = 0
+def versionPatch = 1
 def versionBuild = 0 // This value is managed by the gradle publisher plugin. Build numbers get incremented on publish
 
 android {

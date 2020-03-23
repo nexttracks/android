@@ -444,7 +444,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
             if (activeNotifications.size() > 1) {
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_EVENTS);
-                String summary = getResources().getQuantityString(R.plurals.notificationEventsTitle, activeNotifications.size());
+                String summary = getResources().getQuantityString(R.plurals.notificationEventsTitle, activeNotifications.size(), activeNotifications.size());
                 builder.setContentTitle(getString(R.string.events));
                 builder.setContentText(summary);
                 builder.setGroup(NOTIFICATION_GROUP_EVENTS); // same as group of single notifications

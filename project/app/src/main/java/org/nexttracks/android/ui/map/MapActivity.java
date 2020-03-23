@@ -116,6 +116,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         Bitmap myLocationIcon = BitmapFactory.decodeResource(this.getResources(),
                 R.drawable.ic_mylocation);
         myLocationOverlay.setPersonIcon(myLocationIcon);
+        myLocationOverlay.setDirectionArrow(myLocationIcon, myLocationIcon);
         myLocationOverlay.enableMyLocation();
         myLocationOverlay.disableFollowLocation();
         myLocationOverlay.setDrawAccuracyEnabled(true);

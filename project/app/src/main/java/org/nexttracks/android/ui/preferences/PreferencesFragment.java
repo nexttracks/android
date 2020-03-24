@@ -209,6 +209,7 @@ public class PreferencesFragment extends PreferenceFragment implements Preferenc
 
 
         addSwitchPreference(misc, Preferences.Keys.AUTOSTART_ON_BOOT, R.string.preferencesAutostart, R.string.preferencesAutostartSummary, R.bool.valAutostartOnBoot);
+        addSwitchPreference(misc, Preferences.Keys.GEOCODE_ENABLED, R.string.preferencesGeocode, R.string.preferencesGeocodeSummary, R.bool.valGeocodeEnabled);
     }
 
     @Override

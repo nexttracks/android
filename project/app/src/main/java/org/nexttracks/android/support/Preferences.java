@@ -420,13 +420,13 @@ public class Preferences {
     }
 
     @Export(key =Keys.IGNORE_STALE_LOCATIONS, exportModeMqttPrivate =true, exportModeHttpPrivate =true)
-    public int getIgnoreStaleLocations() {
-        return getInt(Keys.IGNORE_STALE_LOCATIONS, R.integer.valIgnoreStaleLocations);
+    public double getIgnoreStaleLocations() {
+        return Double.parseDouble(getString(Keys.IGNORE_STALE_LOCATIONS, R.string.valIgnoreStaleLocations));
     }
 
     @Import(key =Keys.IGNORE_STALE_LOCATIONS )
-    public void setIgnoreSTaleLocations(int days) {
-        setInt(Keys.IGNORE_STALE_LOCATIONS, days);
+    public void setIgnoreSTaleLocations(double days) {
+        setString(Keys.IGNORE_STALE_LOCATIONS, String.valueOf(days));
     }
 
     @Export(key =Keys.IGNORE_INACCURATE_LOCATIONS, exportModeMqttPrivate =true, exportModeHttpPrivate =true)
@@ -929,6 +929,16 @@ public class Preferences {
         sharedPreferences.edit().putBoolean(Keys._OBJECTBOX_MIGRATED, true).apply();
     }
 
+    @Export(key = Keys.GEOCODE_ENABLED, exportModeMqttPrivate = true, exportModeHttpPrivate = true)
+    public boolean getGeocodeEnabled() {
+        return getBoolean(Keys.GEOCODE_ENABLED, R.bool.valGeocodeEnabled);
+    }
+
+    @Import(key = Keys.GEOCODE_ENABLED)
+    public void setGeocodeEnabled(boolean aBoolean) {
+        setBoolean(Keys.GEOCODE_ENABLED, aBoolean);
+    }
+
     @SuppressWarnings("WeakerAccess")
     public static class Keys {
         public static final String AUTH                             = "auth";
@@ -939,6 +949,7 @@ public class Preferences {
         public static final String DEBUG_LOG                        = "debugLog";
         public static final String DONT_REUSE_HTTP_CLIENT           = "dontReuseHttpClient";
         public static final String FUSED_REGION_DETECTION           = "fusedRegionDetection";
+        public static final String GEOCODE_ENABLED                  = "geocodeEnabled";
         public static final String HOST                             = "host";
         public static final String IGNORE_INACCURATE_LOCATIONS      = "ignoreInaccurateLocations";
         public static final String IGNORE_STALE_LOCATIONS           = "ignoreStaleLocations";

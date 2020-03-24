@@ -35,7 +35,12 @@ public class GeocodingProvider {
     @Inject
     public GeocodingProvider(@AppContext Context context, Preferences preferences) {
         cache = new LruCache<>(40);
-        geocoder = new GeocoderNominatim("NextTracks App");
+        if(preferences.getGeocodeEnabled()) {
+            geocoder = new GeocoderNominatim("NextTracks App");
+        }
+        else {
+            geocoder = new GeocoderNone();
+        }
     }
 
     private static String getCache(MessageLocation m) {
@@ -201,7 +206,7 @@ public class GeocodingProvider {
         protected void onPostExecute(String result) {
             MessageLocation m = message.get();
             Timber.v("geocoding result: %s", result);
-            if(m!=null && result != null) {
+            if(m != null && result != null) {
                 m.setGeocoder(result);
                 putCache(m, result);
             }

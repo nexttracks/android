@@ -134,9 +134,6 @@
 	<string name="notificationChannelOngoing">Ongoing</string>
 	<string name="notificationChannelOngoingDescription">Se requiere para recibir actualizaciones de ubicación en segundo plano</string>
 	<string name="notificationChannelEventsDescription">Transmisiones regionales</string>
-    <string name="preferencesOpencageGeocoderApiKey">OpenCage API Key</string>
-    <string name="preferencesOpencageGeocoderApiKeySummary">API key para Geocoder alternativo</string>
-    <string name="preferencesOpencageGeocoderApiKeyDialog">Si se activa, OpenCage se usará para buscar la ubicación en lugar de Google. Requiere reiniciar.</string>
     <string name="region_unknown">Estado desconocido</string>
     <string name="region_inside">Actualmente dentro</string>
     <string name="region_outside">Actualmente fuera</string>

@@ -9,7 +9,6 @@ import androidx.annotation.CallSuper;
 import androidx.collection.LruCache;
 import android.widget.TextView;
 
-import org.osmdroid.bonuspack.location.GeocoderNominatim;
 import org.nexttracks.android.R;
 import org.nexttracks.android.injection.qualifier.AppContext;
 import org.nexttracks.android.injection.scopes.PerApplication;
@@ -30,7 +29,7 @@ import timber.log.Timber;
 public class GeocodingProvider {
 
     private static LruCache<String, String> cache;
-    private static GeocoderNominatim geocoder;
+    private static Geocoder geocoder;
 
     @Inject
     public GeocodingProvider(@AppContext Context context, Preferences preferences) {
@@ -157,48 +156,7 @@ public class GeocodingProvider {
                 return "Resolve failed";
             }
 
-            String address = "Resolve failed";
-            try {
-                List<Address> addresses = geocoder.getFromLocation(m.getLatitude(), m.getLongitude(), 1);
-                if (!addresses.isEmpty()) {
-                    Address addr = addresses.get(0);
-                    StringBuilder sb = new StringBuilder();
-                    if (addr.getThoroughfare() != null) {
-                        sb.append(addr.getThoroughfare());
-                        if (addr.getSubThoroughfare() != null) {
-                            sb.append(" ");
-                            sb.append(addr.getSubThoroughfare());
-                        }
-                        sb.append(", ");
-                    }
-                    if (addr.getLocality() != null) {
-                        if (addr.getPostalCode() != null) {
-                            sb.append(addr.getPostalCode());
-                        }
-                        sb.append(" ");
-                        sb.append(addr.getLocality());
-                        sb.append(", ");
-                    }
-                    if (addr.getSubAdminArea() != null) {
-                        sb.append(addr.getSubAdminArea());
-                        sb.append(", ");
-                    }
-                    if (addr.getAdminArea() != null) {
-                        sb.append(addr.getAdminArea());
-                        sb.append(", ");
-                    }
-                    if (!sb.toString().isEmpty()) {
-                        address = sb.toString();
-                        if (address.endsWith(", ")) {
-                            address = address.substring(0, address.length() - 2);
-                        }
-                    }
-                }
-            } catch(IOException e) {
-                e.printStackTrace();
-            }
-
-            return address;
+            return geocoder.reverse(m.getLatitude(), m.getLongitude());
         }
 
         @Override

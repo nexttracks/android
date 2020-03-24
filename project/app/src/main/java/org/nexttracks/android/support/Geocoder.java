@@ -1,4 +1,5 @@
 package org.nexttracks.android.support;
 
-public class Geocoder {
+interface Geocoder {
+    String reverse(double latitude, double longitude);
 }

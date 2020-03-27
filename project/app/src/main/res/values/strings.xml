@@ -24,7 +24,7 @@
     <string name="preferencesTrackerId">Tracker ID</string>
     <string name="preferencesInfo">Information</string>
     <string name="preferencesRepository">Source Code</string>
-    <string name="preferencesRepositorySummary" translatable="false">github.com/nexttracks/android</string>
+    <string name="preferencesRepositorySummary" translatable="false">codeberg.com/nexttracks/android</string>
     <string name="preferencesDocumentation">Owntracks Documentation</string>
     <string name="preferencesDocumentationSummary" translatable="false">owntracks.org/booklet</string>
     <string name="preferencesEncryptionKeySummary">Symmetric key for payload encryption </string>

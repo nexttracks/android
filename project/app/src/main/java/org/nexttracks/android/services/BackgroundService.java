@@ -581,6 +581,8 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
                 request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
                 break;
         }
+        // TODO: look at how to not have to use this workaround
+        request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         Timber.d("location request params: mode %s, interval (s):%s, fastestInterval (s):%s, priority:%s, displacement (m):%s", monitoring, TimeUnit.MILLISECONDS.toSeconds(request.getInterval()), TimeUnit.MILLISECONDS.toSeconds(request.getFastestInterval()), request.getPriority(), request.getSmallestDisplacement());
         mFusedLocationClient.removeLocationUpdates(lostApiClient, locationCallback);

@@ -1,5 +1,13 @@
 # Changelog
 
+### Version 3.1.0
+
+* add geocoding switch
+* convert ignoreStaleLocations from int to double
+* fix the mylocation icon really
+* fix location getting from lost by setting the request priority to high accuracy
+* remove opencageapi key from preferences
+
 ### Version 3.0.1
 
 * change subTopic to allow additional topic names

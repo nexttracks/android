@@ -54,3 +54,6 @@ project/app/obfuscation
 # Google service account credentials
 project/app/nexttracks-*.json
 
+# Objectbox binaries
+project/app/libobjectbox-*.so
+project/app/objectbox-*.dll

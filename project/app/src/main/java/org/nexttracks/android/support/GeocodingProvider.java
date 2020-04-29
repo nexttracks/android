@@ -47,7 +47,9 @@ public class GeocodingProvider {
     }
 
     private static void putCache(MessageLocation m, String geocoder) {
-        cache.put(locationHash(m), geocoder);
+        if (!geocoder.equals("Resolve failed")) {
+            cache.put(locationHash(m), geocoder);
+        }
     }
 
     private static String locationHash(MessageLocation m) {

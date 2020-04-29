@@ -1,13 +1,14 @@
 package org.nexttracks.android.ui.status;
 
 import android.content.Context;
-import androidx.databinding.Bindable;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.Bindable;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.nexttracks.android.App;
@@ -70,7 +71,8 @@ public class StatusViewModel extends BaseViewModel<StatusMvvm.View> implements S
 
     @Override
     public boolean getDozeWhitelisted() {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || ((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isIgnoringBatteryOptimizations(App.getContext().getPackageName());
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
+                ((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isIgnoringBatteryOptimizations(App.getContext().getPackageName());
     }
 
     @Override
@@ -82,10 +84,7 @@ public class StatusViewModel extends BaseViewModel<StatusMvvm.View> implements S
     @Subscribe(sticky = true)
     public void onEvent(MessageProcessor.EndpointState e) {
         this.endpointState = e;
-        if(e.getError() != null)
-            this.endpointMessage = e.getError().toString();
-        else
-            this.endpointMessage = e.getMessage();
+        this.endpointMessage = e.getMessage();
         notifyPropertyChanged(BR.endpointState);
         notifyPropertyChanged(BR.endpointMessage);
     }
@@ -104,7 +103,7 @@ public class StatusViewModel extends BaseViewModel<StatusMvvm.View> implements S
 
     @Subscribe(sticky = true)
     public void onEvent(Events.QueueChanged e) {
-        Timber.e("queue changed %s", e.getNewLength());
+        Timber.v("queue changed %s", e.getNewLength());
         this.queueLength = e.getNewLength();
         notifyPropertyChanged(BR.endpointQueue);
     }

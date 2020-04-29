@@ -1,11 +1,11 @@
 package org.nexttracks.android.ui.welcome.intro;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 
 import org.nexttracks.android.R;
 import org.nexttracks.android.databinding.UiWelcomeIntroBinding;
@@ -21,16 +21,11 @@ public class IntroFragment extends BaseSupportFragment<UiWelcomeIntroBinding, No
     }
 
     @Override
-    public void onNextClicked() {
-    }
-
-    @Override
     public boolean isNextEnabled() {
         return true;
     }
 
     @Override
     public void onShowFragment() {
-
     }
 }

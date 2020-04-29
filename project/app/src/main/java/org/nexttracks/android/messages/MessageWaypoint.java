@@ -2,11 +2,11 @@ package org.nexttracks.android.messages;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import org.nexttracks.android.support.interfaces.IncomingMessageProcessor;
 import org.nexttracks.android.support.interfaces.OutgoingMessageProcessor;
-
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.nexttracks.android.support.Preferences;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "_type")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -71,13 +71,15 @@ public class MessageWaypoint extends MessageBase{
     }
 
     @Override
-    public void processOutgoingMessage(OutgoingMessageProcessor handler) {
-        handler.processOutgoingMessage(this);
+    public boolean isValidMessage() {
+        return super.isValidMessage() && (desc != null);
     }
 
     @Override
-    public boolean isValidMessage() {
-        return super.isValidMessage() && (desc != null);
+    public void addMqttPreferences(Preferences preferences) {
+        setTopic(preferences.getPubTopicWaypoints());
+        setQos(preferences.getPubQosWaypoints());
+        setRetained(preferences.getPubRetainWaypoints());
     }
 
 }

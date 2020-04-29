@@ -30,20 +30,16 @@ import timber.log.Timber;
 
 @PerApplication
 public class LocationProcessor {
-
     private final MessageProcessor messageProcessor;
     private final Preferences preferences;
     private final LocationRepo locationRepo;
     private final WaypointsRepo waypointsRepo;
     private final DeviceMetricsProvider deviceMetricsProvider;
 
-
     public static final int MONITORING_QUIET = -1;
     public static final int MONITORING_MANUAL = 0;
-    public static final int MONITORING_SIGNIFFICANT = 1;
+    public static final int MONITORING_SIGNIFICANT = 1;
     public static final int MONITORING_MOVE = 2;
-
-
 
     @Inject
     public LocationProcessor(MessageProcessor messageProcessor, Preferences preferences, LocationRepo locationRepo, WaypointsRepo waypointsRepo, DeviceMetricsProvider deviceMetricsProvider) {
@@ -61,7 +57,7 @@ public class LocationProcessor {
     }
 
     public void publishLocationMessage(@Nullable String trigger) {
-        Timber.v("trigger:%s", trigger);
+        Timber.v("trigger: %s. ThreadID: %s", trigger, Thread.currentThread());
         if (!locationRepo.hasLocation()) {
             Timber.e("no location available");
             return;
@@ -115,7 +111,7 @@ public class LocationProcessor {
             message.setConn(deviceMetricsProvider.getConnectionType());
         }
 
-        messageProcessor.sendMessage(message);
+        messageProcessor.queueMessageForSending(message);
     }
 
     //TODO: refactor to use ObjectBox query directly
@@ -129,14 +125,13 @@ public class LocationProcessor {
         return l;
     }
 
-    public void onLocationChanged(@NonNull Location l, @Nullable String reportType) {
+    void onLocationChanged(@NonNull Location l, @Nullable String reportType) {
         locationRepo.setCurrentLocation(l);
-
         publishLocationMessage(reportType);
     }
 
 
-    public void onWaypointTransition(@NonNull WaypointModel w, @NonNull final Location l, final int transition, @NonNull final String trigger) {
+    void onWaypointTransition(@NonNull WaypointModel w, @NonNull final Location l, final int transition, @NonNull final String trigger) {
         Timber.v("geofence %s/%s transition:%s, trigger:%s", w.getTst(), w.getDescription(), transition == Geofence.GEOFENCE_TRANSITION_ENTER ? "enter" : "exit", trigger);
 
         if (ignoreLowAccuracy(l)) {
@@ -168,8 +163,8 @@ public class LocationProcessor {
         }
     }
 
-    public void publishWaypointMessage(@NonNull WaypointModel e) {
-        messageProcessor.sendMessage(waypointsRepo.fromDaoObject(e));
+    void publishWaypointMessage(@NonNull WaypointModel e) {
+        messageProcessor.queueMessageForSending(waypointsRepo.fromDaoObject(e));
     }
 
     private void publishTransitionMessage(@NonNull WaypointModel w, @NonNull Location triggeringLocation, int transition, String trigger) {
@@ -183,7 +178,7 @@ public class LocationProcessor {
         message.setTst(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
         message.setWtst(w.getTst());
         message.setDesc(w.getDescription());
-        messageProcessor.sendMessage(message);
+        messageProcessor.queueMessageForSending(message);
     }
 
 
@@ -200,8 +195,6 @@ public class LocationProcessor {
             collection.add(m);
         }
         message.setWaypoints(collection);
-        messageProcessor.sendMessage(message);
+        messageProcessor.queueMessageForSending(message);
     }
-
-
 }

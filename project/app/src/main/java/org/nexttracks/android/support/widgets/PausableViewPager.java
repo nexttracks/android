@@ -6,8 +6,7 @@ import android.view.MotionEvent;
 
 import androidx.viewpager.widget.ViewPager;
 
-
-public class PausableViewPager  extends ViewPager {
+public class PausableViewPager extends ViewPager {
 
     public PausableViewPager(Context context, AttributeSet attrs) {
             super(context, attrs);

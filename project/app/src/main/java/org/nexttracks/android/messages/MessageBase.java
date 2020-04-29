@@ -1,17 +1,19 @@
 package org.nexttracks.android.messages;
+
 import androidx.databinding.BaseObservable;
 import androidx.annotation.NonNull;
-
-import org.nexttracks.android.support.interfaces.IncomingMessageProcessor;
-import org.nexttracks.android.support.interfaces.OutgoingMessageProcessor;
-
-import java.lang.ref.WeakReference;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import org.nexttracks.android.support.interfaces.IncomingMessageProcessor;
+import org.nexttracks.android.support.interfaces.OutgoingMessageProcessor;
+import org.nexttracks.android.support.Preferences;
+
+import java.lang.ref.WeakReference;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "_type", defaultImpl = MessageUnknown.class)
 
@@ -28,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value=MessageLwt.class, name=MessageLwt.TYPE),
 })
 @JsonPropertyOrder(alphabetic=true)
-public abstract class MessageBase extends BaseObservable implements Runnable {
+public abstract class MessageBase extends BaseObservable  {
         static final String TYPE = "base";
 
         @JsonIgnore
@@ -37,10 +39,10 @@ public abstract class MessageBase extends BaseObservable implements Runnable {
         private String _topic_base;
 
         @JsonIgnore
-        private boolean delivered;
+        private int modeId;
 
         @JsonIgnore
-        private int modeId;
+        private boolean incoming = false;
 
         @JsonIgnore
         public long getMessageId() {
@@ -77,12 +79,6 @@ public abstract class MessageBase extends BaseObservable implements Runnable {
         }
 
         @JsonIgnore
-        private WeakReference<IncomingMessageProcessor> _processorIn;
-
-        @JsonIgnore
-        private WeakReference<OutgoingMessageProcessor> _processorOut;
-
-        @JsonIgnore
         @NonNull
         public String getContactKey() {
                 if(_topic_base != null)
@@ -103,37 +99,13 @@ public abstract class MessageBase extends BaseObservable implements Runnable {
                 this._topic_base = getBaseTopic(topic); // Normalized topic for all message types
         }
 
-        @Override
-        public void run(){
-                if(_processorIn != null && _processorIn.get() !=  null)
-                        processIncomingMessage(_processorIn.get());
-                if(_processorOut != null && _processorOut.get() !=  null) {
-                        processOutgoingMessage(_processorOut.get());
-                }
-        }
-
-
         @JsonIgnore
-        public void setIncomingProcessor(@NonNull IncomingMessageProcessor processor) {
-                this._processorOut = null;
-                this._processorIn = new WeakReference<>(processor);
+        public void setIncoming() {
+                this.incoming = true;
         }
 
         @JsonIgnore
-        public void setOutgoingProcessor(@NonNull OutgoingMessageProcessor processor) {
-                this._processorIn = null;
-                this._processorOut = new WeakReference<>(processor);
-        }
-
-        public void clearOutgoingProcessor() {
-                this._processorOut = null;
-        }
-
-        @JsonIgnore
-        protected abstract void processIncomingMessage(IncomingMessageProcessor handler);
-
-        @JsonIgnore
-        protected abstract void processOutgoingMessage(OutgoingMessageProcessor handler);
+        public abstract void processIncomingMessage(IncomingMessageProcessor handler);
 
         @JsonIgnore
         protected abstract String getBaseTopicSuffix();
@@ -147,12 +119,7 @@ public abstract class MessageBase extends BaseObservable implements Runnable {
 
         @JsonIgnore
         public boolean isIncoming() {
-                return this._processorIn != null;
-        }
-
-        @JsonIgnore
-        public boolean isOutgoing() {
-                return this._processorOut != null;
+                return this.incoming;
         }
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -181,17 +148,6 @@ public abstract class MessageBase extends BaseObservable implements Runnable {
         }
 
         @JsonIgnore
-        public void setDelivered(boolean delivered) {
-                this.delivered = delivered;
-        }
-
-        @JsonIgnore
-        public boolean isDelivered() {
-                return delivered;
-        }
-
-
-        @JsonIgnore
         public void setModeId(int modeId) {
                 this.modeId = modeId;
         }
@@ -202,4 +158,12 @@ public abstract class MessageBase extends BaseObservable implements Runnable {
         }
 
 
+        @JsonIgnore
+        @Override
+        @NonNull
+        public String toString() {
+                return String.format("%s id=%s",this.getClass().getName(), this.getMessageId());
+        }
+
+        public abstract void addMqttPreferences(Preferences preferences);
 }

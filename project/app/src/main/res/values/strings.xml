@@ -24,9 +24,9 @@
     <string name="preferencesTrackerId">Tracker ID</string>
     <string name="preferencesInfo">Information</string>
     <string name="preferencesRepository">Source Code</string>
-    <string name="preferencesRepositorySummary" translatable="false">codeberg.com/nexttracks/android</string>
+    <string name="preferencesRepositorySummary" translatable="false">https://codeberg.com/nexttracks/android</string>
     <string name="preferencesDocumentation">Owntracks Documentation</string>
-    <string name="preferencesDocumentationSummary" translatable="false">owntracks.org/booklet</string>
+    <string name="preferencesDocumentationSummary" translatable="false">https://owntracks.org/booklet</string>
     <string name="preferencesEncryptionKeySummary">Symmetric key for payload encryption </string>
     <string name="preferencesEncryptionKey">Encryption Key</string>
     <string name="preferencesEncryptionKeyDialogMessage">Encryption key is cut off after 32 characters.</string>
@@ -113,10 +113,10 @@
     <string name="preferencesIgnoreInaccurateLocationsDialog">Ignore location, if the accuracy is greater than the given meters</string>
     <string name="preferencesLocatorInterval">Location interval</string>
     <string name="preferencesLocatorIntervalSummary">Interval between location updates</string>
-    <string name="preferencesLocatorIntervalDialog">How often should locations be requested from the device</string>
+    <string name="preferencesLocatorIntervalDialog">How often should locations be requested from the device (seconds)</string>
     <string name="preferencesMoveModeLocatorInterval">Location interval (Move mode)</string>
     <string name="preferencesMoveModeLocatorIntervalSummary">Interval between location updates in Move mode</string>
-    <string name="preferencesMoveModeLocatorIntervalDialog">How often should locations be requested from the device whilst in Move mode</string>
+    <string name="preferencesMoveModeLocatorIntervalDialog">How often should locations be requested from the device whilst in Move mode (seconds)</string>
 
     <string name="errorPreferencesImportFailedMemory">Your device ran out of memory</string>
     <string name="noNavigationApp">no suitable app installed</string>

@@ -13,9 +13,11 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,7 +35,7 @@ import javax.inject.Inject;
 
 public class PermissionFragment extends BaseSupportFragment<UiWelcomePermissionsBinding, PermissionFragmentMvvm.ViewModel> implements PermissionFragmentMvvm.View {
     private final int PERMISSIONS_REQUEST_CODE = 1;
-
+    private boolean askedForPermission = false;
     @Inject
     EventBus eventBus;
 
@@ -67,29 +69,27 @@ public class PermissionFragment extends BaseSupportFragment<UiWelcomePermissions
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        askedForPermission = true;
         if (requestCode == PERMISSIONS_REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             eventBus.postSticky(new Events.PermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION));
         }
-        checkPermission();
+        ((WelcomeMvvm.View) getActivity()).refreshNextDoneButtons();
     }
 
-    public void checkPermission() {
-        viewModel.setPermissionGranted(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
-        ((WelcomeMvvm.View) getActivity()).setNextEnabled(viewModel.isPermissionGranted());
-    }
-
-    @Override
-    public void onNextClicked() {
-
+    private void checkPermission() {
+        if (getContext() != null) {
+            viewModel.setPermissionGranted(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
+        }
     }
 
     @Override
     public boolean isNextEnabled() {
-        return ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        checkPermission();
+        return viewModel.isPermissionGranted();
     }
 
     @Override
     public void onShowFragment() {
-        checkPermission();
+
     }
 }

@@ -7,7 +7,6 @@ import org.nexttracks.android.model.FusedContact;
 import java.util.Collection;
 import java.util.HashMap;
 
-
 public interface ContactsRepo {
     HashMap<String, FusedContact> getAll();
     Collection<FusedContact> getAllAsList();

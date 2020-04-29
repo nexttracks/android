@@ -1,6 +1,7 @@
 package org.nexttracks.android.services;
 
 import android.content.SharedPreferences;
+
 import androidx.annotation.Nullable;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,10 +22,12 @@ import org.nexttracks.android.services.worker.Scheduler;
 import org.nexttracks.android.support.Parser;
 import org.nexttracks.android.support.Preferences;
 import org.nexttracks.android.support.SocketFactory;
+import org.nexttracks.android.support.interfaces.ConfigurationIncompleteException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.X509TrustManager;
@@ -71,7 +74,7 @@ public class MessageProcessorEndpointHttp extends MessageProcessorEndpoint imple
     private HttpUrl httpEndpoint;
 
 
-    public MessageProcessorEndpointHttp(MessageProcessor messageProcessor, Parser parser, Preferences preferences, Scheduler scheduler, EventBus eventBus) {
+    public MessageProcessorEndpointHttp(MessageProcessor messageProcessor, Parser parser, Preferences preferences, Scheduler scheduler, EventBus eventBus, Queue<MessageBase> outgoingQueue) {
         super(messageProcessor);
         this.parser = parser;
         this.preferences = preferences;
@@ -84,10 +87,11 @@ public class MessageProcessorEndpointHttp extends MessageProcessorEndpoint imple
 
     @Override
     public void onCreateFromProcessor() {
-        if(!isConfigurationComplete()) {
-            messageProcessor.onEndpointStateChanged(EndpointState.ERROR_CONFIGURATION);
+        try {
+            checkConfigurationComplete();
+        } catch (ConfigurationIncompleteException e) {
+            messageProcessor.onEndpointStateChanged(EndpointState.ERROR_CONFIGURATION.withError(e));
         }
-
     }
 
     @Nullable
@@ -182,13 +186,15 @@ public class MessageProcessorEndpointHttp extends MessageProcessorEndpoint imple
             messageProcessor.onEndpointStateChanged(EndpointState.IDLE);
         } catch (IllegalArgumentException e) {
             httpEndpoint = null;
-            messageProcessor.onEndpointStateChanged(EndpointState.ERROR_CONFIGURATION.setError(e));
+            messageProcessor.onEndpointStateChanged(EndpointState.ERROR_CONFIGURATION.withError(e));
         }
     }
 
     @Nullable
-    public Request getRequest(MessageBase message) {
-        if(!this.isConfigurationComplete()) {
+    Request getRequest(MessageBase message) {
+        try {
+            this.checkConfigurationComplete();
+        } catch (ConfigurationIncompleteException e) {
             return null;
         }
         Timber.v("url:%s, messageId:%s", this.httpEndpoint, message.getMessageId());
@@ -197,7 +203,7 @@ public class MessageProcessorEndpointHttp extends MessageProcessorEndpoint imple
         try {
             body = parser.toJson(message);
         } catch (IOException e) { // Message serialization failed. This shouldn't happen.
-            messageProcessor.onEndpointStateChanged(EndpointState.ERROR.setMessage(e.getMessage()));
+            messageProcessor.onEndpointStateChanged(EndpointState.ERROR.withMessage(e.getMessage()));
             return null;
         }
 
@@ -224,7 +230,7 @@ public class MessageProcessorEndpointHttp extends MessageProcessorEndpoint imple
             return request.build();
         } catch (Exception e) {
             Timber.e(e,"invalid header specified");
-            messageProcessor.onEndpointStateChanged(EndpointState.ERROR_CONFIGURATION.setMessage(e.getMessage()));
+            messageProcessor.onEndpointStateChanged(EndpointState.ERROR_CONFIGURATION.withError(e));
             httpEndpoint = null;
             return null;
         }
@@ -235,7 +241,7 @@ public class MessageProcessorEndpointHttp extends MessageProcessorEndpoint imple
         return str != null && str.length() > 0;
     }
 
-    private void sendMessage(MessageBase message) {
+    void sendMessage(MessageBase message) {
         long messageId = message.getMessageId();
         Request request = getRequest(message);
         if(request == null) {
@@ -253,17 +259,17 @@ public class MessageProcessorEndpointHttp extends MessageProcessorEndpoint imple
                     try {
 
                         MessageBase[] result = parser.fromJson(r.body().byteStream());
-                        messageProcessor.onEndpointStateChanged(EndpointState.IDLE.setMessage("Response " + r.code() + ", " + result.length));
+                        messageProcessor.onEndpointStateChanged(EndpointState.IDLE.withMessage("Response " + r.code() + ", " + result.length));
 
                         for (MessageBase aResult : result) {
                             onMessageReceived(aResult);
                         }
                     } catch (JsonProcessingException e ) {
                         Timber.e("error:JsonParseException responseCode:%s", r.code());
-                        messageProcessor.onEndpointStateChanged(EndpointState.IDLE.setMessage("HTTP " +r.code() + ", JsonParseException"));
+                        messageProcessor.onEndpointStateChanged(EndpointState.IDLE.withMessage("HTTP " +r.code() + ", JsonParseException"));
                     } catch (Parser.EncryptionException e) {
                         Timber.e("error:JsonParseException responseCode:%s", r.code());
-                        messageProcessor.onEndpointStateChanged(EndpointState.ERROR.setMessage("HTTP: "+r.code() + ", EncryptionException"));
+                        messageProcessor.onEndpointStateChanged(EndpointState.ERROR.withMessage("HTTP: "+r.code() + ", EncryptionException"));
                     }
 
                 }
@@ -271,7 +277,7 @@ public class MessageProcessorEndpointHttp extends MessageProcessorEndpoint imple
             // Server could be contacted but returned non success HTTP code
             } else {
                 Timber.e("request was not successful. HTTP code %s", r.code());
-                messageProcessor.onEndpointStateChanged(EndpointState.ERROR.setMessage("HTTP code "+r.code() ));
+                messageProcessor.onEndpointStateChanged(EndpointState.ERROR.withMessage("HTTP code "+r.code() ));
                 messageProcessor.onMessageDeliveryFailed(messageId);
                 r.close();
                 return;
@@ -279,53 +285,11 @@ public class MessageProcessorEndpointHttp extends MessageProcessorEndpoint imple
         // Message was not send
         } catch (Exception e) {
             Timber.e(e,"error:IOException. Delivery failed ");
-            messageProcessor.onEndpointStateChanged(EndpointState.ERROR.setError(e));
+            messageProcessor.onEndpointStateChanged(EndpointState.ERROR.withError(e));
             messageProcessor.onMessageDeliveryFailed(messageId);
-
-
             return;
         }
-        messageProcessor.onMessageDelivered(messageId);
-    }
-
-    @Override
-    public void processOutgoingMessage(MessageBase message) {
-        sendMessage(message);
-    }
-
-    @Override
-    public void processOutgoingMessage(MessageCmd message) {
-        sendMessage(message);
-    }
-
-    @Override
-    public void processOutgoingMessage(MessageEvent message) {
-        sendMessage(message);
-    }
-
-    @Override
-    public void processOutgoingMessage(MessageLocation message) {
-        sendMessage(message);
-    }
-
-    @Override
-    public void processOutgoingMessage(MessageTransition message) {
-        sendMessage(message);
-    }
-
-    @Override
-    public void processOutgoingMessage(MessageWaypoint message) {
-        sendMessage(message);
-    }
-
-    @Override
-    public void processOutgoingMessage(MessageWaypoints message) {
-        sendMessage(message);
-    }
-
-    @Override
-    public void processOutgoingMessage(MessageClear message) {
-        sendMessage(message);
+        messageProcessor.onMessageDelivered(message);
     }
 
     @Override
@@ -349,13 +313,21 @@ public class MessageProcessorEndpointHttp extends MessageProcessorEndpoint imple
     }
 
     @Override
-    public boolean isConfigurationComplete() {
-        return this.httpEndpoint != null;
+    public void checkConfigurationComplete() throws ConfigurationIncompleteException {
+        if (this.httpEndpoint==null)
+        {
+            throw new ConfigurationIncompleteException("HTTP Endpoint is missing");
+        }
     }
 
     @Override
     int getModeId() {
         return MODE_ID;
+    }
+
+    @Override
+    public Runnable getBackgroundOutgoingRunnable() {
+        return null;
     }
 
     @Override

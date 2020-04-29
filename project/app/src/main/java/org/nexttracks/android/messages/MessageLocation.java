@@ -1,5 +1,7 @@
 package org.nexttracks.android.messages;
 
+import androidx.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,6 +12,7 @@ import org.osmdroid.util.GeoPoint;
 import org.nexttracks.android.model.FusedContact;
 import org.nexttracks.android.support.interfaces.IncomingMessageProcessor;
 import org.nexttracks.android.support.interfaces.OutgoingMessageProcessor;
+import org.nexttracks.android.support.Preferences;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -171,11 +174,6 @@ public class MessageLocation extends MessageBase {
         handler.processIncomingMessage(this);
     }
 
-    @Override
-    public void processOutgoingMessage(OutgoingMessageProcessor handler) {
-        handler.processOutgoingMessage(this);
-    }
-
     public void setTid(String tid) {
         super.setTid(tid);
         notifyContactPropertyChanged();
@@ -207,6 +205,21 @@ public class MessageLocation extends MessageBase {
 
     public int getVac() {
         return this.vac;
+    }
+
+    @JsonIgnore
+    @Override
+    @NonNull
+    public String toString() {
+        return String.format("%s: %s",super.toString(), this.getGeoPoint());
+    }
+
+    @Override
+    public void addMqttPreferences(Preferences preferences) {
+        setTopic(preferences.getPubTopicLocations());
+        setQos(preferences.getPubQosLocations());
+        setRetained(preferences.getPubRetainLocations());
+
     }
 }
 

@@ -192,7 +192,7 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
         MessageClear m = new MessageClear();
         if(activeContact != null) {
             m.setTopic(activeContact.getId());
-            messageProcessor.sendMessage(m);
+            messageProcessor.queueMessageForSending(m);
         }
     }
 

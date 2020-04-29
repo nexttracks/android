@@ -8,14 +8,15 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import org.nexttracks.android.support.interfaces.IncomingMessageProcessor;
 import org.nexttracks.android.support.interfaces.OutgoingMessageProcessor;
+import org.nexttracks.android.support.Preferences;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "_type")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -96,13 +97,13 @@ public class MessageCmd extends MessageBase{
     }
 
     @Override
-    public void processOutgoingMessage(OutgoingMessageProcessor handler) {
-        handler.processOutgoingMessage(this);
+    public boolean isValidMessage() {
+        return super.isValidMessage() && (action != null);
     }
 
     @Override
-    public boolean isValidMessage() {
-        return super.isValidMessage() && (action != null);
+    public void addMqttPreferences(Preferences preferences) {
+        setTopic(preferences.getPubTopicCommands());
     }
 
     @Override
@@ -111,6 +112,4 @@ public class MessageCmd extends MessageBase{
         // Full topic is needed instead of the normalized base topic to verify if the message arrived on the correct topic
         this._topic = topic;
     }
-
-
 }

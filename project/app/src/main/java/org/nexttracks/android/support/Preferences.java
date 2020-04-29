@@ -38,6 +38,10 @@ import javax.inject.Inject;
 
 import timber.log.Timber;
 
+import static org.eclipse.paho.client.mqttv3.MqttConnectOptions.MQTT_VERSION_3_1;
+import static org.eclipse.paho.client.mqttv3.MqttConnectOptions.MQTT_VERSION_3_1_1;
+import static org.eclipse.paho.client.mqttv3.MqttConnectOptions.MQTT_VERSION_DEFAULT;
+
 @SuppressWarnings({"unused", "WeakerAccess"})
 @PerApplication
 public class Preferences {
@@ -141,10 +145,6 @@ public class Preferences {
             activeSharedPreferences.registerOnSharedPreferenceChangeListener(listener);
             listener.onAttachAfterModeChanged();
         }
-    }
-
-    public boolean isFirstStart() {
-        return isFirstStart;
     }
 
     public void checkFirstStart() {
@@ -615,7 +615,7 @@ public class Preferences {
 
     @Import(key =Keys.MQTT_PROTOCOL_LEVEL)
     public void setMqttProtocolLevel(int value) {
-        if(value != 0 && value != 3 && value != 4)
+        if(value != MQTT_VERSION_DEFAULT && value != MQTT_VERSION_3_1 && value != MQTT_VERSION_3_1_1)
             return;
 
         setInt(Keys.MQTT_PROTOCOL_LEVEL, value);
@@ -851,14 +851,14 @@ public class Preferences {
         return getString(Keys._ENCRYPTION_KEY, R.string.valEmpty);
     }
 
-    boolean getSetupCompleted() {
+    public boolean isSetupCompleted() {
         // sharedPreferences because the value is independent from the selected mode
         return !sharedPreferences.getBoolean(Keys._SETUP_NOT_COMPLETED, false);
     }
 
     public void setSetupCompleted() {
         sharedPreferences.edit().putBoolean(Keys._SETUP_NOT_COMPLETED , false).apply();
-
+        isFirstStart = false;
     }
 
     // Maybe make this configurable
@@ -927,7 +927,6 @@ public class Preferences {
 
     public boolean isObjectboxMigrated() {
         return isFirstStart || sharedPreferences.getBoolean(Keys._OBJECTBOX_MIGRATED, false);
-
     }
 
     public void setObjectBoxMigrated() {

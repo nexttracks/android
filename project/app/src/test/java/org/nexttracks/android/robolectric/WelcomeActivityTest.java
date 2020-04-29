@@ -88,7 +88,6 @@ public class WelcomeActivityTest {
         // Shows done
         assertEquals(View.GONE, welcomeActivity.findViewById(R.id.btn_next).getVisibility());
         assertEquals(View.VISIBLE, welcomeActivity.findViewById(R.id.done).getVisibility());
-        assertFalse(welcomeActivity.findViewById(R.id.btn_next).isEnabled());
         assertTrue(welcomeActivity.findViewById(R.id.done).isEnabled());
 
         clickOn(welcomeActivity.findViewById(R.id.done));
@@ -109,7 +108,6 @@ public class WelcomeActivityTest {
         // Shows Done
         assertEquals(View.GONE, welcomeActivity.findViewById(R.id.btn_next).getVisibility());
         assertEquals(View.VISIBLE, welcomeActivity.findViewById(R.id.done).getVisibility());
-        assertFalse(welcomeActivity.findViewById(R.id.btn_next).isEnabled());
         assertTrue(welcomeActivity.findViewById(R.id.done).isEnabled());
         clickOn(welcomeActivity.findViewById(R.id.done));
 

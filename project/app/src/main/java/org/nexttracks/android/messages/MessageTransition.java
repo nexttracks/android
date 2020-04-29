@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.mapzen.android.lost.api.Geofence;
 
 import org.nexttracks.android.support.interfaces.IncomingMessageProcessor;
 import org.nexttracks.android.support.interfaces.OutgoingMessageProcessor;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.mapzen.android.lost.api.Geofence;
+import org.nexttracks.android.support.Preferences;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "_type")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -56,6 +57,13 @@ public class MessageTransition extends MessageBase{
 
     public void setTid(String tid) {
         this.tid = tid;
+    }
+
+    @Override
+    public void addMqttPreferences(Preferences preferences) {
+        setTopic(preferences.getPubTopicEvents());
+        setQos(preferences.getPubQosEvents());
+        setRetained(preferences.getPubRetainEvents());
     }
 
     @JsonProperty("t")
@@ -124,12 +132,6 @@ public class MessageTransition extends MessageBase{
     public void processIncomingMessage(IncomingMessageProcessor handler) {
         handler.processIncomingMessage(this);
     }
-
-    @Override
-    public void processOutgoingMessage(OutgoingMessageProcessor handler) {
-        handler.processOutgoingMessage(this);
-    }
-
 
     public void setLat(double lat) {
         this.lat = lat;

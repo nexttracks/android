@@ -185,8 +185,6 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
 
         scheduler.scheduleLocationPing();
 
-        setupGeofences();
-
         eventBus.register(this);
         eventBus.postSticky(new Events.ServiceStarted());
 

@@ -92,7 +92,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (preferences.isSetupCompleted()) {
+        if (!preferences.isSetupCompleted()) {
             navigator.startActivity(WelcomeActivity.class);
             finish();
         }

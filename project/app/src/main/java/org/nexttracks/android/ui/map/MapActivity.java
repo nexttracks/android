@@ -6,6 +6,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -97,7 +98,11 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
             finish();
         }
 
-        bindAndAttachContentView(R.layout.ui_map, savedInstanceState);
+        try {
+            bindAndAttachContentView(R.layout.ui_map, savedInstanceState);
+        } catch(SQLiteCantOpenDatabaseException e) {
+            Timber.e(e);
+        }
 
         setSupportToolbar(this.binding.toolbar, false, true);
         setDrawer(this.binding.toolbar);

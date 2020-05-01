@@ -149,6 +149,8 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
         super.onCreate();
         Timber.v("Background service onCreate. ThreadID: %s", Thread.currentThread());
         serviceBridge.bind(this);
+        lostApiClient = new LostApiClient.Builder(this).addConnectionCallbacks(this).build();
+        lostApiClient.connect();
         mFusedLocationClient = LocationServices.FusedLocationApi;
         mGeofencingClient = LocationServices.GeofencingApi;
         notificationManagerCompat = NotificationManagerCompat.from(this);
@@ -537,8 +539,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
 //        request.setExpirationDuration(TimeUnit.MINUTES.toMillis(1));
 
         Timber.d("On demand location request");
-        FusedLocationProviderApi client = LocationServices.FusedLocationApi;
-        client.requestLocationUpdates(lostApiClient, request, locationCallbackOnDemand,  runner.getBackgroundHandler().getLooper());
+        mFusedLocationClient.requestLocationUpdates(lostApiClient, request, locationCallbackOnDemand, runner.getBackgroundHandler().getLooper());
     }
 
     @SuppressWarnings("MissingPermission")
@@ -549,7 +550,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
         }
 
         if (!connected || mFusedLocationClient == null) {
-            Timber.e("FusedLocationClient not available");
+            Timber.e("FusedLocationClient not available: connected: %b, mFusedLocationClient: %s", connected, mFusedLocationClient);
             return;
         }
 
@@ -733,8 +734,10 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
     @Subscribe(sticky = true)
     public void onEvent(Events.PermissionGranted event) {
         Timber.d("location permission granted");
-        removeGeofences();
-        setupGeofences();
+        if (lostApiClient != null) {
+            removeGeofences();
+            setupGeofences();
+        }
 
         try {
             Timber.v("Getting last location");

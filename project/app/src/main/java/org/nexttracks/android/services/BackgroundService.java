@@ -611,6 +611,10 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
             Timber.e("missing location permission");
             return;
         }
+        if (!connected || mGeofencingClient == null) {
+            Timber.e("GeofencingClient not available: connected: %b, mGeofencingClient: %s", connected, mGeofencingClient);
+            return;
+        }
 
         Timber.d("loader thread:%s, isMain:%s", Looper.myLooper(), Looper.myLooper() == Looper.getMainLooper());
 

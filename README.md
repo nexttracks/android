@@ -8,4 +8,3 @@ See the [booklet](http://owntracks.org/booklet/features/android/) of OwnTracks f
 # Screenshots
 
 ![screenshot](project/screenshot.png)
-![screenshot_2](project/screenshot_2.png)

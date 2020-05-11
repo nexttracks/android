@@ -1,5 +1,14 @@
 # Changelog
 
+### Version 3.1.1
+
+* pretty print exported json configurations
+* some general small improvements
+* add french translations
+* add spanish translations
+* fix position of contact avatars in map
+* fix adding of failed geocaching result in cache
+
 ### Version 3.1.0
 
 * add geocoding switch

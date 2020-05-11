@@ -409,7 +409,6 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         if (m == null){
             m = new Marker(map, null);
             m.setTitle(contact.getId());
-            m.setAnchor(0.0f, 0.0f);
             map.getOverlays().add(m);
             mMarkers.put(contact.getId(), m);
         } else {

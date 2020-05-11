@@ -70,7 +70,7 @@ public class MessageProcessorEndpointHttpTest {
         when(testPreferences.getUsername()).thenReturn("");
         when(testPreferences.getDeviceId()).thenReturn("");
         when(testPreferences.getPassword()).thenReturn("");
-        when(testPreferences.getUrl()).thenReturn("http://example.com/owntracks/test");
+        when(testPreferences.getUrl()).thenReturn("http://example.com/nexttracks/test");
         parser = new Parser(encryptionProvider);
     }
 
@@ -95,7 +95,7 @@ public class MessageProcessorEndpointHttpTest {
         assertNull(request.header(MessageProcessorEndpointHttp.HEADER_USERNAME));
         assertNull(request.header(MessageProcessorEndpointHttp.HEADER_DEVICE));
         assertEquals(MessageProcessorEndpointHttp.METHOD, request.method());
-        assertEquals("http://example.com/owntracks/test", request.url().toString());
+        assertEquals("http://example.com/nexttracks/test", request.url().toString());
 
     }
 
@@ -135,7 +135,7 @@ public class MessageProcessorEndpointHttpTest {
         when(testPreferences.getDeviceId()).thenReturn("device_preferences");
         when(testPreferences.getUsername()).thenReturn("username_ignored");
         when(testPreferences.getPassword()).thenReturn("password_ignored");
-        when(testPreferences.getUrl()).thenReturn("http://username_url:password_url@example.com/owntracks/test");
+        when(testPreferences.getUrl()).thenReturn("http://username_url:password_url@example.com/nexttracks/test");
         LinkedBlockingDeque<MessageBase> outgoingQueue = new LinkedBlockingDeque<>();
         messageProcessorEndpointHttp = new MessageProcessorEndpointHttp(messageProcessor, parser, testPreferences, scheduler, null, outgoingQueue);
         messageProcessorEndpointHttp.checkConfigurationComplete();
@@ -146,7 +146,7 @@ public class MessageProcessorEndpointHttpTest {
         assertEquals("username_url", request.header(MessageProcessorEndpointHttp.HEADER_USERNAME));
         assertEquals("device_preferences", request.header(MessageProcessorEndpointHttp.HEADER_DEVICE));
 
-        assertEquals("http://username_url:password_url@example.com/owntracks/test", request.url().toString());
+        assertEquals("http://username_url:password_url@example.com/nexttracks/test", request.url().toString());
     }
 
 
@@ -166,7 +166,7 @@ public class MessageProcessorEndpointHttpTest {
 
     @Test(expected = ConfigurationIncompleteException.class)
     public void EndpointCorrectlyFailsOnInvalidUrl() throws ConfigurationIncompleteException {
-        String[] urls = {"htt://example.com/owntracks/test", "tt://example", "example.com"};
+        String[] urls = {"htt://example.com/nexttracks/test", "tt://example", "example.com"};
 
         for (String url : urls) {
             when(testPreferences.getUrl()).thenReturn(url);

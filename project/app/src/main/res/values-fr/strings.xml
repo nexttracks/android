@@ -28,8 +28,8 @@
     <string name="preferencesInfo">Information</string>
     <string name="preferencesRepository">Code Source</string>
     <string name="preferencesRepositorySummary" translatable="false">codeberg.com/nexttracks/android</string>
-    <string name="preferencesDocumentation">Documentation</string>
-    <string name="preferencesDocumentationSummary" translatable="false">owntracks.org/booklet</string>
+    <string name="preferencesDocumentation">OwnTracks Documentation</string>
+	<string name="preferencesDocumentationSummary" translatable="false">https://owntracks.org/booklet</string>
     <string name="preferencesEncryptionKeySummary">Clé symétrique pour le chiffrement de la charge utile</string>
     <string name="preferencesEncryptionKey">Clé de cryptage</string>
     <string name="preferencesEncryptionKeyDialogMessage">La clé de chiffrement est coupée après 32 caractères.</string>

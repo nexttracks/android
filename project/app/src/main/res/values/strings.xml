@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Nexttracks</string>
+    <string name="app_name">NextTracks</string>
     <string name="preferencesServer">"Connection"</string>
     <string name="preferencesHost">"Host"</string>
     <string name="preferencesPort">"Port"</string>
@@ -52,7 +52,6 @@
     <string name="contactLocationUnknown">No location is available</string>
     <string name="menuContactNavigate">Navigate</string>
     <string name="menuCurrentLoction">Current location</string>
-
     <string name="contactDetailsAccuracy">Accuracy</string>
     <string name="contactDetailsTopic">Identifier</string>
     <string name="waypointListPlaceholder">No regions defined yet</string>
@@ -83,7 +82,6 @@
     <string name="preferencesCategoryAdvancedEncryption">Encryption</string>
     <string name="preferencesCategoryAdvancedMisc">Misc</string>
     <string name="contactDetailsTrackerId" translatable="false">Tracker ID</string>
-
     <string name="exportWaypointsToEndpoint">Publish Waypoints</string>
     <string name="preferencesExportFailed">Preferences export failed</string>
     <string name="preferencesExportSuccess">Export successful</string>
@@ -95,15 +93,14 @@
     <string name="errorPreferencesImportFailed">Import failed</string>
     <string name="icon_description_warning">Warning</string>
     <string name="welcome_heading">Welcome</string>
-    <string name="welcome_description">The following steps will help you to get started with Nexttracks</string>
+    <string name="welcome_description">The following steps will help you to get started with NextTracks</string>
     <string name="mode_heading">Mode</string>
-    <string name="mqtt_public_description">Try out Nexttracks and share your location anonymously with other users</string>
-    <string name="mqtt_private_description">Connect to your own private Nexttracks setup and share your location with family or friends</string>
+    <string name="mqtt_private_description">Connect to your own private NextTracks setup and share your location with family or friends</string>
     <string name="permissions_heading">Permissions</string>
-    <string name="permissions_description">Nexttracks requires access to your location. Please grant this permission before continuing.</string>
+    <string name="permissions_description">NextTracks requires access to your location. Please grant this permission before continuing.</string>
     <string name="permissions_granted">Permissions have been granted</string>
-    <string name="icon_description_nexttracks">Nexttracks</string>
-    <string name="enjoy_description">Select preferences from the menu and configure Nexttracks for your server before using it</string>
+    <string name="icon_description_nexttracks">NextTracks</string>
+    <string name="enjoy_description">Select preferences from the menu and configure NextTracks for your server before using it</string>
     <string name="done_heading">Done</string>
     <string name="icon_description_done">Done</string>
     <string name="title_activity_load">Import</string>

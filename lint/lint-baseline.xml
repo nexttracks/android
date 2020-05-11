@@ -47,7 +47,7 @@
         errorLine1="    private void checkFirstStart() {"
         errorLine2="                            ^">
         <location
-            file="src\main\java\org\owntracks\android\App.java"
+            file="src\main\java\org\nexttracks\android\App.java"
             line="265"
             column="29"/>
     </issue>
@@ -58,7 +58,7 @@
         errorLine1="        return getInt(Keys.IGNORE_INACCURATE_LOCATIONS, R.integer.valIgnoreInaccurateLocations);"
         errorLine2="                                                                                             ^">
         <location
-            file="src\main\java\org\owntracks\android\support\Preferences.java"
+            file="src\main\java\org\nexttracks\android\support\Preferences.java"
             line="487"
             column="94"/>
     </issue>
@@ -69,7 +69,7 @@
         errorLine1="        return android.os.Build.DEVICE.replace(&quot; &quot;, &quot;-&quot;).replaceAll(&quot;[^a-zA-Z0-9]+&quot;, &quot;&quot;).toLowerCase();"
         errorLine2="                                                                                      ~~~~~~~~~~~">
         <location
-            file="src\main\java\org\owntracks\android\support\Preferences.java"
+            file="src\main\java\org\nexttracks\android\support\Preferences.java"
             line="501"
             column="87"/>
     </issue>
@@ -80,7 +80,7 @@
         errorLine1="        text = builder.toUpperCase ? builder.text.toUpperCase() : builder.text;"
         errorLine2="           ~~~~~~~~~~~">
         <location
-            file="src\main\java\org\owntracks\android\support\widgets\TextDrawable.java"
+            file="src\main\java\org\nexttracks\android\support\widgets\TextDrawable.java"
             line="40"
             column="12"/>
     </issue>
@@ -168,7 +168,7 @@
         errorLine1="                defaultBackground.setVisible(false, false);"
         errorLine2="                                          ^">
         <location
-            file="src\main\java\org\owntracks\android\ui\waypoints\AdapterCursorLoader.java"
+            file="src\main\java\org\nexttracks\android\ui\waypoints\AdapterCursorLoader.java"
             line="39"
             column="43"/>
     </issue>
@@ -182,66 +182,66 @@
 
     <issue
         id="StaticFieldLeak"
-        message="This Loader class should be static or leaks might occur (anonymous org.owntracks.android.support.SimpleCursorLoader)"
+        message="This Loader class should be static or leaks might occur (anonymous org.nexttracks.android.support.SimpleCursorLoader)"
         errorLine1="    public android.support.v4.content.Loader&lt;Cursor> onCreateLoader(int id, Bundle args) {"
         errorLine2="                            ^">
         <location
-            file="src\main\java\org\owntracks\android\activities\ActivityRegions.java"
+            file="src\main\java\org\nexttracks\android\activities\ActivityRegions.java"
             line="79"
             column="29"/>
     </issue>
 
     <issue
         id="StaticFieldLeak"
-        message="This AsyncTask class should be static or leaks might occur (org.owntracks.android.ui.preferences.connection.dialog.ConnectionSecurityViewModel.CopyTask)"
+        message="This AsyncTask class should be static or leaks might occur (org.nexttracks.android.ui.preferences.connection.dialog.ConnectionSecurityViewModel.CopyTask)"
         errorLine1="                new CaCrtCopyTask().execute(uri);"
         errorLine2="    ~~~~~~~~">
         <location
-            file="src\main\java\org\owntracks\android\ui\preferences\connection\dialog\ConnectionSecurityViewModel.java"
+            file="src\main\java\org\nexttracks\android\ui\preferences\connection\dialog\ConnectionSecurityViewModel.java"
             line="163"
             column="5"/>
     </issue>
 
     <issue
         id="StaticFieldLeak"
-        message="This AsyncTask class should be static or leaks might occur (org.owntracks.android.ui.preferences.connection.dialog.ConnectionSecurityViewModel.CaCrtCopyTask)"
+        message="This AsyncTask class should be static or leaks might occur (org.nexttracks.android.ui.preferences.connection.dialog.ConnectionSecurityViewModel.CaCrtCopyTask)"
         errorLine1="                return filename;"
         errorLine2="                            ^">
         <location
-            file="src\main\java\org\owntracks\android\ui\preferences\connection\dialog\ConnectionSecurityViewModel.java"
+            file="src\main\java\org\nexttracks\android\ui\preferences\connection\dialog\ConnectionSecurityViewModel.java"
             line="193"
             column="29"/>
     </issue>
 
     <issue
         id="StaticFieldLeak"
-        message="This AsyncTask class should be static or leaks might occur (org.owntracks.android.ui.preferences.connection.dialog.ConnectionSecurityViewModel.ClientCrtCopyTask)"
+        message="This AsyncTask class should be static or leaks might occur (org.nexttracks.android.ui.preferences.connection.dialog.ConnectionSecurityViewModel.ClientCrtCopyTask)"
         errorLine1="            setTlsCaCrtName(s);"
         errorLine2="                           ^">
         <location
-            file="src\main\java\org\owntracks\android\ui\preferences\connection\dialog\ConnectionSecurityViewModel.java"
+            file="src\main\java\org\nexttracks\android\ui\preferences\connection\dialog\ConnectionSecurityViewModel.java"
             line="207"
             column="28"/>
     </issue>
 
     <issue
         id="StaticFieldLeak"
-        message="This AsyncTask class should be static or leaks might occur (org.owntracks.android.support.ContactImageProvider.ContactDrawableWorkerTaskForImageView)"
+        message="This AsyncTask class should be static or leaks might occur (org.nexttracks.android.support.ContactImageProvider.ContactDrawableWorkerTaskForImageView)"
         errorLine1="        memoryCache.clearLevelCard(key);"
         errorLine2="                              ^">
         <location
-            file="src\main\java\org\owntracks\android\support\ContactImageProvider.java"
+            file="src\main\java\org\nexttracks\android\support\ContactImageProvider.java"
             line="38"
             column="31"/>
     </issue>
 
     <issue
         id="StaticFieldLeak"
-        message="This AsyncTask class should be static or leaks might occur (org.owntracks.android.support.ContactImageProvider.ContactDrawableWorkerTaskForMarker)"
+        message="This AsyncTask class should be static or leaks might occur (org.nexttracks.android.support.ContactImageProvider.ContactDrawableWorkerTaskForMarker)"
         errorLine1="                imageView.setImageBitmap(result);"
         errorLine2="                          ^">
         <location
-            file="src\main\java\org\owntracks\android\support\ContactImageProvider.java"
+            file="src\main\java\org\nexttracks\android\support\ContactImageProvider.java"
             line="60"
             column="27"/>
     </issue>
@@ -263,7 +263,7 @@
         errorLine1="    private void runActionWithPermissionCheck(int action, String permission) {"
         errorLine2="                                                 ^">
         <location
-            file="src\main\java\org\owntracks\android\activities\ActivityBase.java"
+            file="src\main\java\org\nexttracks\android\activities\ActivityBase.java"
             line="39"
             column="50"/>
     </issue>
@@ -274,7 +274,7 @@
         errorLine1="            enabled = false; // invalid input or NumberFormatException result in no valid input"
         errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\owntracks\android\activities\ActivityRegion.java"
+            file="src\main\java\org\nexttracks\android\activities\ActivityRegion.java"
             line="100"
             column="16"/>
     </issue>
@@ -285,7 +285,7 @@
         errorLine1="        super.onDestroy();"
         errorLine2="     ^">
         <location
-            file="src\main\java\org\owntracks\android\activities\ActivityRegion.java"
+            file="src\main\java\org\nexttracks\android\activities\ActivityRegion.java"
             line="112"
             column="6"/>
     </issue>
@@ -296,7 +296,7 @@
         errorLine1="    public boolean onViewHolderLongClick(View rootView, AdapterWaypoints.ItemViewHolder viewHolder) {"
         errorLine2="                                             ^">
         <location
-            file="src\main\java\org\owntracks\android\activities\ActivityRegions.java"
+            file="src\main\java\org\nexttracks\android\activities\ActivityRegions.java"
             line="187"
             column="46"/>
     </issue>
@@ -307,7 +307,7 @@
         errorLine1="            Log.i(&quot;greenDAO&quot;, &quot;Upgrading schema from version &quot; + oldVersion + &quot; to &quot; + newVersion + &quot; by dropping all tables&quot;);"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="build\generated\source\greendao\org\owntracks\android\db\DaoMaster.java"
+            file="build\generated\source\greendao\org\nexttracks\android\db\DaoMaster.java"
             line="90"
             column="13"/>
     </issue>
@@ -318,7 +318,7 @@
         errorLine1="        enabled = encryptionKey != null &amp;&amp; encryptionKey.length() > 0;"
         errorLine2="                                                   ^">
         <location
-            file="src\main\java\org\owntracks\android\support\EncryptionProvider.java"
+            file="src\main\java\org\nexttracks\android\support\EncryptionProvider.java"
             line="29"
             column="52"/>
     </issue>
@@ -329,7 +329,7 @@
         errorLine1="    topics.add(subTopicBase + Preferences.getPubTopicEventsPart());"
         errorLine2="                                                             ^">
         <location
-            file="src\main\java\org\owntracks\android\services\MessageProcessorEndpointMqtt.java"
+            file="src\main\java\org\nexttracks\android\services\MessageProcessorEndpointMqtt.java"
             line="353"
             column="62"/>
     </issue>
@@ -340,7 +340,7 @@
         errorLine1="   e.printStackTrace();"
         errorLine2=" ^">
         <location
-            file="src\main\java\org\owntracks\android\services\MessageProcessorEndpointMqtt.java"
+            file="src\main\java\org\nexttracks\android\services\MessageProcessorEndpointMqtt.java"
             line="377"
             column="2"/>
     </issue>
@@ -435,7 +435,7 @@
 
     <issue
         id="Overdraw"
-        message="Possible overdraw: Root element paints background `?android:attr/selectableItemBackground` with a theme that also paints a background (inferred theme is `@style/Theme.Owntracks`)"
+        message="Possible overdraw: Root element paints background `?android:attr/selectableItemBackground` with a theme that also paints a background (inferred theme is `@style/Theme.nexttracks`)"
         errorLine1="    android:background=&quot;?android:attr/selectableItemBackground&quot;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -793,7 +793,7 @@
     <issue
         id="UnusedResources"
         message="The resource `R.string.mqtt_public_description` appears to be unused"
-        errorLine1="    &lt;string name=&quot;mqtt_public_description&quot;>Try out Owntracks and share your location anonymously with other users&lt;/string>"
+        errorLine1="    &lt;string name=&quot;mqtt_public_description&quot;>Try out nexttracks and share your location anonymously with other users&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src\main\res\values\strings.xml"
@@ -808,7 +808,7 @@
     <issue
         id="UnusedResources"
         message="The resource `R.string.mqtt_private_description` appears to be unused"
-        errorLine1="    &lt;string name=&quot;mqtt_private_description&quot;>Connect to your own private Owntracks setup and share your location with family or friends&lt;/string>"
+        errorLine1="    &lt;string name=&quot;mqtt_private_description&quot;>Connect to your own private nexttracks setup and share your location with family or friends&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src\main\res\values\strings.xml"
@@ -1320,7 +1320,7 @@
         errorLine1="import timber.log.Timber;"
         errorLine2="             ~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\owntracks\android\ui\preferences\load\LoadActivity.java"
+            file="src\main\java\org\nexttracks\android\ui\preferences\load\LoadActivity.java"
             line="28"
             column="14"/>
     </issue>
@@ -1331,7 +1331,7 @@
         errorLine1="    public boolean onTouchEvent(MotionEvent event) {"
         errorLine2="~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\owntracks\android\support\widgets\PausableViewPager.java"
+            file="src\main\java\org\nexttracks\android\support\widgets\PausableViewPager.java"
             line="20"
             column="1"/>
     </issue>
@@ -1375,7 +1375,7 @@
         errorLine1="            final LatLng l = place.getLatLng();"
         errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\owntracks\android\activities\ActivityRegion.java"
+            file="src\main\java\org\nexttracks\android\activities\ActivityRegion.java"
             line="174"
             column="3"/>
     </issue>
@@ -1386,7 +1386,7 @@
         errorLine1="            final CharSequence addr = place.getAddress();"
         errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\owntracks\android\activities\ActivityRegion.java"
+            file="src\main\java\org\nexttracks\android\activities\ActivityRegion.java"
             line="175"
             column="26"/>
     </issue>

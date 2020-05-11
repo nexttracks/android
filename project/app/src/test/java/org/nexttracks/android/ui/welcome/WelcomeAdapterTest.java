@@ -32,33 +32,30 @@ public class WelcomeAdapterTest {
     public MockitoRule rule = MockitoJUnit.rule();
 
     private final boolean initialSetupCheckPassed;
-    private final boolean playCheckPassed;
     private final boolean permissionCheckPassed;
     private final int androidVersion;
     private final int expectedFragments;
 
-    public WelcomeAdapterTest(boolean initialSetupCheckPassed, boolean playCheckPassed, boolean permissionCheckPassed, int androidVersion, int expectedFragments) {
+    public WelcomeAdapterTest(boolean initialSetupCheckPassed, boolean permissionCheckPassed, int androidVersion, int expectedFragments) {
         this.initialSetupCheckPassed = initialSetupCheckPassed;
-        this.playCheckPassed = playCheckPassed;
         this.permissionCheckPassed = permissionCheckPassed;
         this.androidVersion = androidVersion;
         this.expectedFragments = expectedFragments;
     }
 
-    @Parameterized.Parameters(name = "setupCheckPassed={0}, playCheckPassed={1}, permissionCheckPassed={2}, androidVersion={3}")
+    @Parameterized.Parameters(name = "setupCheckPassed={0}, permissionCheckPassed={1}, androidVersion={2}")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {false, false, false, Build.VERSION_CODES.LOLLIPOP, 4},
-                {false, false, false, Build.VERSION_CODES.M, 5},
-                {false, true, false, Build.VERSION_CODES.LOLLIPOP, 3},
-                {false, true, false, Build.VERSION_CODES.M, 4},
-                {false, false, true, Build.VERSION_CODES.LOLLIPOP, 3},
-                {false, false, true, Build.VERSION_CODES.M, 4},
-                {false, true, true, Build.VERSION_CODES.LOLLIPOP, 2},
-                {false, true, true, Build.VERSION_CODES.M, 3},
+                {false, false, Build.VERSION_CODES.LOLLIPOP, 4},
+                {false, false, Build.VERSION_CODES.M, 5},
+                {false, false, Build.VERSION_CODES.LOLLIPOP, 3},
+                {false, false, Build.VERSION_CODES.M, 4},
+                {false, true, Build.VERSION_CODES.LOLLIPOP, 3},
+                {false, true, Build.VERSION_CODES.M, 4},
+                {false, true, Build.VERSION_CODES.LOLLIPOP, 2},
+                {false, true, Build.VERSION_CODES.M, 3},
         });
     }
-
 
     @Mock
     private RequirementsChecker requirementsChecker;

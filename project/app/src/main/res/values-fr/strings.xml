@@ -87,15 +87,11 @@
     <string name="preferencesExportFailed">Échec de l\'exportation des préférences</string>
     <string name="preferencesExportSuccess">Exportation réussie</string>
     <string name="welcomeFixIssue">Autoriser</string>
-    <string name="play_services_now_available">Les services Google Play sont maintenant disponibles</string>
-    <string name="play_services_not_available">Les services Google Play ne sont pas disponibles</string>
     <string name="preferencesUrl" translatable="false">URL</string>
     <string name="mode_http_private_label">HTTP privé</string>
     <string name="transitionEntering">entré</string>
     <string name="transitionLeaving">sorti</string>
     <string name="errorPreferencesImportFailed">L\'importation a échoué</string>
-    <string name="welcome_play_heading">Services Google Play</string>
-    <string name="welcome_play_description">NextTracks nécessite les services Google Play</string>
     <string name="icon_description_warning">Attention</string>
     <string name="welcome_heading">Bienvenu</string>
     <string name="welcome_description">Les étapes suivantes vous aideront à démarrer avec NextTracks</string>
@@ -155,5 +151,4 @@
     <string name="notificationChangeMonitoring">Changer mode de surveillance</string>
     <string name="preferencesGeocode">Géocodage</string>
     <string name="preferencesGeocodeSummary">Activer le géocodage. Redémarrage nécessaire.</string>
-    <string name="play_services_update_required">Mise à jour des services Google Play est requise.</string>
 </resources>

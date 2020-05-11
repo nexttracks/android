@@ -47,7 +47,7 @@ public class WelcomeViewModel extends BaseViewModel<WelcomeMvvm.View> implements
     public void onDoneClicked() {
         Timber.v("onDoneClicked next:%s, done:%s", nextEnabled, doneEnabled);
         preferences.setSetupCompleted();
-        App.restart();
+        navigator.startActivity(MapActivity.class, null, Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
     @Override

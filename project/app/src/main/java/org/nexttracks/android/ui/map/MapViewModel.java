@@ -77,6 +77,10 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
         getView().clearContacts();
         for(Object c : contactsRepo.getAllAsList()) {
             getView().updateContact((FusedContact) c);
+            Marker m = getView().getContact((FusedContact) c);
+            if (m != null) {
+                m.setOnMarkerClickListener(this);
+            }
         }
 
         if(mode == VIEW_CONTACT && activeContact != null)

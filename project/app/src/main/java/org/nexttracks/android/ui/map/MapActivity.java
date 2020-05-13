@@ -98,6 +98,9 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
             finish();
         }
 
+        Context ctx = getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+
         try {
             bindAndAttachContentView(R.layout.ui_map, savedInstanceState);
         } catch(SQLiteCantOpenDatabaseException e) {
@@ -106,8 +109,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
 
         setSupportToolbar(this.binding.toolbar, false, true);
         setDrawer(this.binding.toolbar);
-        Context ctx = getApplicationContext();
-        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+
         map = findViewById(R.id.mapView);
         map.setTileSource(TileSourceFactory.MAPNIK);
 

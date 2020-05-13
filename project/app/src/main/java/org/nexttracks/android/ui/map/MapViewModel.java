@@ -68,7 +68,7 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
     @Override
     public void onMapReady() {
         for(Object c : contactsRepo.getAllAsList()) {
-            getView().updateMarker((FusedContact) c);
+            getView().updateContact((FusedContact) c);
         }
 
         if(mode == VIEW_CONTACT && activeContact != null)
@@ -207,13 +207,13 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
             clearActiveContact();
             setViewModeFree();
         }
-        getView().removeMarker(c.getContact());
+        getView().removeContact(c.getContact());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FusedContact c) {
-        getView().updateMarker(c);
-        Marker m = getView().getMarker(c);
+        getView().updateContact(c);
+        Marker m = getView().getContact(c);
         if (m != null) {
             m.setOnMarkerClickListener(this);
         }
@@ -225,7 +225,7 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(Events.ModeChanged e) {
-        getView().clearMarkers();
+        getView().clearContacts();
         clearActiveContact();
     }
 

@@ -71,7 +71,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
     private static final long ZOOM_LEVEL_STREET = 15;
     private final int PERMISSIONS_REQUEST_CODE = 1;
 
-    private final WeakHashMap<String, Marker> mMarkers = new WeakHashMap<>();
+    private final WeakHashMap<String, Marker> mContacts = new WeakHashMap<>();
     private MapView map;
     private BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
     private boolean isMapReady = false;
@@ -372,47 +372,48 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
     }
 
     @Override
-    public void clearMarkers() {
-        if (isMapReady)
-            for (Marker m : mMarkers.values()) {
+    public void clearContacts() {
+        if (isMapReady) {
+            for (Marker m : mContacts.values()) {
                 m.remove(map);
             }
-        mMarkers.clear();
+        }
+        mContacts.clear();
     }
 
     @Override
-    public void removeMarker(@Nullable FusedContact contact) {
+    public void removeContact(@Nullable FusedContact contact) {
         if(contact == null)
             return;
 
-        Marker m = mMarkers.get(contact.getId());
+        Marker m = mContacts.get(contact.getId());
         if(m != null)
             m.remove(map);
     }
 
     @Override
-    public Marker getMarker(@Nullable FusedContact contact) {
+    public Marker getContact(@Nullable FusedContact contact) {
         if(contact == null)
             return null;
 
-        return mMarkers.get(contact.getId());
+        return mContacts.get(contact.getId());
     }
 
     @Override
-    public void updateMarker(@Nullable FusedContact contact) {
+    public void updateContact(@Nullable FusedContact contact) {
         if (contact == null || !contact.hasLocation() || !isMapReady) {
             Timber.v("unable to update marker. null:%s, location:%s, mapReady:%s",contact == null, contact == null || contact.hasLocation(), isMapReady);
             return;
         }
 
         Timber.v("updating marker for contact: %s", contact.getId());
-        Marker m = mMarkers.get(contact.getId());
+        Marker m = mContacts.get(contact.getId());
 
         if (m == null){
             m = new Marker(map, null);
             m.setTitle(contact.getId());
             map.getOverlays().add(m);
-            mMarkers.put(contact.getId(), m);
+            mContacts.put(contact.getId(), m);
         } else {
             this.map.invalidate();
         }

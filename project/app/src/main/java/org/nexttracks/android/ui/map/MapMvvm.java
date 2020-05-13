@@ -19,10 +19,10 @@ public interface MapMvvm {
         void setBottomSheetCollapsed();
         void setBottomSheetHidden();
 
-        Marker getMarker(FusedContact contact);
-        void updateMarker(FusedContact contact);
-        void removeMarker(FusedContact c);
-        void clearMarkers();
+        Marker getContact(FusedContact contact);
+        void updateContact(FusedContact contact);
+        void removeContact(FusedContact c);
+        void clearContacts();
         void enableLocationMenus();
         void updateMonitoringModeMenu();
     }

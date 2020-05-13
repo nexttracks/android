@@ -650,7 +650,9 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
     }
 
     private void removeGeofences() {
-        mGeofencingClient.removeGeofences(lostApiClient, getGeofencePendingIntent());
+        if (lostApiClient != null) {
+            mGeofencingClient.removeGeofences(lostApiClient, getGeofencePendingIntent());
+        }
     }
 
     @SuppressWarnings("unused")
@@ -740,7 +742,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
     @Subscribe(sticky = true)
     public void onEvent(Events.PermissionGranted event) {
         Timber.d("location permission granted");
-        if (lostApiClient != null) {
+        if (lostApiClient != null && mGeofencingClient != null) {
             removeGeofences();
             setupGeofences();
         }

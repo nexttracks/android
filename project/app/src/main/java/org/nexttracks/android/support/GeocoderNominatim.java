@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.util.List;
 
 public class GeocoderNominatim implements Geocoder {
+    private static final long minimumDelay = 1000;
+
     private org.osmdroid.bonuspack.location.GeocoderNominatim geocoder;
+    private long lastReverseTime = 0;
 
     GeocoderNominatim(String userAgent) {
         this.geocoder = new org.osmdroid.bonuspack.location.GeocoderNominatim(userAgent);
@@ -15,6 +18,11 @@ public class GeocoderNominatim implements Geocoder {
     public String reverse(double latitude, double longitude) {
         String address = "Resolve failed";
         try {
+            long timeDiff = System.currentTimeMillis() - this.lastReverseTime;
+            if (timeDiff < minimumDelay) {
+                Thread.sleep(minimumDelay - timeDiff);
+            }
+
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
             if (!addresses.isEmpty()) {
                 Address addr = addresses.get(0);
@@ -50,9 +58,10 @@ public class GeocoderNominatim implements Geocoder {
                     }
                 }
             }
-        } catch(IOException e) {
+        } catch(IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        this.lastReverseTime = System.currentTimeMillis();
         return address;
     }
 }

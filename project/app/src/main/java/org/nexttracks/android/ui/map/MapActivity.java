@@ -466,7 +466,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
 
         if (p == null) {
             p = new Polygon(map);
-            p.setTitle(waypoint.getDescription());
+            p.setOnClickListener((polygon, mapView, eventPos) -> false);
             p.getFillPaint().setColor(getResources().getColor(R.color.primary));
             p.getFillPaint().setAlpha(120);
             p.getOutlinePaint().setColor(getResources().getColor(R.color.primary));

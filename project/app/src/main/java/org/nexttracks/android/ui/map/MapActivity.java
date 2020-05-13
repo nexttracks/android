@@ -34,6 +34,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import org.greenrobot.eventbus.EventBus;
+import org.nexttracks.android.data.WaypointModel;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -42,6 +43,7 @@ import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import org.nexttracks.android.R;
 import org.nexttracks.android.databinding.UiMapBinding;
@@ -72,6 +74,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
     private final int PERMISSIONS_REQUEST_CODE = 1;
 
     private final WeakHashMap<String, Marker> mContacts = new WeakHashMap<>();
+    private final WeakHashMap<Long, Polygon> mWaypoints = new WeakHashMap<>();
     private MapView map;
     private BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
     private boolean isMapReady = false;
@@ -402,16 +405,15 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
     @Override
     public void updateContact(@Nullable FusedContact contact) {
         if (contact == null || !contact.hasLocation() || !isMapReady) {
-            Timber.v("unable to update marker. null:%s, location:%s, mapReady:%s",contact == null, contact == null || contact.hasLocation(), isMapReady);
+            Timber.v("unable to update contact. null:%s, location:%s, mapReady:%s",contact == null, contact == null || contact.hasLocation(), isMapReady);
             return;
         }
 
-        Timber.v("updating marker for contact: %s", contact.getId());
+        Timber.v("updating contact: %s", contact.getId());
         Marker m = mContacts.get(contact.getId());
 
         if (m == null){
             m = new Marker(map, null);
-            m.setTitle(contact.getId());
             map.getOverlays().add(m);
             mContacts.put(contact.getId(), m);
         } else {
@@ -420,6 +422,64 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         m.setPosition(contact.getGeoPoint());
 
         contactImageProvider.setMarkerAsync(m, contact);
+    }
+
+    @Override
+    public void clearWaypoints() {
+        if (isMapReady) {
+            for (Polygon p : mWaypoints.values()) {
+                map.getOverlayManager().remove(p);
+            }
+        }
+        mWaypoints.clear();
+    }
+
+    @Override
+    public void removeWaypoint(@Nullable WaypointModel waypoint) {
+        if(waypoint == null)
+            return;
+
+        Polygon p = mWaypoints.get(waypoint.getId());
+        Timber.v("removing waypoint: %s", waypoint.getDescription());
+        if(p != null) {
+            map.getOverlayManager().remove(p);
+        }
+    }
+
+    @Override
+    public Polygon getWaypoint(@Nullable WaypointModel waypoint) {
+        if(waypoint == null)
+            return null;
+
+        return mWaypoints.get(waypoint.getId());
+    }
+
+    @Override
+    public void updateWaypoint(@Nullable WaypointModel waypoint) {
+        if (waypoint == null || !waypoint.hasGeofence() || !isMapReady) {
+            Timber.v("unable to update waypoint. null:%s, geofence:%s, mapReady:%s",waypoint == null, waypoint == null || waypoint.hasGeofence(), isMapReady);
+            return;
+        }
+
+        Timber.v("updating waypoint: %s", waypoint.getDescription());
+        Polygon p = mWaypoints.get(waypoint.getId());
+
+        if (p == null) {
+            p = new Polygon(map);
+            p.setTitle(waypoint.getDescription());
+            p.getFillPaint().setColor(getResources().getColor(R.color.primary));
+            p.getFillPaint().setAlpha(120);
+            p.getOutlinePaint().setColor(getResources().getColor(R.color.primary));
+            p.getOutlinePaint().setStrokeWidth(3f);
+            p.getOutlinePaint().setAlpha(210);
+            map.getOverlays().add(p);
+            mWaypoints.put(waypoint.getId(), p);
+        } else {
+            this.map.invalidate();
+        }
+        double lat = waypoint.getGeofenceLatitude();
+        double lon = waypoint.getGeofenceLongitude();
+        p.setPoints(Polygon.pointsAsCircle(new GeoPoint(lat, lon), waypoint.getGeofenceRadius()));
     }
 
     @Override

@@ -12,6 +12,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.nexttracks.android.data.WaypointModel;
+import org.nexttracks.android.data.repos.WaypointsRepo;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
@@ -34,6 +36,7 @@ import timber.log.Timber;
 @PerActivity
 public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm.ViewModel<MapMvvm.View>, MapView.OnClickListener, Marker.OnMarkerClickListener {
     private final ContactsRepo contactsRepo;
+    private final WaypointsRepo waypointsRepo;
     private final LocationProcessor locationProcessor;
     private FusedContact activeContact;
     private MessageProcessor messageProcessor;
@@ -43,16 +46,16 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
     private static final int VIEW_CONTACT = 1;
     private static final int VIEW_DEVICE = 2;
 
-
     private static int mode = VIEW_DEVICE;
     private MutableLiveData<FusedContact> liveContact = new MutableLiveData<>();
     private MutableLiveData<Boolean> liveBottomSheetHidden = new MutableLiveData<>();
     private MutableLiveData<GeoPoint> liveCamera = new MutableLiveData<>();
 
     @Inject
-    public MapViewModel(ContactsRepo contactsRepo, LocationProcessor locationRepo, MessageProcessor messageProcessor) {
+    public MapViewModel(ContactsRepo contactsRepo, WaypointsRepo waypointsRepo, LocationProcessor locationRepo, MessageProcessor messageProcessor) {
         Timber.v("onCreate");
         this.contactsRepo = contactsRepo;
+        this.waypointsRepo = waypointsRepo;
         this.messageProcessor = messageProcessor;
         this.locationProcessor = locationRepo;
     }
@@ -67,6 +70,11 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
 
     @Override
     public void onMapReady() {
+        getView().clearWaypoints();
+        for(Object c : waypointsRepo.getAllWithGeofences()) {
+            getView().updateWaypoint((WaypointModel) c);
+        }
+        getView().clearContacts();
         for(Object c : contactsRepo.getAllAsList()) {
             getView().updateContact((FusedContact) c);
         }
@@ -224,9 +232,30 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(Events.WaypointAdded e) {
+        onEvent(e.getWaypointModel());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(Events.WaypointUpdated e) {
+        onEvent(e.getWaypointModel());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(Events.WaypointRemoved e) {
+        getView().removeWaypoint(e.getWaypointModel());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(WaypointModel w) {
+        getView().updateWaypoint(w);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(Events.ModeChanged e) {
         getView().clearContacts();
         clearActiveContact();
+        getView().clearWaypoints();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

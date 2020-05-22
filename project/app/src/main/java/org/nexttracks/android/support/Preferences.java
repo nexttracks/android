@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -446,7 +447,7 @@ public class Preferences {
     // Not used on public, as many people might use the same device type
     private String getDeviceIdDefault() {
         // Use device name (Mako, Surnia, etc. and strip all non alpha digits)
-        return Build.DEVICE.replace(" ", "-").replaceAll("[^a-zA-Z0-9]+", "").toLowerCase();
+        return Build.DEVICE.replace(" ", "-").replaceAll("[^a-zA-Z0-9]+", "").toLowerCase(Locale.ROOT);
     }
 
     @Export(key =Keys.CLIENT_ID, exportModeMqttPrivate =true)
@@ -458,7 +459,7 @@ public class Preferences {
     }
 
     private String getClientIdDefault() {
-        return (getUsername()+ getDeviceId()).replaceAll("\\W", "").toLowerCase();
+        return (getUsername()+ getDeviceId()).replaceAll("\\W", "").toLowerCase(Locale.ROOT);
     }
 
     @Import(key =Keys.CLIENT_ID)

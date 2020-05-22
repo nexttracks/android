@@ -11,7 +11,7 @@
     <string name="preferencesLicenses">"Danke"</string>
     <string name="preferencesLicensesSummary">"Danke an die Autoren"</string>
     <string name="preferencesNotification">Benachrichtigungen</string>
-    <string name="preferencesNotificationEvents">Ereignisse</string>
+    <string name="preferencesNotificationEvents">Ereignisse </string>
     <string name="preferencesNotificationEventsSummary">Über empfangene Ereignisse benachrichtigen</string>
     <string name="preferencesNotificationLocationSummary">"Letzten gemeldeten Standort und Zeitpunkt anzeigen"</string>
     <string name="preferencesNotificationLocation">"Letzter gemeldeter Standort"</string>
@@ -144,4 +144,16 @@
     <string name="preferencesHost">Hostnamen</string>
     <string name="distance_label">Abstand</string>
     <string name="title_exit">App beenden</string>
+    <string name="endpoint_state">Verbindungsstatus</string>
+    <string name="endpoint_state_message">Statusnachricht</string>
+    <string name="endpoint_queue">In der Warteschlange</string>
+    <string name="last_background_update">Letzte Hintergrundaktualisierung des Standortdienstes</string>
+    <string name="background_service_started">Hintergrunddienst gestarted</string>
+    <string name="battery_optimization_whitelisted">Batterieoptimierung freigegeben</string>
+    <string name="next">Weiter</string>
+    <string name="done">Fertig</string>
+    <string name="select">Auswählen</string>
+    <string name="clear">Leeren</string>
+    <string name="reconnect">Neu verbinden</string>
+    <string name="status">Status</string>
 </resources>

@@ -159,4 +159,17 @@
     <string name="preferencesDebugLogSummary">Write extended debug information</string>
     <string name="monitoring_mode">Monitoring</string>
     <string name="distance_label">Distance</string>
+    <string name="divider">divider</string>
+    <string name="endpoint_state">Endpoint state</string>
+    <string name="endpoint_state_message">Endpoint state message</string>
+    <string name="endpoint_queue">Endpoint queue</string>
+    <string name="last_background_update">Location service last background update</string>
+    <string name="background_service_started">Background service started</string>
+    <string name="battery_optimization_whitelisted">Battery optimization whitelisted</string>
+    <string name="next">Next</string>
+    <string name="done">Done</string>
+    <string name="select">Select</string>
+    <string name="clear">Clear</string>
+    <string name="reconnect">Reconnect</string>
+    <string name="status">Status</string>
 </resources>

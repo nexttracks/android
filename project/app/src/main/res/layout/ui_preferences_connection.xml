@@ -58,14 +58,14 @@
                     android:gravity="center_vertical"
                     android:minHeight="?android:attr/listPreferredItemHeight"
                     android:onClick="@{() -> vm.onModeClick()}"
-                    android:paddingRight="?android:attr/scrollbarSize">
+                    android:paddingEnd="?android:attr/scrollbarSize">
 
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dip"
-                        android:layout_marginLeft="15dip"
-                        android:layout_marginRight="6dip"
+                        android:layout_marginStart="15dip"
+                        android:layout_marginEnd="6dip"
                         android:layout_marginTop="6dip"
                         android:layout_weight="1">
 
@@ -96,11 +96,12 @@
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
                     android:background="@android:drawable/divider_horizontal_bright"
-                    android:contentDescription="divider"
+					android:contentDescription="@string/divider"
                     android:scaleType="matrix"
                     android:src="@android:drawable/divider_horizontal_bright" />
 
                 <LinearLayout
+                    android:baselineAligned="false"
                     android:id="@+id/host"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -108,14 +109,14 @@
                     android:gravity="center_vertical"
                     android:minHeight="?android:attr/listPreferredItemHeight"
                     android:onClick="@{() -> vm.onHostClick()}"
-                    android:paddingRight="?android:attr/scrollbarSize">
+                    android:paddingEnd="?android:attr/scrollbarSize">
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dip"
-                        android:layout_marginLeft="15dip"
-                        android:layout_marginRight="6dip"
+                        android:layout_marginStart="15dip"
+                        android:layout_marginEnd="6dip"
                         android:layout_marginTop="6dip"
                         android:layout_weight="1">
 
@@ -135,11 +136,12 @@
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
                     android:background="@android:drawable/divider_horizontal_bright"
-                    android:contentDescription="divider"
+					android:contentDescription="@string/divider"
                     android:scaleType="matrix"
                     android:src="@android:drawable/divider_horizontal_bright" />
 
                 <LinearLayout
+                    android:baselineAligned="false"
                     android:id="@+id/identification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -147,14 +149,14 @@
                     android:gravity="center_vertical"
                     android:minHeight="?android:attr/listPreferredItemHeight"
                     android:onClick="@{() -> vm.onIdentificationClick()}"
-                    android:paddingRight="?android:attr/scrollbarSize">
+                    android:paddingEnd="?android:attr/scrollbarSize">
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dip"
-                        android:layout_marginLeft="15dip"
-                        android:layout_marginRight="6dip"
+                        android:layout_marginStart="15dip"
+                        android:layout_marginEnd="6dip"
                         android:layout_marginTop="6dip"
                         android:layout_weight="1">
 
@@ -173,12 +175,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
                     android:background="@android:drawable/divider_horizontal_bright"
-                    android:contentDescription="divider"
+					android:contentDescription="@string/divider"
                     android:scaleType="matrix"
                     android:src="@android:drawable/divider_horizontal_bright"
                     android:visibility="@{vm.modeId != MessageProcessorEndpointHttp.MODE_ID}" />
 
                 <LinearLayout
+                    android:baselineAligned="false"
                     android:id="@+id/security"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -186,15 +189,15 @@
                     android:gravity="center_vertical"
                     android:minHeight="?android:attr/listPreferredItemHeight"
                     android:onClick="@{() -> vm.onSecurityClick()}"
-                    android:paddingRight="?android:attr/scrollbarSize"
+                    android:paddingEnd="?android:attr/scrollbarSize"
                     android:visibility="@{vm.modeId != MessageProcessorEndpointHttp.MODE_ID}">
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dip"
-                        android:layout_marginLeft="15dip"
-                        android:layout_marginRight="6dip"
+                        android:layout_marginStart="15dip"
+                        android:layout_marginEnd="6dip"
                         android:layout_marginTop="6dip"
                         android:layout_weight="1">
 
@@ -213,12 +216,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
                     android:background="@android:drawable/divider_horizontal_bright"
-                    android:contentDescription="divider"
+					android:contentDescription="@string/divider"
                     android:scaleType="matrix"
                     android:src="@android:drawable/divider_horizontal_bright"
                     android:visibility="@{vm.modeId != MessageProcessorEndpointHttp.MODE_ID}" />
 
                 <LinearLayout
+                    android:baselineAligned="false"
                     android:id="@+id/parameters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -226,15 +230,15 @@
                     android:gravity="center_vertical"
                     android:minHeight="?android:attr/listPreferredItemHeight"
                     android:onClick="@{() -> vm.onParametersClick()}"
-                    android:paddingRight="?android:attr/scrollbarSize"
+                    android:paddingEnd="?android:attr/scrollbarSize"
                     android:visibility="@{vm.modeId != MessageProcessorEndpointHttp.MODE_ID}">
 
                     <RelativeLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dip"
-                        android:layout_marginLeft="15dip"
-                        android:layout_marginRight="6dip"
+                        android:layout_marginStart="15dip"
+                        android:layout_marginEnd="6dip"
                         android:layout_marginTop="6dip"
                         android:layout_weight="1">
 

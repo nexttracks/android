@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_autorenew_white_24dp"
         android:orderInCategory="97"
         app:showAsAction="always"
-        android:title="Reconnect"
+		android:title="@string/reconnect"
         >
     </item>
     <item
@@ -15,7 +15,7 @@
         android:icon="@drawable/ic_info_outline_white_24dp"
         android:orderInCategory="99"
         app:showAsAction="ifRoom"
-        android:title="Status"
+		android:title="@string/status"
         >
     </item>
 

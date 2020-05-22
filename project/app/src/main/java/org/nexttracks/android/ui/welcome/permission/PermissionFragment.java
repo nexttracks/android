@@ -57,7 +57,7 @@ public class PermissionFragment extends BaseSupportFragment<UiWelcomePermissions
         requestPermissions(permissions.toArray(new String[0]), PERMISSIONS_REQUEST_CODE);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Intent intent = new Intent();
-            String packageName = Objects.requireNonNull(getContext()).getPackageName();
+            String packageName = requireContext().getPackageName();
             PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
             if (pm != null && !pm.isIgnoringBatteryOptimizations(packageName)) {
                 intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);

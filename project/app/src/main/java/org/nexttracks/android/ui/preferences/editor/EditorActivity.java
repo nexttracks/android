@@ -101,11 +101,11 @@ public class EditorActivity extends BaseActivity<UiPreferencesEditorBinding, Edi
 
         LayoutInflater inflater = getLayoutInflater();
         final View layout = inflater.inflate(R.layout.ui_preferences_editor_dialog,null);
+        final MaterialAutoCompleteTextView inputKey = layout.findViewById(R.id.inputKey);
+        final MaterialEditText inputValue = layout.findViewById(R.id.inputValue);
 
         builder.setTitle(R.string.preferencesEditor)
                 .setPositiveButton(R.string.accept, (dialog, which) -> {
-                    final MaterialAutoCompleteTextView inputKey = layout.findViewById(R.id.inputKey);
-                    final MaterialEditText inputValue = layout.findViewById(R.id.inputValue);
 
                     String key = inputKey.getText().toString();
                     String value = inputValue.getText().toString();
@@ -129,8 +129,7 @@ public class EditorActivity extends BaseActivity<UiPreferencesEditorBinding, Edi
         builder.show();
 
         // Set autocomplete items
-        MaterialAutoCompleteTextView view = layout.findViewById(R.id.inputKey);
-        view.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, Preferences.getImportKeys()));
+        inputKey.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, Preferences.getImportKeys()));
     }
 
     @Override

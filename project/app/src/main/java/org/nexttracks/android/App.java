@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.StrictMode;
 
+import androidx.annotation.NonNull;
 import androidx.work.Configuration;
 import androidx.work.WorkManager;
 
@@ -39,7 +40,7 @@ public class App extends DaggerApplication  {
     MessageProcessor messageProcessor;
 
     @Inject
-    Parser parser; 
+    Parser parser;
 
     @Inject
     @AppContext
@@ -86,13 +87,14 @@ public class App extends DaggerApplication  {
 
 
     public static void restart() {
-        Intent intent = new Intent(App.getContext(), MapActivity.class);
+        Intent intent = new Intent(App.getApplication().getApplicationContext(), MapActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        App.getContext().startActivity(intent);
+        App.getApplication().getApplicationContext().startActivity(intent);
         Runtime.getRuntime().exit(0);
     }
 
     @Override
+    @NonNull
     protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
         AppComponent appComponent = DaggerAppComponent.builder().app(this).build();
         appComponent.inject(this);
@@ -105,6 +107,7 @@ public class App extends DaggerApplication  {
     }
 
     @Deprecated
+    @NonNull
     public static Context getContext() {
         return getApplication().getApplicationContext();
     }

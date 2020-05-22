@@ -35,11 +35,6 @@
     <bool name="valInfo" >true</bool>
     <bool name="valGeocodeEnabled">true</bool>
 
-    <string-array name="modeIds" translatable="false">
-        <item>3</item>
-        <item>0</item>
-    </string-array>
-
     <string-array name="profileIds_readable">
         <item>@string/mode_http_private_label</item>
         <item>@string/mode_mqtt_private_label</item>

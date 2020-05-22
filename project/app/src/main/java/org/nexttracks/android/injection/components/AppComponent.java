@@ -1,5 +1,7 @@
 package org.nexttracks.android.injection.components;
 
+import androidx.annotation.NonNull;
+
 import org.nexttracks.android.App;
 import org.nexttracks.android.injection.modules.AppModule;
 import org.nexttracks.android.injection.modules.ObjectboxWaypointsModule;
@@ -22,7 +24,9 @@ public interface AppComponent extends AndroidInjector<DaggerApplication>  {
     @Component.Builder
     interface Builder {
         @BindsInstance
-        Builder app(App app);
+        @NonNull
+        Builder app(@NonNull App app);
+        @NonNull
         AppComponent build();
 
     }

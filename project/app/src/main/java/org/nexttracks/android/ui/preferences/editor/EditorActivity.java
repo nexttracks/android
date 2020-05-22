@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.FileProvider;
 
 import com.rengwuxian.materialedittext.MaterialAutoCompleteTextView;
@@ -33,6 +34,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -108,7 +113,7 @@ public class EditorActivity extends BaseActivity<UiPreferencesEditorBinding, Edi
                 .setPositiveButton(R.string.accept, (dialog, which) -> {
 
                     String key = inputKey.getText().toString();
-                    String value = inputValue.getText().toString();
+                    String value = Objects.requireNonNull(inputValue.getText()).toString();
 
                     try {
                         preferences.importKeyValue(key, value);
@@ -129,7 +134,23 @@ public class EditorActivity extends BaseActivity<UiPreferencesEditorBinding, Edi
         builder.show();
 
         // Set autocomplete items
+        List<Method> exportMethods = preferences.getExportMethods();
         inputKey.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, Preferences.getImportKeys()));
+        inputKey.setOnItemClickListener((adapterView, view, i, l) -> {
+            String key = ((AppCompatTextView) view).getText().toString();
+            for (Method method : exportMethods) {
+                if (Objects.requireNonNull(method.getAnnotation(Preferences.Export.class)).key().equals(key)) {
+                    if (Objects.requireNonNull(inputValue.getText()).toString().isEmpty()) {
+                        try {
+                            inputValue.setText(Objects.requireNonNull(method.invoke(preferences)).toString());
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    break;
+                }
+            }
+        });
     }
 
     @Override

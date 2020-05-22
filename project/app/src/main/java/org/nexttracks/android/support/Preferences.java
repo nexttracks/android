@@ -1011,7 +1011,7 @@ public class Preferences {
         String key();
     }
 
-    private List<Method> getExportMethods() {
+    public List<Method> getExportMethods() {
         int modeId = getModeId();
         final List<Method> methods = new ArrayList<>();
         Class<?> klass  = Preferences.class;

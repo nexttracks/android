@@ -15,7 +15,7 @@ public class GeocoderNominatim implements Geocoder {
         this.geocoder = new org.osmdroid.bonuspack.location.GeocoderNominatim(userAgent);
     }
 
-    public String reverse(double latitude, double longitude) {
+    public synchronized String reverse(double latitude, double longitude) {
         String address = "Resolve failed";
         try {
             long timeDiff = System.currentTimeMillis() - this.lastReverseTime;

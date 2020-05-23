@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -37,6 +38,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.nexttracks.android.data.WaypointModel;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.events.MapListener;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
@@ -70,15 +74,17 @@ import timber.log.Timber;
 
 public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> implements MapMvvm.View, View.OnClickListener, View.OnLongClickListener, PopupMenu.OnMenuItemClickListener, Observer {
     public static final String BUNDLE_KEY_CONTACT_ID = "BUNDLE_KEY_CONTACT_ID";
+    public static final String BUNDLE_WAYPOINT_ID = "BUNDLE_WAYPOINT_ID";
     private static final long ZOOM_LEVEL_STREET = 15;
     private final int PERMISSIONS_REQUEST_CODE = 1;
 
     private final WeakHashMap<String, Marker> mContacts = new WeakHashMap<>();
-    private final WeakHashMap<Long, Polygon> mWaypoints = new WeakHashMap<>();
+    public final WeakHashMap<Long, DraggablePolygon> mWaypoints = new WeakHashMap<>();
     private MapView map;
     private BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
     private boolean isMapReady = false;
     private Menu mMenu;
+    private MenuItem doneButton;
 
     @Inject
     Runner runner;
@@ -270,6 +276,12 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
             String contactId = b.getString(BUNDLE_KEY_CONTACT_ID);
             if (contactId != null) {
                 viewModel.restore(contactId);
+                return;
+            }
+            String waypointId = b.getString(BUNDLE_WAYPOINT_ID);
+            if (waypointId != null) {
+                viewModel.drag(Long.parseLong(waypointId));
+                return;
             }
         }
     }
@@ -290,6 +302,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_map, menu);
         this.mMenu = menu;
+        this.doneButton = menu.findItem(R.id.done);
         if (!viewModel.hasLocation())
             enableLocationMenus();
         else
@@ -328,7 +341,10 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == R.id.menu_report) {
+        if (itemId == R.id.done) {
+            viewModel.undrag();
+            return true;
+        } else if (itemId == R.id.menu_report) {
             viewModel.sendLocation();
 
             return true;
@@ -448,7 +464,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
     }
 
     @Override
-    public Polygon getWaypoint(@Nullable WaypointModel waypoint) {
+    public DraggablePolygon getWaypoint(@Nullable WaypointModel waypoint) {
         if(waypoint == null)
             return null;
 
@@ -463,16 +479,12 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         }
 
         Timber.v("updating waypoint: %s", waypoint.getDescription());
-        Polygon p = mWaypoints.get(waypoint.getId());
+        DraggablePolygon p = mWaypoints.get(waypoint.getId());
 
         if (p == null) {
-            p = new Polygon(map);
+            p = new DraggablePolygon(map, waypoint.getGeofenceRadius());
             p.setOnClickListener((polygon, mapView, eventPos) -> false);
-            p.getFillPaint().setColor(getResources().getColor(R.color.primary));
-            p.getFillPaint().setAlpha(120);
-            p.getOutlinePaint().setColor(getResources().getColor(R.color.primary));
-            p.getOutlinePaint().setStrokeWidth(3f);
-            p.getOutlinePaint().setAlpha(210);
+            colorWaypoint(p, R.color.primary);
             map.getOverlays().add(p);
             mWaypoints.put(waypoint.getId(), p);
         } else {
@@ -480,7 +492,33 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         }
         double lat = waypoint.getGeofenceLatitude();
         double lon = waypoint.getGeofenceLongitude();
-        p.setPoints(Polygon.pointsAsCircle(new GeoPoint(lat, lon), waypoint.getGeofenceRadius()));
+        p.setPosition(new GeoPoint(lat, lon), waypoint.getGeofenceRadius());
+    }
+
+    public void colorWaypoint(@NonNull DraggablePolygon polygon, int color) {
+        polygon.getFillPaint().setColor(getResources().getColor(color));
+        polygon.getFillPaint().setAlpha(120);
+
+        polygon.getOutlinePaint().setColor(getResources().getColor(color));
+        polygon.getOutlinePaint().setStrokeWidth(3f);
+        polygon.getOutlinePaint().setAlpha(210);
+    }
+
+    public void setMapDraggable(boolean draggable) {
+        if (draggable) {
+            map.setOnTouchListener((view, motionEvent) -> false);
+            map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
+        } else {
+            map.setOnTouchListener((view, motionEvent) -> {
+                this.getWaypoint(((MapViewModel) viewModel).getDraggedWaypoint()).onTouchEvent(motionEvent, (MapView) view);
+                return true;
+            });
+            map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
+        }
+    }
+
+    public MenuItem getDoneButton() {
+        return doneButton;
     }
 
     @Override

@@ -25,7 +25,7 @@ public interface MapMvvm {
         void updateContact(FusedContact contact);
         void removeContact(FusedContact contact);
         void clearContacts();
-        Polygon getWaypoint(WaypointModel waypoint);
+        DraggablePolygon getWaypoint(WaypointModel waypoint);
         void updateWaypoint(WaypointModel waypoint);
         void removeWaypoint(WaypointModel waypoint);
         void clearWaypoints();
@@ -46,6 +46,8 @@ public interface MapMvvm {
         void onClearContactClicked();
 
         void restore(String contactId);
+        void drag(long waypointId);
+        void undrag();
         boolean hasLocation();
         void onMapReady();
 

@@ -9,8 +9,11 @@ import android.view.MenuItem;
 import org.nexttracks.android.R;
 import org.nexttracks.android.databinding.UiRegionBinding;
 import org.nexttracks.android.ui.base.BaseActivity;
+import org.nexttracks.android.ui.map.MapActivity;
 
 import androidx.annotation.Nullable;
+
+import timber.log.Timber;
 
 public class RegionActivity extends BaseActivity<UiRegionBinding, RegionMvvm.ViewModel> implements RegionMvvm.View {
 
@@ -62,6 +65,11 @@ public class RegionActivity extends BaseActivity<UiRegionBinding, RegionMvvm.Vie
             case R.id.save:
                 viewModel.saveWaypoint();
                 finish();
+                return true;
+            case R.id.move:
+                Bundle b = new Bundle();
+                b.putString(MapActivity.BUNDLE_WAYPOINT_ID, String.valueOf(this.viewModel.getWaypoint().getId()));
+                navigator.startActivity(MapActivity.class, b);
                 return true;
             case android.R.id.home:
                 finish();

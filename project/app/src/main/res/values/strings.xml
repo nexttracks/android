@@ -172,4 +172,5 @@
     <string name="clear">Clear</string>
     <string name="reconnect">Reconnect</string>
     <string name="status">Status</string>
+    <string name="move">Move</string>
 </resources>

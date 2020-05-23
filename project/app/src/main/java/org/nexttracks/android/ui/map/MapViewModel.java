@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.nexttracks.android.R;
 import org.nexttracks.android.data.WaypointModel;
 import org.nexttracks.android.data.repos.WaypointsRepo;
 import org.osmdroid.util.GeoPoint;
@@ -26,6 +27,7 @@ import org.nexttracks.android.services.LocationProcessor;
 import org.nexttracks.android.services.MessageProcessor;
 import org.nexttracks.android.support.Events;
 import org.nexttracks.android.ui.base.viewmodel.BaseViewModel;
+import org.osmdroid.views.overlay.Polygon;
 
 import java.util.Collection;
 
@@ -39,6 +41,7 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
     private final WaypointsRepo waypointsRepo;
     private final LocationProcessor locationProcessor;
     private FusedContact activeContact;
+    private WaypointModel draggedWaypoint;
     private MessageProcessor messageProcessor;
     private Location mLocation;
 
@@ -71,13 +74,26 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
     @Override
     public void onMapReady() {
         getView().clearWaypoints();
-        for(Object c : waypointsRepo.getAllWithGeofences()) {
-            getView().updateWaypoint((WaypointModel) c);
+        for(WaypointModel w : waypointsRepo.getAllWithGeofences()) {
+            getView().updateWaypoint(w);
+            if (draggedWaypoint != null && w.getId() == draggedWaypoint.getId()) {
+                DraggablePolygon polygon = getView().getWaypoint(w);
+                if (polygon != null) {
+                    polygon.setDraggable(true);
+                    ((MapActivity) getView()).colorWaypoint(polygon, R.color.other);
+                    ((MapActivity) getView()).setMapDraggable(false);
+                    ((MapActivity) getView()).getDoneButton().setVisible(true);
+                    Timber.e("color: %x", polygon.getFillPaint().getColor());
+                    if (polygon.getOnPolygonDragListener() != null) {
+                        polygon.getOnPolygonDragListener().onMarkerDragStart(polygon);
+                    }
+                }
+            }
         }
         getView().clearContacts();
-        for(Object c : contactsRepo.getAllAsList()) {
-            getView().updateContact((FusedContact) c);
-            Marker m = getView().getContact((FusedContact) c);
+        for(FusedContact c : contactsRepo.getAllAsList()) {
+            getView().updateContact(c);
+            Marker m = getView().getContact(c);
             if (m != null) {
                 m.setOnMarkerClickListener(this);
             }
@@ -174,6 +190,44 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
     public void restore(@NonNull String contactId) {
         Timber.v("restoring contact id:%s", contactId);
         setViewModeContact(contactId, true);
+    }
+
+    public void drag(@NonNull long waypointId) {
+        Timber.v("dragging waypoint id:%s", waypointId);
+        WaypointModel waypoint = null;
+        for(WaypointModel w : waypointsRepo.getAllWithGeofences()) {
+            if (w.getId() == waypointId) {
+                waypoint = w;
+                break;
+            }
+        }
+        if (waypoint == null) return;
+
+        this.draggedWaypoint = waypoint;
+    }
+
+    public void undrag() {
+        if (this.draggedWaypoint != null) {
+            Timber.v("undragging waypoint id:%s", this.draggedWaypoint.getId());
+            DraggablePolygon polygon = getView().getWaypoint(this.draggedWaypoint);
+            if (polygon != null) {
+                polygon.setDraggable(false);
+                ((MapActivity) getView()).setMapDraggable(true);
+
+                GeoPoint point = polygon.getGeoPoint();
+                this.draggedWaypoint.setGeofenceLongitude(point.getLongitude());
+                this.draggedWaypoint.setGeofenceLatitude(point.getLatitude());
+                this.waypointsRepo.insert(this.draggedWaypoint);
+
+                ((MapActivity) getView()).colorWaypoint(polygon, R.color.primary);
+                ((MapActivity) getView()).getDoneButton().setVisible(false);
+            }
+        }
+        this.draggedWaypoint = null;
+    }
+
+    public WaypointModel getDraggedWaypoint() {
+        return draggedWaypoint;
     }
 
     @Override

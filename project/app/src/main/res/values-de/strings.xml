@@ -156,4 +156,5 @@
     <string name="clear">Leeren</string>
     <string name="reconnect">Neu verbinden</string>
     <string name="status">Status</string>
+    <string name="move">Bewegen</string>
 </resources>

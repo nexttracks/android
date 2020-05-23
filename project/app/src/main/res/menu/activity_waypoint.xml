@@ -3,6 +3,14 @@
     >
 
     <item
+        android:id="@+id/move"
+        android:icon="@drawable/ic_move"
+        android:orderInCategory="97"
+        app:showAsAction="ifRoom"
+        android:title="@string/move">
+    </item>
+
+    <item
         android:id="@+id/save"
         android:icon="@drawable/ic_done"
         android:orderInCategory="97"

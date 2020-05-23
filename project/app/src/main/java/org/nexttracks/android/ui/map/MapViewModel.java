@@ -99,7 +99,9 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
             }
         }
 
-        if(mode == VIEW_CONTACT && activeContact != null)
+        if (this.draggedWaypoint != null && getView().getWaypoint(this.draggedWaypoint) != null && getView().getWaypoint(this.draggedWaypoint).getGeoPoint() != null) {
+            liveCamera.postValue(getView().getWaypoint(this.draggedWaypoint).getGeoPoint());
+        } else if(mode == VIEW_CONTACT && activeContact != null)
             setViewModeContact(activeContact, true);
         else if (mode == VIEW_FREE) {
             setViewModeFree();

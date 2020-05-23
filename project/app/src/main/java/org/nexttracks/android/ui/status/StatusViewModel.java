@@ -13,6 +13,7 @@ import androidx.databinding.Bindable;
 import org.greenrobot.eventbus.Subscribe;
 import org.nexttracks.android.App;
 import org.nexttracks.android.BR;
+import org.nexttracks.android.R;
 import org.nexttracks.android.injection.qualifier.AppContext;
 import org.nexttracks.android.injection.scopes.PerActivity;
 import org.nexttracks.android.services.MessageProcessor;
@@ -70,9 +71,10 @@ public class StatusViewModel extends BaseViewModel<StatusMvvm.View> implements S
     }
 
     @Override
-    public boolean getDozeWhitelisted() {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
+    public String getDozeWhitelisted() {
+        boolean bool = Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
                 ((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isIgnoringBatteryOptimizations(App.getContext().getPackageName());
+        return bool ? ((StatusActivity)getView()).getResources().getString(R.string.yes) : ((StatusActivity)getView()).getResources().getString(R.string.no);
     }
 
     @Override

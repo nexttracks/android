@@ -157,4 +157,6 @@
     <string name="reconnect">Neu verbinden</string>
     <string name="status">Status</string>
     <string name="move">Bewegen</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
 </resources>

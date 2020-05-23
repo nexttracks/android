@@ -173,4 +173,6 @@
     <string name="reconnect">Reconnect</string>
     <string name="status">Status</string>
     <string name="move">Move</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

@@ -18,6 +18,6 @@ public interface StatusMvvm {
 
         long getLocationUpdated();
         Date getServiceStarted();
-        boolean getDozeWhitelisted();
+        String getDozeWhitelisted();
     }
 }

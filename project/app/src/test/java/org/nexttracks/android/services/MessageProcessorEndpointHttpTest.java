@@ -17,8 +17,6 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.concurrent.LinkedBlockingDeque;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -66,7 +64,6 @@ public class MessageProcessorEndpointHttpTest {
         when(testPreferences.getTlsCaCrtName()).thenReturn("");
         when(testPreferences.getTlsClientCrtName()).thenReturn("");
 
-        when(testPreferences.getAuth()).thenReturn(false);
         when(testPreferences.getUsername()).thenReturn("");
         when(testPreferences.getDeviceId()).thenReturn("");
         when(testPreferences.getPassword()).thenReturn("");
@@ -78,14 +75,12 @@ public class MessageProcessorEndpointHttpTest {
     @Test
     public void EndpointCorrectlyInitializesSelfWithDefaultSettings() {
         when(testPreferences.getUrl()).thenReturn("");
-        LinkedBlockingDeque<MessageBase> outgoingQueue = new LinkedBlockingDeque<>();
-        messageProcessorEndpointHttp = new MessageProcessorEndpointHttp(messageProcessor, parser, testPreferences, scheduler, null, outgoingQueue);
+        messageProcessorEndpointHttp = new MessageProcessorEndpointHttp(messageProcessor, parser, testPreferences, scheduler, null);
     }
 
     @Test
     public void EndpointCorrectlyInitializesRequestWithoutAuth() throws ConfigurationIncompleteException {
-        LinkedBlockingDeque<MessageBase> outgoingQueue = new LinkedBlockingDeque<>();
-        messageProcessorEndpointHttp = new MessageProcessorEndpointHttp(messageProcessor, parser, testPreferences, scheduler, null, outgoingQueue);
+        messageProcessorEndpointHttp = new MessageProcessorEndpointHttp(messageProcessor, parser, testPreferences, scheduler, null);
 
         messageProcessorEndpointHttp.checkConfigurationComplete();
 
@@ -102,11 +97,10 @@ public class MessageProcessorEndpointHttpTest {
 
     @Test
     public void EndpointCorrectlyInitializesRequestWithoutAuthAndWithUser() throws ConfigurationIncompleteException {
-        when(testPreferences.getAuth()).thenReturn(false);
+
         when(testPreferences.getUsername()).thenReturn("username");
         when(testPreferences.getDeviceId()).thenReturn("device");
-        LinkedBlockingDeque<MessageBase> outgoingQueue = new LinkedBlockingDeque<>();
-        messageProcessorEndpointHttp = new MessageProcessorEndpointHttp(messageProcessor, parser, testPreferences, scheduler, null, outgoingQueue);
+        messageProcessorEndpointHttp = new MessageProcessorEndpointHttp(messageProcessor, parser, testPreferences, scheduler, null);
         messageProcessorEndpointHttp.checkConfigurationComplete();
         okhttp3.Request request = messageProcessorEndpointHttp.getRequest(messageLocation);
         assertNotNull(request);
@@ -116,11 +110,9 @@ public class MessageProcessorEndpointHttpTest {
 
     @Test
     public void EndpointCorrectlyInitializesRequestWithAuth() throws ConfigurationIncompleteException {
-        when(testPreferences.getAuth()).thenReturn(true);
         when(testPreferences.getUsername()).thenReturn("username");
         when(testPreferences.getPassword()).thenReturn("password");
-        LinkedBlockingDeque<MessageBase> outgoingQueue = new LinkedBlockingDeque<>();
-        messageProcessorEndpointHttp = new MessageProcessorEndpointHttp(messageProcessor, parser, testPreferences, scheduler, null, outgoingQueue);
+        messageProcessorEndpointHttp = new MessageProcessorEndpointHttp(messageProcessor, parser, testPreferences, scheduler, null);
         messageProcessorEndpointHttp.checkConfigurationComplete();
         okhttp3.Request request = messageProcessorEndpointHttp.getRequest(messageLocation);
         assertNotNull(request);
@@ -131,13 +123,11 @@ public class MessageProcessorEndpointHttpTest {
 
     @Test
     public void EndpointCorrectlyInitializesRequestWithAuthFromUrl() throws ConfigurationIncompleteException {
-        when(testPreferences.getAuth()).thenReturn(false);
         when(testPreferences.getDeviceId()).thenReturn("device_preferences");
         when(testPreferences.getUsername()).thenReturn("username_ignored");
         when(testPreferences.getPassword()).thenReturn("password_ignored");
         when(testPreferences.getUrl()).thenReturn("http://username_url:password_url@example.com/nexttracks/test");
-        LinkedBlockingDeque<MessageBase> outgoingQueue = new LinkedBlockingDeque<>();
-        messageProcessorEndpointHttp = new MessageProcessorEndpointHttp(messageProcessor, parser, testPreferences, scheduler, null, outgoingQueue);
+        messageProcessorEndpointHttp = new MessageProcessorEndpointHttp(messageProcessor, parser, testPreferences, scheduler, null);
         messageProcessorEndpointHttp.checkConfigurationComplete();
         okhttp3.Request request = messageProcessorEndpointHttp.getRequest(messageLocation);
         assertNotNull(request);
@@ -152,9 +142,7 @@ public class MessageProcessorEndpointHttpTest {
 
     @Test
     public void EndpointCorrectlyInitializesRequestWithAuthAndEmptyCredentialsFromPreferences() throws ConfigurationIncompleteException {
-        when(testPreferences.getAuth()).thenReturn(true);
-        LinkedBlockingDeque<MessageBase> outgoingQueue = new LinkedBlockingDeque<>();
-        messageProcessorEndpointHttp = new MessageProcessorEndpointHttp(messageProcessor, parser, testPreferences, scheduler, null, outgoingQueue);
+        messageProcessorEndpointHttp = new MessageProcessorEndpointHttp(messageProcessor, parser, testPreferences, scheduler, null);
 
         messageProcessorEndpointHttp.checkConfigurationComplete();
 
@@ -170,8 +158,7 @@ public class MessageProcessorEndpointHttpTest {
 
         for (String url : urls) {
             when(testPreferences.getUrl()).thenReturn(url);
-            LinkedBlockingDeque<MessageBase> outgoingQueue = new LinkedBlockingDeque<>();
-            messageProcessorEndpointHttp = new MessageProcessorEndpointHttp(messageProcessor, parser, testPreferences, scheduler, null, outgoingQueue);
+            messageProcessorEndpointHttp = new MessageProcessorEndpointHttp(messageProcessor, parser, testPreferences, scheduler, null);
             messageProcessorEndpointHttp.checkConfigurationComplete();
         }
     }

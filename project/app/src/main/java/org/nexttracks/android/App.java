@@ -16,7 +16,7 @@ import org.nexttracks.android.injection.qualifier.AppContext;
 import org.nexttracks.android.services.MessageProcessor;
 import org.nexttracks.android.support.Parser;
 import org.nexttracks.android.support.Preferences;
-import org.nexttracks.android.support.Runner;
+import org.nexttracks.android.support.RunThingsOnOtherThreads;
 import org.nexttracks.android.support.TimberDebugLogTree;
 import org.nexttracks.android.support.TimberLogFileTree;
 import org.nexttracks.android.ui.map.MapActivity;
@@ -34,7 +34,7 @@ public class App extends DaggerApplication  {
     Preferences preferences;
 
     @Inject
-    Runner runner;
+    RunThingsOnOtherThreads runThingsOnOtherThreads;
 
     @Inject
     MessageProcessor messageProcessor;
@@ -81,7 +81,7 @@ public class App extends DaggerApplication  {
 
         // Running this on a background thread will deadlock FirebaseJobDispatcher.
         // Initialize will call Scheduler to connect off the main thread anyway.
-        runner.postOnMainHandlerDelayed(() -> messageProcessor.initialize(), 510);
+        runThingsOnOtherThreads.postOnMainHandlerDelayed(() -> messageProcessor.initialize(), 510);
 
     }
 

@@ -7,6 +7,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+<<<<<<< HEAD:project/app/src/main/java/org/nexttracks/android/services/MessageProcessor.java
 import org.nexttracks.android.App;
 import org.nexttracks.android.data.repos.ContactsRepo;
 import org.nexttracks.android.data.repos.WaypointsRepo;
@@ -26,11 +27,14 @@ import org.nexttracks.android.support.interfaces.IncomingMessageProcessor;
 import org.nexttracks.android.support.Preferences;
 import org.nexttracks.android.support.interfaces.StatefulServiceMessageProcessor;
 import org.nexttracks.android.support.interfaces.ConfigurationIncompleteException;
+import org.nexttracks.android.support.RunThingsOnOtherThreads;
 
+import java.io.IOException;
 import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -48,13 +52,36 @@ public class MessageProcessor implements IncomingMessageProcessor {
     private final Scheduler scheduler;
     private final Lazy<LocationProcessor> locationProcessorLazy;
 
-    private final ThreadPoolExecutor outgoingMessageProcessorExecutor;
     private final Events.QueueChanged queueEvent = new Events.QueueChanged();
     private final ServiceBridge serviceBridge;
+    private final RunThingsOnOtherThreads runThingsOnOtherThreads;
     private MessageProcessorEndpoint endpoint;
 
     private boolean acceptMessages =  false;
     private final BlockingDeque<MessageBase> outgoingQueue = new LinkedBlockingDeque<>(100);
+    private Thread backgroundDequeueThread;
+
+    private static final long SEND_FAILURE_BACKOFF_INITIAL_WAIT = TimeUnit.SECONDS.toMillis(1);
+    private static final long SEND_FAILURE_BACKOFF_MAX_WAIT = TimeUnit.MINUTES.toMillis(1);
+
+    @Inject
+    public MessageProcessor(EventBus eventBus, ContactsRepo contactsRepo, Preferences preferences, WaypointsRepo waypointsRepo, Parser parser, Scheduler scheduler, Lazy<LocationProcessor> locationProcessorLazy, ServiceBridge serviceBridge,RunThingsOnOtherThreads runThingsOnOtherThreads) {
+        this.preferences = preferences;
+        this.eventBus = eventBus;
+        this.contactsRepo = contactsRepo;
+        this.waypointsRepo = waypointsRepo;
+        this.parser = parser;
+        this.scheduler = scheduler;
+        this.locationProcessorLazy = locationProcessorLazy;
+        this.serviceBridge = serviceBridge;
+        this.eventBus.register(this);
+        this.runThingsOnOtherThreads = runThingsOnOtherThreads;
+    }
+
+    public void initialize() {
+        onEndpointStateChanged(EndpointState.INITIAL);
+        reconnect();
+    }
 
     public void reconnect() {
         if(endpoint == null)
@@ -96,84 +123,8 @@ public class MessageProcessor implements IncomingMessageProcessor {
         return false;
     }
 
-    public enum EndpointState {
-        INITIAL,
-        IDLE,
-        CONNECTING,
-        CONNECTED,
-        DISCONNECTING,
-        DISCONNECTED,
-        DISCONNECTED_USERDISCONNECT,
-        ERROR,
-        ERROR_DATADISABLED,
-        ERROR_CONFIGURATION;
-
-        String message;
-        private Throwable error;
-
-        public String getMessage() {
-            if (message == null) {
-                if (error != null) {
-                    if (error instanceof MqttException && error.getCause() != null)
-                        return String.format("MQTT Error: %s", error.getCause().getMessage());
-                    else
-                        return error.getMessage();
-                } else {
-                    return null;
-                }
-            }
-            return message;
-        }
-
-        public Throwable getError() {
-            return error;
-        }
-        public EndpointState withMessage(String message) {
-            this.message = message;
-            return this;
-        }
-
-
-        public String getLabel(Context context) {
-            Resources res = context.getResources();
-            int resId = res.getIdentifier(this.name(), "string", context.getPackageName());
-            if (0 != resId) {
-                return (res.getString(resId));
-            }
-            return (name());
-        }
-
-        public EndpointState withError(Throwable error) {
-            this.error = error;
-            return this;
-        }
-    }
-
-    @Inject
-    public MessageProcessor(EventBus eventBus, ContactsRepo contactsRepo, Preferences preferences, WaypointsRepo waypointsRepo, Parser parser, Scheduler scheduler, Lazy<LocationProcessor> locationProcessorLazy, ServiceBridge serviceBridge) {
-        this.preferences = preferences;
-        this.eventBus = eventBus;
-        this.contactsRepo = contactsRepo;
-        this.waypointsRepo = waypointsRepo;
-        this.parser = parser;
-        this.scheduler = scheduler;
-        this.locationProcessorLazy = locationProcessorLazy;
-        this.serviceBridge = serviceBridge;
-        this.outgoingMessageProcessorExecutor = new ThreadPoolExecutor(2,2,1,  TimeUnit.MINUTES,new LinkedBlockingQueue<>());
-        this.eventBus.register(this);
-    }
-
-    public void initialize() {
-        onEndpointStateChanged(EndpointState.INITIAL);
-        loadOutgoingMessageProcessor();
-    }
-
     private void loadOutgoingMessageProcessor(){
         Timber.tag("outgoing").d("Reloading outgoing message processor. ThreadID: %s", Thread.currentThread());
-        if(outgoingMessageProcessorExecutor != null) {
-            outgoingMessageProcessorExecutor.purge();
-        }
-
         if(endpoint != null) {
             endpoint.onDestroy();
         }
@@ -182,32 +133,22 @@ public class MessageProcessor implements IncomingMessageProcessor {
 
         switch (preferences.getModeId()) {
             case MessageProcessorEndpointHttp.MODE_ID:
-                this.endpoint = new MessageProcessorEndpointHttp(this, this.parser, this.preferences, this.scheduler, this.eventBus, outgoingQueue);
+                this.endpoint = new MessageProcessorEndpointHttp(this, this.parser, this.preferences, this.scheduler, this.eventBus);
                 break;
             case MessageProcessorEndpointMqtt.MODE_ID:
             default:
-                this.endpoint = new MessageProcessorEndpointMqtt(this, this.parser, this.preferences, this.scheduler, this.eventBus, outgoingQueue);
+                this.endpoint = new MessageProcessorEndpointMqtt(this, this.parser, this.preferences, this.scheduler, this.eventBus, this.runThingsOnOtherThreads);
+
         }
-        Runnable runnable = this.endpoint.getBackgroundOutgoingRunnable();
-        if (runnable != null && this.outgoingMessageProcessorExecutor != null) {
-            this.outgoingMessageProcessorExecutor.execute(runnable);
+
+        if (backgroundDequeueThread == null || !backgroundDequeueThread.isAlive()) {
+            // Create the background thread that will handle outbound msgs
+            backgroundDequeueThread = new Thread(this::sendAvailableMessages);
+            backgroundDequeueThread.start();
         }
 
         this.endpoint.onCreateFromProcessor();
         acceptMessages = true;
-    }
-    @SuppressWarnings("UnusedParameters")
-    @Subscribe(priority = 10, threadMode = ThreadMode.ASYNC)
-    public void onEvent(Events.ModeChanged event) {
-        acceptMessages = false;
-        loadOutgoingMessageProcessor();
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    @Subscribe(priority = 10, threadMode = ThreadMode.ASYNC)
-    public void onEvent(Events.EndpointChanged event) {
-        acceptMessages = false;
-        loadOutgoingMessageProcessor();
     }
 
     public void queueMessageForSending(MessageBase message) {
@@ -222,6 +163,79 @@ public class MessageProcessor implements IncomingMessageProcessor {
                 }
             }
         }
+    }
+
+    // Should be on the background thread here, because we block
+    private void sendAvailableMessages() {
+        Timber.tag("outgoing").d("Starting outbound message loop. ThreadID: %s", Thread.currentThread());
+        MessageBase lastFailedMessageToBeRetried = null;
+        long retryWait = SEND_FAILURE_BACKOFF_INITIAL_WAIT;
+        while (true) {
+            try {
+                MessageBase message;
+                if (lastFailedMessageToBeRetried == null) {
+                    message = this.outgoingQueue.take(); // <--- blocks
+                } else {
+                    message = lastFailedMessageToBeRetried;
+                }
+
+                /*
+                We need to run the actual network sending part on a different thread because the
+                implementation might not be thread-safe. So we wrap `sendMessage()` up in a callable
+                and a FutureTask and then dispatch it off to the network thread, and block on the
+                return, handling any exceptions that might have been thrown.
+                */
+                Callable<Void> sendMessageCallable = () -> {
+                    this.endpoint.sendMessage(message);
+                    return null;
+                };
+                FutureTask<Void> futureTask = new FutureTask<>(sendMessageCallable);
+                runThingsOnOtherThreads.postOnNetworkHandlerDelayed(futureTask,1);
+                try {
+                    try {
+                        futureTask.get();
+                    } catch (ExecutionException e) {
+                        if (e.getCause()!=null) {
+                            throw e.getCause();
+                        } else {
+                            throw new Exception("sendMessage failed, but no exception actually given");
+                        }
+                    }
+                    lastFailedMessageToBeRetried = null;
+                    retryWait = SEND_FAILURE_BACKOFF_INITIAL_WAIT;
+                } catch (OutgoingMessageSendingException | ConfigurationIncompleteException e) {
+                    Timber.tag("outgoing").w(("Error sending message. Re-queueing"));
+                    lastFailedMessageToBeRetried = message;
+                } catch (IOException e) {
+                    retryWait = SEND_FAILURE_BACKOFF_INITIAL_WAIT;
+                    // Deserialization failure, drop and move on
+                } catch(Throwable e) {
+                    Timber.tag("outgoing").e(e,"Unhandled exception in sending message");
+                }
+                if (lastFailedMessageToBeRetried != null) {
+                    Thread.sleep(retryWait);
+                    retryWait = Math.min(2 * retryWait, SEND_FAILURE_BACKOFF_MAX_WAIT);
+                }
+            } catch (InterruptedException e) {
+                Timber.tag("outgoing").i(e, "Outgoing message loop interrupted");
+                break;
+            }
+        }
+        Timber.tag("outgoing").w("Exiting outgoingmessage loop");
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    @Subscribe(priority = 10, threadMode = ThreadMode.ASYNC)
+    public void onEvent(Events.ModeChanged event) {
+        acceptMessages = false;
+        loadOutgoingMessageProcessor();
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    @Subscribe(priority = 10, threadMode = ThreadMode.ASYNC)
+    public void onEvent(Events.EndpointChanged event) {
+        acceptMessages = false;
+        loadOutgoingMessageProcessor();
     }
 
      void onMessageDelivered(MessageBase messageBase) {
@@ -247,11 +261,11 @@ public class MessageProcessor implements IncomingMessageProcessor {
 
     @Override
     public void processIncomingMessage(MessageBase message) {
-        Timber.tag("incoming").v("type:base, key:%s", message.getContactKey());
+        Timber.tag("incoming").d("type:base, key:%s", message.getContactKey());
     }
 
     public void processIncomingMessage(MessageUnknown message) {
-        Timber.tag("incoming").v("type:unknown, key:%s", message.getContactKey());
+        Timber.tag("incoming").i("type:unknown, key:%s", message.getContactKey());
     }
 
     @Override
@@ -278,7 +292,7 @@ public class MessageProcessor implements IncomingMessageProcessor {
     @Override
     public void processIncomingMessage(MessageCmd message) {
         if(!preferences.getRemoteCommand()) {
-            Timber.tag("incoming").e("remote commands are disabled");
+            Timber.tag("incoming").w("remote commands are disabled");
             return;
         }
 
@@ -294,8 +308,7 @@ public class MessageProcessor implements IncomingMessageProcessor {
         }
 
         for(String cmd : actions.split(",")) {
-
-            switch (cmd) {
+            switch (cmd.trim()) {
                 case MessageCmd.ACTION_REPORT_LOCATION:
                     if(message.getModeId() != MessageProcessorEndpointMqtt.MODE_ID) {
                         Timber.tag("incoming").e("command not supported in HTTP mode: %s", cmd);
@@ -338,5 +351,58 @@ public class MessageProcessor implements IncomingMessageProcessor {
     @Override
     public void processIncomingMessage(MessageTransition message) {
         eventBus.post(message);
+    }
+
+    public enum EndpointState {
+        INITIAL,
+        IDLE,
+        CONNECTING,
+        CONNECTED,
+        DISCONNECTING,
+        DISCONNECTED,
+        DISCONNECTED_USERDISCONNECT,
+        ERROR,
+        ERROR_DATADISABLED,
+        ERROR_CONFIGURATION;
+
+        String message;
+        private Throwable error;
+
+        public String getMessage() {
+            if (message == null) {
+                if (error != null) {
+                    if (error instanceof MqttException && error.getCause() != null)
+                        return String.format("MQTT Error: %s", error.getMessage());
+                    else
+                        return error.getMessage();
+                } else {
+                    return null;
+                }
+            }
+            return message;
+        }
+
+        public Throwable getError() {
+            return error;
+        }
+        public EndpointState withMessage(String message) {
+            this.message = message;
+            return this;
+        }
+
+
+        public String getLabel(Context context) {
+            Resources res = context.getResources();
+            int resId = res.getIdentifier(this.name(), "string", context.getPackageName());
+            if (0 != resId) {
+                return (res.getString(resId));
+            }
+            return (name());
+        }
+
+        public EndpointState withError(Throwable error) {
+            this.error = error;
+            return this;
+        }
     }
 }

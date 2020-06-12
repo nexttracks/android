@@ -5,17 +5,9 @@ import org.nexttracks.android.support.interfaces.OutgoingMessageProcessor;
 import org.nexttracks.android.support.interfaces.ConfigurationIncompleteException;
 
 import java.io.IOException;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.TimeUnit;
-
-import timber.log.Timber;
 
 public abstract class MessageProcessorEndpoint implements OutgoingMessageProcessor {
     MessageProcessor messageProcessor;
-    BlockingDeque<MessageBase> outgoingMessageQueue;
-
-    private static final long SEND_FAILURE_BACKOFF_INITIAL_WAIT = TimeUnit.SECONDS.toMillis(1);
-    private static final long SEND_FAILURE_BACKOFF_MAX_WAIT = TimeUnit.MINUTES.toMillis(1);
 
     MessageProcessorEndpoint(MessageProcessor messageProcessor) {
         this.messageProcessor = messageProcessor;
@@ -32,49 +24,9 @@ public abstract class MessageProcessorEndpoint implements OutgoingMessageProcess
     abstract int getModeId();
 
     abstract void sendMessage(MessageBase m) throws ConfigurationIncompleteException, OutgoingMessageSendingException, IOException;
-
-    public Runnable getBackgroundOutgoingRunnable() {
-        return this::sendAvailableMessages;
-    }
-
-    private void sendAvailableMessages() {
-        Timber.tag("outgoing").v("Starting outbound message loop. ThreadID: %s", Thread.currentThread());
-        MessageBase lastFailedMessageToBeRetried = null;
-        long retryWait = SEND_FAILURE_BACKOFF_INITIAL_WAIT;
-        while (true) {
-            try {
-                MessageBase message;
-                if (lastFailedMessageToBeRetried == null) {
-                    message = outgoingMessageQueue.take();
-                } else {
-                    message = lastFailedMessageToBeRetried;
-                }
-
-                try {
-                    sendMessage(message);
-                    lastFailedMessageToBeRetried = null;
-                    retryWait = SEND_FAILURE_BACKOFF_INITIAL_WAIT;
-                } catch (OutgoingMessageSendingException | ConfigurationIncompleteException e) {
-                    Timber.tag("outgoing").w(("Error sending message. Re-queueing"));
-                    lastFailedMessageToBeRetried = message;
-                } catch (IOException e) {
-                    retryWait = SEND_FAILURE_BACKOFF_INITIAL_WAIT;
-                    // Deserialization failure, drop and move on
-                }
-                if (lastFailedMessageToBeRetried != null) {
-                    Thread.sleep(retryWait);
-                    retryWait = Math.min(2 * retryWait, SEND_FAILURE_BACKOFF_MAX_WAIT);
-                }
-            } catch (InterruptedException e) {
-                Timber.tag("outgoing").i(e, "Outgoing message loop interrupted");
-                break;
-            }
-        }
-        Timber.tag("outgoing").w("Exiting outgoingmessage loop");
-    }
 }
 
-class OutgoingMessageSendingException extends Throwable {
+class OutgoingMessageSendingException extends Exception {
     OutgoingMessageSendingException(Exception e) {
         super(e);
     }

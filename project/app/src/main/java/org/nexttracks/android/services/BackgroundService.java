@@ -58,7 +58,7 @@ import org.nexttracks.android.support.DateFormatter;
 import org.nexttracks.android.support.Events;
 import org.nexttracks.android.support.GeocodingProvider;
 import org.nexttracks.android.support.Preferences;
-import org.nexttracks.android.support.Runner;
+import org.nexttracks.android.support.RunThingsOnOtherThreads;
 import org.nexttracks.android.support.ServiceBridge;
 import org.nexttracks.android.ui.map.MapActivity;
 
@@ -135,7 +135,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
     LocationRepo locationRepo;
 
     @Inject
-    Runner runner;
+    RunThingsOnOtherThreads runThingsOnOtherThreads;
 
     @Inject
     WaypointsRepo waypointsRepo;
@@ -542,6 +542,8 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
 
         Timber.d("On demand location request");
         mFusedLocationClient.requestLocationUpdates(lostApiClient, request, locationCallbackOnDemand, runner.getBackgroundHandler().getLooper());
+        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
+        client.requestLocationUpdates(request, locationCallbackOnDemand,  runThingsOnOtherThreads.getBackgroundLooper());
     }
 
     @SuppressWarnings("MissingPermission")

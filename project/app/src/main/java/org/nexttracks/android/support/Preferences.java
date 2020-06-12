@@ -683,6 +683,11 @@ public class Preferences {
         setInt(Keys.LOCATOR_INTERVAL, anInt);
     }
 
+    @Import(key =Keys.LOCATOR_INTERVAL_MOVE_MODE)
+    private void setMoveModeLocatorInterval(int anInt) {
+        setInt(Keys.LOCATOR_INTERVAL_MOVE_MODE, anInt);
+    }
+
     @Import(key =Keys.LOCATOR_DISPLACEMENT)
     private void setLocatorDisplacement(int anInt) {
         setInt(Keys.LOCATOR_DISPLACEMENT, anInt);

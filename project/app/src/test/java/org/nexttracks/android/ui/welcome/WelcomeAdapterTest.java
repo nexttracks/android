@@ -46,12 +46,8 @@ public class WelcomeAdapterTest {
     @Parameterized.Parameters(name = "setupCheckPassed={0}, permissionCheckPassed={1}, androidVersion={2}")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {false, false, Build.VERSION_CODES.LOLLIPOP, 4},
-                {false, false, Build.VERSION_CODES.M, 5},
                 {false, false, Build.VERSION_CODES.LOLLIPOP, 3},
                 {false, false, Build.VERSION_CODES.M, 4},
-                {false, true, Build.VERSION_CODES.LOLLIPOP, 3},
-                {false, true, Build.VERSION_CODES.M, 4},
                 {false, true, Build.VERSION_CODES.LOLLIPOP, 2},
                 {false, true, Build.VERSION_CODES.M, 3},
         });

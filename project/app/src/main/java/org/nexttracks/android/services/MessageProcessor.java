@@ -7,7 +7,6 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-<<<<<<< HEAD:project/app/src/main/java/org/nexttracks/android/services/MessageProcessor.java
 import org.nexttracks.android.App;
 import org.nexttracks.android.data.repos.ContactsRepo;
 import org.nexttracks.android.data.repos.WaypointsRepo;

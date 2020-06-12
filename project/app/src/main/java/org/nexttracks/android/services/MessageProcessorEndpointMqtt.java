@@ -32,10 +32,10 @@ import org.nexttracks.android.services.worker.Scheduler;
 import org.nexttracks.android.support.Events;
 import org.nexttracks.android.support.Parser;
 import org.nexttracks.android.support.Preferences;
-import org.nexttracks.android.support.RunThingsOnOtherThreads;
 import org.nexttracks.android.support.SocketFactory;
 import org.nexttracks.android.support.interfaces.StatefulServiceMessageProcessor;
 import org.nexttracks.android.support.interfaces.ConfigurationIncompleteException;
+import org.nexttracks.android.support.RunThingsOnOtherThreads;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -55,7 +55,7 @@ import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
 
-import static org.owntracks.android.support.RunThingsOnOtherThreads.NETWORK_HANDLER_THREAD_NAME;
+import static org.nexttracks.android.support.RunThingsOnOtherThreads.NETWORK_HANDLER_THREAD_NAME;
 
 public class MessageProcessorEndpointMqtt extends MessageProcessorEndpoint implements StatefulServiceMessageProcessor, Preferences.OnPreferenceChangedListener {
     public static final int MODE_ID = 0;

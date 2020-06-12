@@ -14,6 +14,7 @@ import org.nexttracks.android.injection.modules.android.ServiceModules.Backgroun
 import org.nexttracks.android.injection.scopes.PerActivity;
 import org.nexttracks.android.injection.scopes.PerReceiver;
 import org.nexttracks.android.injection.scopes.PerService;
+import org.nexttracks.android.support.receiver.StartBackgroundServiceReceiver;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -66,7 +67,7 @@ public abstract class AndroindBindingModule {
 
     @PerReceiver
     @ContributesAndroidInjector
-    abstract org.nexttracks.android.support.receiver.BootCompleteReceiver bindBootCompleteReceiver();
+    abstract StartBackgroundServiceReceiver bindBootCompleteReceiver();
 
     @PerReceiver
     @ContributesAndroidInjector

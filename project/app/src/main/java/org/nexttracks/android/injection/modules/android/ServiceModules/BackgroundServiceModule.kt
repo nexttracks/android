@@ -1,14 +1,14 @@
-package org.owntracks.android.injection.modules.android.ServiceModules
+package org.nexttracks.android.injection.modules.android.ServiceModules
 
 import android.app.Service
 import android.content.Context
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import org.owntracks.android.injection.qualifier.ServiceContext
-import org.owntracks.android.injection.scopes.PerActivity
-import org.owntracks.android.injection.scopes.PerService
-import org.owntracks.android.services.BackgroundService
+import org.nexttracks.android.injection.qualifier.ServiceContext
+import org.nexttracks.android.injection.scopes.PerActivity
+import org.nexttracks.android.injection.scopes.PerService
+import org.nexttracks.android.services.BackgroundService
 
 @Module
 abstract class BackgroundServiceModule {

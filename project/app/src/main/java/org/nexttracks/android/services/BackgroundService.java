@@ -71,7 +71,7 @@ import javax.inject.Inject;
 import dagger.android.DaggerService;
 import timber.log.Timber;
 
-public class BackgroundService extends DaggerService implements LostApiClient.ConnectionCallbacks,Preferences.OnPreferenceChangedListener, ServiceBridge.ServiceBridgeInterface {
+public class BackgroundService extends DaggerService implements LostApiClient.ConnectionCallbacks, Preferences.OnPreferenceChangedListener, ServiceBridge.ServiceBridgeInterface {
     private static final int INTENT_REQUEST_CODE_LOCATION = 1263;
     private static final int INTENT_REQUEST_CODE_GEOFENCE = 1264;
     private static final int INTENT_REQUEST_CODE_CLEAR_EVENTS = 1263;
@@ -164,7 +164,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 Timber.tag("location").i("Locationresult received: %s", locationResult);
-                onLocationChanged(locationResult.getLastLocation(),MessageLocation.REPORT_TYPE_DEFAULT);
+                onLocationChanged(locationResult.getLastLocation(), MessageLocation.REPORT_TYPE_DEFAULT);
             }
         };
 
@@ -176,7 +176,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 Timber.tag("location").i("Ondemand Locationresult received: %s", locationResult);
-                onLocationChanged(locationResult.getLastLocation(),MessageLocation.REPORT_TYPE_RESPONSE);
+                onLocationChanged(locationResult.getLastLocation(), MessageLocation.REPORT_TYPE_RESPONSE);
             }
         };
 
@@ -194,7 +194,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
 
         preferences.registerOnPreferenceChangedListener(this);
 
-       // registerWifiStateReceiver(); Testing only
+        // registerWifiStateReceiver(); Testing only
     }
 
     private void registerWifiStateReceiver() {
@@ -270,7 +270,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
                     setupLocationRequest();
                     return;
                 case INTENT_ACTION_CHANGE_MONITORING:
-                    if(intent.hasExtra(Preferences.Keys.MONITORING)) {
+                    if (intent.hasExtra(Preferences.Keys.MONITORING)) {
                         preferences.setMonitoring(intent.getIntExtra(Preferences.Keys.MONITORING, preferences.getMonitoring()));
                     } else {
                         // Step monitoring mode if no mode is specified
@@ -290,7 +290,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
 
         // Importance min will show normal priority notification for foreground service. See https://developer.android.com/reference/android/app/NotificationManager#IMPORTANCE_MIN
         // User has to actively configure this in the notification channel settings.
-        NotificationChannel ongoingChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ONGOING, getString(R.string.notificationChannelOngoing), NotificationManager.IMPORTANCE_DEFAULT );
+        NotificationChannel ongoingChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ONGOING, getString(R.string.notificationChannelOngoing), NotificationManager.IMPORTANCE_DEFAULT);
         ongoingChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
         ongoingChannel.setDescription(getString(R.string.notificationChannelOngoingDescription));
         ongoingChannel.enableLights(false);
@@ -353,7 +353,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
     }
 
     private void updateOngoingNotification() {
-        notificationManager.notify(NOTIFICATION_ID_ONGOING,getOngoingNotification());
+        notificationManager.notify(NOTIFICATION_ID_ONGOING, getOngoingNotification());
     }
 
     private Notification getOngoingNotification() {
@@ -372,12 +372,12 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
         }
 
         // Show monitoring mode if endpoint state is not interesting
-        if(lastEndpointState == MessageProcessor.EndpointState.CONNECTED || lastEndpointState == MessageProcessor.EndpointState.IDLE) {
+        if (lastEndpointState == MessageProcessor.EndpointState.CONNECTED || lastEndpointState == MessageProcessor.EndpointState.IDLE) {
             builder.setContentText(getMonitoringLabel(preferences.getMonitoring()));
         } else if (lastEndpointState == MessageProcessor.EndpointState.ERROR && lastEndpointState.getMessage() != null) {
             builder.setContentText(lastEndpointState.getLabel(this) + ": " + lastEndpointState.getMessage());
         } else {
-            builder.setContentText( lastEndpointState.getLabel(this));
+            builder.setContentText(lastEndpointState.getLabel(this));
         }
         return builder.build();
     }
@@ -466,19 +466,19 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
             }
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_EVENTS)
-                .setContentTitle(getString(R.string.events))
-                .setContentText(summary)
-                .setGroup(NOTIFICATION_GROUP_EVENTS) // same as group of single notifications
-                .setGroupSummary(true)
-                .setColor(getColor(R.color.primary))
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setNumber(activeNotifications.size())
-                .setStyle(inbox)
-                .setContentIntent(PendingIntent.getActivity(this, (int) System.currentTimeMillis() / 1000, new Intent(this, MapActivity.class), PendingIntent.FLAG_ONE_SHOT))
-                .setDeleteIntent(PendingIntent.getService(this, INTENT_REQUEST_CODE_CLEAR_EVENTS, (new Intent(this, BackgroundService.class)).setAction(INTENT_ACTION_CLEAR_NOTIFICATIONS), PendingIntent.FLAG_ONE_SHOT));
+                    .setContentTitle(getString(R.string.events))
+                    .setContentText(summary)
+                    .setGroup(NOTIFICATION_GROUP_EVENTS) // same as group of single notifications
+                    .setGroupSummary(true)
+                    .setColor(getColor(R.color.primary))
+                    .setAutoCancel(true)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setNumber(activeNotifications.size())
+                    .setStyle(inbox)
+                    .setContentIntent(PendingIntent.getActivity(this, (int) System.currentTimeMillis() / 1000, new Intent(this, MapActivity.class), PendingIntent.FLAG_ONE_SHOT))
+                    .setDeleteIntent(PendingIntent.getService(this, INTENT_REQUEST_CODE_CLEAR_EVENTS, (new Intent(this, BackgroundService.class)).setAction(INTENT_ACTION_CLEAR_NOTIFICATIONS), PendingIntent.FLAG_ONE_SHOT));
 
             stackNotification = builder.build();
             notificationManagerCompat.notify(NOTIFICATION_GROUP_EVENTS, NOTIFICATION_ID_EVENT_GROUP, stackNotification);
@@ -505,7 +505,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
         final int transition = event.getGeofenceTransition();
         for (int index = 0; index < event.getTriggeringGeofences().size(); index++) {
             WaypointModel w = waypointsRepo.get(Long.parseLong(event.getTriggeringGeofences().get(index).getRequestId()));
-            if(w == null) {
+            if (w == null) {
                 Timber.e("waypoint id %s not found for geofence event", event.getTriggeringGeofences().get(index).getRequestId());
                 continue;
             }
@@ -514,14 +514,14 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
     }
 
     private void onLocationChanged(@Nullable Location location, @Nullable String reportType) {
-        if(location == null) {
+        if (location == null) {
             Timber.e("no location provided");
             return;
         }
         Timber.tag("outgoing").v("location update received: tst:%s, acc:%s, lat:%s, lon:%s type:%s", location.getTime(), location.getAccuracy(), location.getLatitude(), location.getLongitude(), reportType);
 
         if (location.getTime() > locationRepo.getCurrentLocationTime()) {
-            locationProcessor.onLocationChanged(location,reportType);
+            locationProcessor.onLocationChanged(location, reportType);
         } else {
             Timber.tag("outgoing").v("Not re-sending message with same timestamp as last");
         }
@@ -541,9 +541,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
 //        request.setExpirationDuration(TimeUnit.MINUTES.toMillis(1));
 
         Timber.d("On demand location request");
-        mFusedLocationClient.requestLocationUpdates(lostApiClient, request, locationCallbackOnDemand, runner.getBackgroundHandler().getLooper());
-        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
-        client.requestLocationUpdates(request, locationCallbackOnDemand,  runThingsOnOtherThreads.getBackgroundLooper());
+        mFusedLocationClient.requestLocationUpdates(lostApiClient, request, locationCallbackOnDemand, runThingsOnOtherThreads.getBackgroundLooper());
     }
 
     @SuppressWarnings("MissingPermission")
@@ -584,7 +582,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
 
         Timber.d("location request params: mode %s, interval (s):%s, fastestInterval (s):%s, priority:%s, displacement (m):%s", monitoring, TimeUnit.MILLISECONDS.toSeconds(request.getInterval()), TimeUnit.MILLISECONDS.toSeconds(request.getFastestInterval()), request.getPriority(), request.getSmallestDisplacement());
         mFusedLocationClient.removeLocationUpdates(lostApiClient, locationCallback);
-        mFusedLocationClient.requestLocationUpdates(lostApiClient, request, locationCallback,  runner.getBackgroundHandler().getLooper());
+        mFusedLocationClient.requestLocationUpdates(lostApiClient, request, locationCallback, runThingsOnOtherThreads.getBackgroundLooper());
     }
 
     private int getLocationRequestPriority() {
@@ -624,7 +622,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
         List<WaypointModel> loadedWaypoints = waypointsRepo.getAllWithGeofences();
 
 
-        for (WaypointModel w : loadedWaypoints){
+        for (WaypointModel w : loadedWaypoints) {
             Timber.d("id:%s, desc:%s, lat:%s, lon:%s, rad:%s", w.getId(), w.getDescription(), w.getGeofenceLatitude(), w.getGeofenceLongitude(), w.getGeofenceRadius());
 
             try {
@@ -653,6 +651,11 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
 
     private void removeGeofences() {
         if (lostApiClient != null) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Timber.e("removeGeofences failed due to no permission");
+                // TODO: request permissions here
+                return;
+            }
             mGeofencingClient.removeGeofences(lostApiClient, getGeofencePendingIntent());
         }
     }

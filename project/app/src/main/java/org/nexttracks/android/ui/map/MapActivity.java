@@ -296,23 +296,6 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         handleIntentExtras(intent);
-        try {
-            binding.mapView.onLowMemory();
-        } catch (Exception ignored){
-            isMapReady = false;
-        }
-    }
-
-    private void initMapDelayed() {
-        isMapReady = false;
-        runThingsOnOtherThreads.postOnMainHandlerDelayed(this::initMap, 500);
-    }
-
-    private void initMap() {
-        isMapReady = false;
-        try {
-            binding.mapView.getMapAsync(this);
-        } catch (Exception ignored) { }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

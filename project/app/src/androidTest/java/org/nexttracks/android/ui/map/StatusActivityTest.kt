@@ -1,4 +1,4 @@
-package org.owntracks.android.ui.map
+package org.nexttracks.android.ui.map
 
 import android.content.Context
 import androidx.preference.PreferenceManager
@@ -15,13 +15,12 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.owntracks.android.R
+import org.nexttracks.android.R
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 @Ignore
 class StatusActivityTest {
-
 
     @Rule
     @JvmField
@@ -33,7 +32,7 @@ class StatusActivityTest {
                 .putBoolean("firstStart", false)
                 .putBoolean("setupNotCompleted", false)
                 .apply()
-        context.getSharedPreferences("org.owntracks.android.preferences.private", Context.MODE_PRIVATE).edit().clear().apply()
+        context.getSharedPreferences("org.nexttracks.android.preferences.private", Context.MODE_PRIVATE).edit().clear().apply()
     }
 
     @Rule

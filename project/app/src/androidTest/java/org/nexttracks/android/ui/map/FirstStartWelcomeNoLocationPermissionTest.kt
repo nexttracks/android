@@ -1,5 +1,4 @@
-package org.owntracks.android.ui.map
-
+package org.nexttracks.android.ui.map
 
 import android.content.Context
 import android.view.View
@@ -13,19 +12,21 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
-import androidx.test.rule.GrantPermissionRule
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.not
 import org.hamcrest.TypeSafeMatcher
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.owntracks.android.R
+import org.nexttracks.android.R
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class FirstStartWelcomeTest {
+@Ignore
+class FirstStartWelcomeNoLocationPermissionTest {
 
     @Rule
     @JvmField
@@ -37,14 +38,9 @@ class FirstStartWelcomeTest {
                 .putBoolean("firstStart", false)
                 .putBoolean("setupNotCompleted", true)
                 .commit()
-        context.getSharedPreferences("org.owntracks.android.preferences.private", Context.MODE_PRIVATE).edit().clear().apply()
+        context.getSharedPreferences("org.nexttracks.android.preferences.private", Context.MODE_PRIVATE).edit().clear().apply()
     }
 
-    @Rule
-    @JvmField
-    var grantPermissionRule: GrantPermissionRule =
-            GrantPermissionRule.grant(
-                    "android.permission.ACCESS_FINE_LOCATION")
     @Test
     fun welcomeTest() {
         val textView = onView(
@@ -58,7 +54,8 @@ class FirstStartWelcomeTest {
         onView(withId(R.id.btn_next)).check(matches(isEnabled()))
         onView(withId(R.id.btn_next)).perform(click())
         onView(withId(R.id.btn_next)).perform(click())
-        onView(withId(R.id.done)).check(matches(isEnabled()))
+        onView(withId(R.id.btn_next)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.fix_permissions_button)).check(matches(isDisplayed()))
     }
 
     private fun childAtPosition(

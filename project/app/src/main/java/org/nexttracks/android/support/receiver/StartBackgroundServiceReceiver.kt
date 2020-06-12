@@ -1,11 +1,11 @@
-package org.owntracks.android.support.receiver
+package org.nexttracks.android.support.receiver
 
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import dagger.android.DaggerBroadcastReceiver
-import org.owntracks.android.services.BackgroundService
-import org.owntracks.android.support.Preferences
+import org.nexttracks.android.services.BackgroundService
+import org.nexttracks.android.support.Preferences
 import timber.log.Timber
 import javax.inject.Inject
 

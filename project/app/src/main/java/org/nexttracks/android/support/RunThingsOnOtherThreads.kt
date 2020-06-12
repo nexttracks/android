@@ -1,11 +1,11 @@
-package org.owntracks.android.support
+package org.nexttracks.android.support
 
 import android.content.Context
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
-import org.owntracks.android.injection.qualifier.AppContext
-import org.owntracks.android.injection.scopes.PerApplication
+import org.nexttracks.android.injection.qualifier.AppContext
+import org.nexttracks.android.injection.scopes.PerApplication
 import javax.inject.Inject
 
 @PerApplication

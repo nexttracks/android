@@ -148,7 +148,7 @@
     <string name="endpoint_state_message">Statusnachricht</string>
     <string name="endpoint_queue">In der Warteschlange</string>
     <string name="last_background_update">Letzte Hintergrundaktualisierung des Standortdienstes</string>
-    <string name="background_service_started">Hintergrunddienst gestarted</string>
+    <string name="background_service_started">Hintergrunddienst gestartet</string>
     <string name="battery_optimization">Akkuoptimierung</string>
     <string name="battery_optimized">optimiert</string>
     <string name="battery_not_optimized">nicht optimiert</string>

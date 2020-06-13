@@ -165,7 +165,9 @@
     <string name="endpoint_queue">Endpoint queue</string>
     <string name="last_background_update">Location service last background update</string>
     <string name="background_service_started">Background service started</string>
-    <string name="battery_optimization_whitelisted">Battery optimization whitelisted</string>
+    <string name="battery_optimization">Battery optimization</string>
+    <string name="battery_optimized">optimized</string>
+    <string name="battery_not_optimized">not optimized</string>
     <string name="next">Next</string>
     <string name="done">Done</string>
     <string name="select">Select</string>
@@ -173,7 +175,5 @@
     <string name="reconnect">Reconnect</string>
     <string name="status">Status</string>
     <string name="move">Move</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
     <string name="preferencesClientId">Client ID</string>
 </resources>

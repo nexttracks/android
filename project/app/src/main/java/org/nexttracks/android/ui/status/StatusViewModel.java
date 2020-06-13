@@ -74,7 +74,7 @@ public class StatusViewModel extends BaseViewModel<StatusMvvm.View> implements S
     public String getDozeWhitelisted() {
         boolean bool = Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
                 ((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isIgnoringBatteryOptimizations(App.getContext().getPackageName());
-        return bool ? ((StatusActivity)getView()).getResources().getString(R.string.yes) : ((StatusActivity)getView()).getResources().getString(R.string.no);
+        return bool ? ((StatusActivity)getView()).getResources().getString(R.string.battery_not_optimized) + " ✅" : ((StatusActivity)getView()).getResources().getString(R.string.battery_optimized) + " ❌";
     }
 
     @Override

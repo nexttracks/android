@@ -49,9 +49,10 @@
             <include android:id="@+id/contactPeek" layout="@layout/ui_row_contact"/>
 
             <TextView
-                android:id="@+id/acc"
+                android:id="@+id/accLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/contactDetailsAccuracy"
                 android:textSize="16sp"
                 android:ellipsize="end"
                 android:singleLine="true"
@@ -61,10 +62,9 @@
                 style="@style/ListItemPrimary"/>
 
             <TextView
-                android:id="@+id/accLabel"
+                android:id="@+id/acc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/contactDetailsAccuracy"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:paddingStart="72dp"
@@ -73,9 +73,10 @@
                 style="@style/ListItemSecondary"/>
 
             <TextView
-                android:id="@+id/distance"
+                android:id="@+id/distanceLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/distance_label"
                 android:textSize="16sp"
                 android:ellipsize="end"
                 android:singleLine="true"
@@ -85,10 +86,9 @@
                 style="@style/ListItemPrimary"/>
 
             <TextView
-                android:id="@+id/distanceLabel"
+                android:id="@+id/distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/distance_label"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:paddingStart="72dp"
@@ -103,9 +103,10 @@
                 android:background="#E4E4E4"/>
 
             <TextView
-                android:id="@+id/tid"
+                android:id="@+id/tidLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/contactDetailsTrackerId"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:paddingStart="72dp"
@@ -114,10 +115,9 @@
                 style="@style/ListItemPrimary"/>
 
             <TextView
-                android:id="@+id/tidLabel"
+                android:id="@+id/tid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/contactDetailsTrackerId"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:paddingStart="72dp"
@@ -126,9 +126,10 @@
                 style="@style/ListItemSecondary"/>
 
             <TextView
-                android:id="@+id/id"
+                android:id="@+id/topicLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/contactDetailsTopic"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:paddingStart="72dp"
@@ -137,10 +138,9 @@
                 style="@style/ListItemPrimary"/>
 
             <TextView
-                android:id="@+id/topicLabel"
+                android:id="@+id/id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/contactDetailsTopic"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:paddingStart="72dp"

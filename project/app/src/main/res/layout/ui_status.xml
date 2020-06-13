@@ -41,6 +41,14 @@
             android:paddingTop="@dimen/activity_horizontal_margin"
             android:paddingBottom="@dimen/activity_horizontal_margin">
 
+            <TextView
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				android:text="@string/endpoint_state"
+                android:ellipsize="none"
+                style="@style/ListItemPrimary" />
 
             <TextView
                 android:id="@+id/connectedStatus"
@@ -49,28 +57,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{vm.endpointState, default=Connected}"
-                android:ellipsize="none"
-                style="@style/ListItemPrimary" />
-
-            <TextView
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-				android:text="@string/endpoint_state"
                 android:ellipsize="end"
                 android:paddingBottom="@dimen/activity_horizontal_margin"
                 style="@style/ListItemSecondary" />
-
-            <TextView
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{vm.endpointMessage ?? @string/na, default=@string/na}"
-                android:ellipsize="none"
-                android:visibility="@{vm.endpointMessage!=null}"
-                style="@style/ListItemPrimary" />
 
             <TextView
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -78,16 +67,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 				android:text="@string/endpoint_state_message"
-                android:ellipsize="end"
-                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:ellipsize="none"
                 android:visibility="@{vm.endpointMessage!=null}"
-                style="@style/ListItemSecondary" />
+                style="@style/ListItemPrimary" />
+
             <TextView
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{org.nexttracks.android.support.widgets.BindingConversions.convertToString(vm.endpointQueue)}"
+                android:text="@{vm.endpointMessage ?? @string/na, default=@string/na}"
+                android:ellipsize="end"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:visibility="@{vm.endpointMessage!=null}"
+                style="@style/ListItemSecondary" />
+
+            <TextView
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/endpoint_queue"
                 android:ellipsize="none"
                 style="@style/ListItemPrimary" />
 
@@ -96,10 +96,19 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-				android:text="@string/endpoint_queue"
+                android:text="@{org.nexttracks.android.support.widgets.BindingConversions.convertToString(vm.endpointQueue)}"
                 android:ellipsize="end"
                 android:paddingBottom="@dimen/activity_horizontal_margin"
                 style="@style/ListItemSecondary" />
+
+            <TextView
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/last_background_update"
+                android:ellipsize="none"
+                style="@style/ListItemPrimary" />
 
             <TextView
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -107,27 +116,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{vm.locationUpdated != 0 ? DateFormatter.formatDate(vm.locationUpdated) : @string/na}"
-                android:ellipsize="none"
-                style="@style/ListItemPrimary" />
-
-            <TextView
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-				android:text="@string/last_background_update"
                 android:ellipsize="end"
                 android:paddingBottom="@dimen/activity_horizontal_margin"
                 style="@style/ListItemSecondary" />
-
-            <TextView
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{vm.serviceStarted != null ? DateFormatter.formatDate(vm.serviceStarted) : @string/na}"
-                android:ellipsize="none"
-                style="@style/ListItemPrimary" />
 
             <TextView
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -135,10 +126,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 				android:text="@string/background_service_started"
+                android:ellipsize="none"
+                style="@style/ListItemPrimary" />
+
+            <TextView
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{vm.serviceStarted != null ? DateFormatter.formatDate(vm.serviceStarted) : @string/na}"
                 android:ellipsize="end"
                 android:paddingBottom="@dimen/activity_horizontal_margin"
                 style="@style/ListItemSecondary" />
-
 
             <LinearLayout
                 android:id="@+id/dozeWhiteListed"
@@ -151,7 +150,7 @@
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{vm.dozeWhitelisted}"
+                    android:text="@string/battery_optimization_whitelisted"
                     android:ellipsize="none"
                     style="@style/ListItemPrimary" />
 
@@ -160,7 +159,7 @@
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-					android:text="@string/battery_optimization_whitelisted"
+                    android:text="@{vm.dozeWhitelisted}"
                     android:ellipsize="end"
                     android:paddingBottom="@dimen/activity_horizontal_margin"
                     style="@style/ListItemSecondary" />

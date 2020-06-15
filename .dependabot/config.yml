@@ -4,7 +4,7 @@ update_configs:
     directory: "/project"
     update_schedule: "daily"
     default_assignees:
-    - growse
+    - nycex
     allowed_updates:
     - match:
         update_type: "all"

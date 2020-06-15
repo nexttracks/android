@@ -1,6 +1,6 @@
-ext.daggerVersion = '2.27'
+ext.daggerVersion = '2.28'
 ext.lostVersion = 'c8b849c'
-ext.osmDroidVersion = '6.1.5'
+ext.osmDroidVersion = '6.1.6'
 ext.osmBonusPackVersion = 'b23710f40e' // switch to release (and remove jitpack repo) when house_number support is released
 ext.okHttpVersion = '3.13.1'
 ext.jacksonVersion = '2.9.9'
@@ -52,7 +52,7 @@ dependencies {
     implementation "io.objectbox:objectbox-android:$objectboxVersion"
     kapt "io.objectbox:objectbox-processor:$objectboxVersion"
     // some useful Kotlin extension functions
-    implementation "io.objectbox:objectbox-kotlin:$objectboxVersion"
+    implementation "io.objectbox:objectbox-kotlin:${objectboxVersion}"
 
     // These Java EE libs are no longer included in JDKs, so we include explicitly
     kapt 'javax.xml.bind:jaxb-api:2.3.1'
@@ -60,7 +60,7 @@ dependencies {
     kapt 'com.sun.xml.bind:jaxb-impl:2.3.2'
     annotationProcessor 'javax.xml.bind:jaxb-api:2.3.1'
     annotationProcessor 'com.sun.xml.bind:jaxb-core:2.3.0.1'
-    annotationProcessor 'com.sun.xml.bind:jaxb-impl:2.3.2'
+    annotationProcessor 'com.sun.xml.bind:jaxb-impl:2.4.0-b180830.0438'
 
 
     // Preprocessors

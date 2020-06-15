@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -63,6 +64,7 @@ import org.nexttracks.android.support.widgets.BindingConversions;
 import org.nexttracks.android.ui.base.BaseActivity;
 import org.nexttracks.android.ui.welcome.WelcomeActivity;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -129,6 +131,20 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
         map.setMultiTouchControls(true);
         MyLocationNewOverlay myLocationOverlay = new MyLocationNewOverlay(map);
+        // TODO. is there another way to do this?
+        try {
+            Field circlePaintField = MyLocationNewOverlay.class.getDeclaredField("mCirclePaint");
+            circlePaintField.setAccessible(true);
+            Paint circlePaint = (Paint) circlePaintField.get(myLocationOverlay);
+            if (circlePaint != null) {
+                circlePaint.setColor(getResources().getColor(R.color.myLocationCircle));
+                circlePaintField.set(myLocationOverlay, circlePaint);
+            } else {
+                Timber.e("Ereorosihfop");
+            }
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
         Bitmap myLocationIcon = BitmapFactory.decodeResource(this.getResources(),
                 R.drawable.ic_mylocation);
         myLocationOverlay.setPersonHotspot(myLocationIcon.getWidth() / 2.0f,myLocationIcon.getHeight() / 2.0f);

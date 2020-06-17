@@ -10,11 +10,6 @@ plugins {
     id("com.hiya.jacoco-android")
 }
 
-def versionMajor = 3
-def versionMinor = 2
-def versionPatch = 0
-def versionBuild = 0 // This value is managed by the gradle publisher plugin. Build numbers get incremented on publish
-
 android {
     compileSdkVersion 29
     ndkVersion "21.2.6472646" //TODO wait for google to fix bug in AGP 4.0.0: https://issuetracker.google.com/issues/144111441
@@ -23,8 +18,9 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
 
-        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
-        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        // Note: always bump BOTH versionCode and versionName!
+        versionCode 32000
+        versionName "3.2.0"
 
         javaCompileOptions {
             annotationProcessorOptions {

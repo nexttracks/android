@@ -1,5 +1,17 @@
 # Changelog
 
+### Version 3.2.0
+
+* add range circle for regions
+* add german translations for status page
+* make moveModeLocatorInterval settable
+* make regions visually editable
+* improve status page and contact popup in map
+* replace all owntracks logos with nexttracks ones
+* replace blue color to match nexttracks logo
+* change color of the mylocation circle to be distinguishable from regions
+* multiple bugfixes
+
 ### Version 3.1.1
 
 * pretty print exported json configurations

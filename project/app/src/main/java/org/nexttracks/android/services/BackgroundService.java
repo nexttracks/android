@@ -718,7 +718,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
         if (lastLocationMessage == null || lastLocationMessage.getTst() <= m.getTst()) {
             this.lastLocationMessage = m;
             updateOngoingNotification();
-            geocodingProvider.resolve(m, this);
+            geocodingProvider.resolve(m, this, true);
         }
     }
 

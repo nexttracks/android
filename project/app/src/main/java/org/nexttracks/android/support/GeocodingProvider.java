@@ -68,11 +68,6 @@ public class GeocodingProvider {
         }
     }
 
-    @Deprecated
-    public static void resolve(MessageLocation m, TextView tv) {
-        resolve(m, tv, false);
-    }
-
     public static void resolve(MessageLocation m, TextView tv, boolean brief) {
         if(m.hasGeocoder()) {
             tv.setText(m.getGeocoder());
@@ -85,11 +80,6 @@ public class GeocodingProvider {
             tv.setText(m.getGeocoderFallback()); // will print lat : lon until GeocodingProvider is available
             TextViewLocationResolverTask.run(m, tv, brief);
         }
-    }
-
-    @Deprecated
-    public void resolve(MessageLocation m, BackgroundService s) {
-        resolve(m, s, false);
     }
 
     public void resolve(MessageLocation m, BackgroundService s, boolean brief) {
@@ -188,7 +178,7 @@ public class GeocodingProvider {
     @BindingAdapter({"android:text", "messageLocation"})
     public static void displayFusedLocationInViewAsync(TextView view, FusedContact c, MessageLocation m) {
         if(m != null)
-            resolve(m, view);
+            resolve(m, view, true);
         else
             view.setText(R.string.na);
     }

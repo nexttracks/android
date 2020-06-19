@@ -93,7 +93,7 @@
     <string name="enjoy_description">Viel Spaß mit NextTracks</string>
     <string name="icon_description_done">Fertig</string>
     <string name="title_activity_load">Konfigurations import</string>
-    <string name="menuCurrentLoction">Aktuelle position</string>
+    <string name="menuCurrentLoction">Aktuelle Position</string>
     <string name="preferencesIgnoreInaccurateLocations">Ungenaue Positionen</string>
     <string name="preferencesIgnoreInaccurateLocationsSummary">Ungenaue Positionen ignorieren</string>
     <string name="preferencesIgnoreInaccurateLocationsDialog">Ungenaue Position ignorierne wenn sie ungenauer als die angegebenen Meter ist</string>

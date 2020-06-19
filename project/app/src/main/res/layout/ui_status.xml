@@ -60,29 +60,32 @@
                 android:layout_height="wrap_content"
                 android:text="@{vm.endpointState, default=Connected}"
                 android:ellipsize="end"
-                android:paddingBottom="@dimen/activity_horizontal_margin"
                 style="@style/ListItemSecondary" />
 
-            <TextView
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
+            <TableLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-				android:text="@string/endpoint_state_message"
-                android:ellipsize="none"
-                android:visibility="@{vm.endpointMessage!=null}"
-                style="@style/ListItemPrimary" />
+                android:shrinkColumns="*" >
+                <TableRow android:layout_width="wrap_content">
+                    <TextView
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/crossMark"
+                        android:visibility="invisible"
+                        style="@style/ListItemSecondary" />
 
-            <TextView
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{vm.endpointMessage ?? @string/na, default=@string/na}"
-                android:ellipsize="end"
-                android:paddingBottom="@dimen/activity_horizontal_margin"
-                android:visibility="@{vm.endpointMessage!=null}"
-                style="@style/ListItemSecondary" />
+                    <TextView
+                        android:paddingRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{vm.endpointMessage ?? @string/na, default=@string/na}"
+                        android:ellipsize="end"
+                        android:paddingBottom="@dimen/activity_horizontal_margin"
+                        android:visibility="@{vm.endpointMessage!=null}"
+                        style="@style/ListItemSecondary" />
+                </TableRow>
+            </TableLayout>
 
             <TextView
                 android:paddingLeft="@dimen/activity_horizontal_margin"

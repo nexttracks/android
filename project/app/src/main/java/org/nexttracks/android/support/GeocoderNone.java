@@ -4,7 +4,8 @@ public class GeocoderNone implements Geocoder {
     GeocoderNone() {
     }
 
-    public String reverse(double latitude, double longitude, boolean brief) {
-        return (latitude + " : " + longitude);
+    public GeocoderAddress reverse(double latitude, double longitude) {
+        return new GeocoderAddress(latitude + " : " + longitude, null);
     }
 }
+

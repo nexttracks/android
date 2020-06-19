@@ -364,7 +364,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
 
 
         if (this.lastLocationMessage != null && preferences.getNotificationLocation()) {
-            builder.setContentTitle(this.lastLocationMessage.getGeocoder());
+            builder.setContentTitle(this.lastLocationMessage.getGeocoder().convert(false));
             builder.setWhen(TimeUnit.SECONDS.toMillis(this.lastLocationMessage.getTst()));
             builder.setNumber(lastQueueLength);
         } else {

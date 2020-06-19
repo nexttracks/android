@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import org.nexttracks.android.support.GeocoderAddress;
 import org.osmdroid.util.GeoPoint;
 import org.nexttracks.android.model.FusedContact;
 import org.nexttracks.android.support.interfaces.IncomingMessageProcessor;
@@ -41,7 +42,7 @@ public class MessageLocation extends MessageBase {
     private int alt;
     private int vel;
     private long tst;
-    private String geocoder;
+    private GeocoderAddress geocoder;
     private WeakReference<FusedContact> _contact;
     private GeoPoint point;
     private String conn;
@@ -129,13 +130,13 @@ public class MessageLocation extends MessageBase {
     }
 
     @JsonIgnore
-    public String getGeocoder() {
+    public GeocoderAddress getGeocoder() {
         return hasGeocoder() ? geocoder : getGeocoderFallback();
     }
 
     @JsonIgnore
-    public String getGeocoderFallback() {
-        return (getLatitude() + " : " + getLongitude());
+    public GeocoderAddress getGeocoderFallback() {
+        return new GeocoderAddress(getLatitude() + " : " + getLongitude(), null);
     }
 
     @JsonIgnore
@@ -144,7 +145,7 @@ public class MessageLocation extends MessageBase {
     }
 
     @JsonIgnore
-    public void setGeocoder(String geocoder) {
+    public void setGeocoder(GeocoderAddress geocoder) {
         this.geocoder = geocoder;
         notifyContactPropertyChanged();
     }

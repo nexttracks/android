@@ -15,8 +15,9 @@ public class GeocoderNominatim implements Geocoder {
         this.geocoder = new org.osmdroid.bonuspack.location.GeocoderNominatim(userAgent);
     }
 
-    public synchronized String reverse(double latitude, double longitude, boolean brief) {
-        String address = "Resolve failed";
+    public synchronized GeocoderAddress reverse(double latitude, double longitude) {
+        String primary = "Resolve failed";
+        String secondary = null;
         try {
             long timeDiff = System.currentTimeMillis() - this.lastReverseTime;
             if (timeDiff < minimumDelay) {
@@ -43,20 +44,24 @@ public class GeocoderNominatim implements Geocoder {
                     sb.append(addr.getLocality());
                     sb.append(", ");
                 }
-                if (!brief) {
-                    if (addr.getSubAdminArea() != null) {
-                        sb.append(addr.getSubAdminArea());
-                        sb.append(", ");
-                    }
-                    if (addr.getAdminArea() != null) {
-                        sb.append(addr.getAdminArea());
-                        sb.append(", ");
-                    }
+                StringBuilder sb2 = new StringBuilder();
+                if (addr.getSubAdminArea() != null) {
+                    sb2.append(addr.getSubAdminArea());
+                    sb2.append(", ");
+                }
+                if (addr.getAdminArea() != null) {
+                    sb2.append(addr.getAdminArea());
                 }
                 if (!sb.toString().isEmpty()) {
-                    address = sb.toString();
-                    if (address.endsWith(", ")) {
-                        address = address.substring(0, address.length() - 2);
+                    primary = sb.toString();
+                    if (primary.endsWith(", ")) {
+                        primary = primary.substring(0, primary.length() - 2);
+                    }
+                }
+                if (!sb2.toString().isEmpty()) {
+                    secondary = sb2.toString();
+                    if (secondary.endsWith(", ")) {
+                        secondary = secondary.substring(0, secondary.length() - 2);
                     }
                 }
             }
@@ -64,6 +69,6 @@ public class GeocoderNominatim implements Geocoder {
             e.printStackTrace();
         }
         this.lastReverseTime = System.currentTimeMillis();
-        return address;
+        return new GeocoderAddress(primary, secondary);
     }
 }

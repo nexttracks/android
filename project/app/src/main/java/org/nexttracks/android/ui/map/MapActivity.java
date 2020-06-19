@@ -235,8 +235,14 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
             binding.contactPeek.name.setText(c.getFusedName());
             if(c.hasLocation()) {
                 ContactImageProvider.setImageViewAsync(binding.contactPeek.image, c);
-                GeocodingProvider.resolve(c.getMessageLocation(), binding.contactPeek.location);
+                String region = this.viewModel.getContactRegion(c);
+                if (region != null) {
+                    binding.contactPeek.location.setText(region);
+                } else {
+                    GeocodingProvider.resolve(c.getMessageLocation(), binding.contactPeek.location);
+                }
                 BindingConversions.setRelativeTimeSpanString(binding.contactPeek.locationDate, c.getTst());
+                GeocodingProvider.resolve(c.getMessageLocation(), binding.location);
                 binding.acc.setText(String.format(Locale.getDefault(),"%s m",c.getFusedLocationAccuracy()));
                 binding.tid.setText(c.getTrackerId());
                 binding.id.setText(c.getId());
@@ -526,7 +532,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
             map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
         } else {
             map.setOnTouchListener((view, motionEvent) -> {
-                this.getWaypoint(((MapViewModel) viewModel).getDraggedWaypoint()).onTouchEvent(motionEvent, (MapView) view);
+                this.getWaypoint(viewModel.getDraggedWaypoint()).onTouchEvent(motionEvent, (MapView) view);
                 return true;
             });
             map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);

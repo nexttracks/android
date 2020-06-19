@@ -49,6 +49,30 @@
             <include android:id="@+id/contactPeek" layout="@layout/ui_row_contact"/>
 
             <TextView
+                android:id="@+id/locationLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/menuCurrentLoction"
+                android:textSize="16sp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:paddingStart="72dp"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_horizontal_margin"
+                style="@style/ListItemPrimary"/>
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="false"
+                android:paddingStart="72dp"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                style="@style/ListItemSecondary"/>
+
+            <TextView
                 android:id="@+id/accLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

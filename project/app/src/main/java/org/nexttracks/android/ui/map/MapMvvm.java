@@ -44,10 +44,12 @@ public interface MapMvvm {
         void onBottomSheetClick();
         void onMenuCenterDeviceClicked();
         void onClearContactClicked();
+        String getContactRegion(FusedContact c);
 
         void restore(String contactId);
         void drag(long waypointId);
         void undrag();
+        WaypointModel getDraggedWaypoint();
         boolean hasLocation();
         void onMapReady();
 

@@ -10,11 +10,14 @@ import androidx.databinding.Bindable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.mapzen.android.lost.api.Geofence;
+
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.nexttracks.android.R;
 import org.nexttracks.android.data.WaypointModel;
 import org.nexttracks.android.data.repos.WaypointsRepo;
+import org.nexttracks.android.messages.MessageTransition;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
@@ -30,6 +33,9 @@ import org.nexttracks.android.ui.base.viewmodel.BaseViewModel;
 import org.osmdroid.views.overlay.Polygon;
 
 import java.util.Collection;
+import java.util.Optional;
+import java.util.WeakHashMap;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -53,6 +59,7 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
     private MutableLiveData<FusedContact> liveContact = new MutableLiveData<>();
     private MutableLiveData<Boolean> liveBottomSheetHidden = new MutableLiveData<>();
     private MutableLiveData<GeoPoint> liveCamera = new MutableLiveData<>();
+    private WeakHashMap<String, String> contactRegions = new WeakHashMap<>();
 
     @Inject
     public MapViewModel(ContactsRepo contactsRepo, WaypointsRepo waypointsRepo, LocationProcessor locationRepo, MessageProcessor messageProcessor) {
@@ -219,7 +226,7 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
                 GeoPoint point = polygon.getGeoPoint();
                 this.draggedWaypoint.setGeofenceLongitude(point.getLongitude());
                 this.draggedWaypoint.setGeofenceLatitude(point.getLatitude());
-                this.waypointsRepo.insert(this.draggedWaypoint);
+                this.waypointsRepo.update(this.draggedWaypoint, true);
 
                 ((MapActivity) getView()).colorWaypoint(polygon, R.color.primary);
                 ((MapActivity) getView()).getDoneButton().setVisible(false);
@@ -262,6 +269,27 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
             m.setTopic(activeContact.getId());
             messageProcessor.queueMessageForSending(m);
         }
+    }
+
+    @Nullable
+    @Override
+    public String getContactRegion(FusedContact c) {
+        return contactRegions.get(c.getId());
+    }
+
+    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEvent(MessageTransition message) {
+        FusedContact c = contactsRepo.getById(message.getContactKey());
+
+        long when = TimeUnit.SECONDS.toMillis(message.getTst());
+        String location = null;
+
+        if (message.getTransition() == Geofence.GEOFENCE_TRANSITION_ENTER) {
+            location = message.getDesc();
+        }
+
+        contactRegions.put(c.getId(), location);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

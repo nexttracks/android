@@ -17,6 +17,7 @@ import org.nexttracks.android.R;
 import org.nexttracks.android.injection.qualifier.AppContext;
 import org.nexttracks.android.injection.scopes.PerActivity;
 import org.nexttracks.android.services.MessageProcessor;
+import org.nexttracks.android.support.DateFormatter;
 import org.nexttracks.android.support.Events;
 import org.nexttracks.android.ui.base.viewmodel.BaseViewModel;
 
@@ -42,45 +43,65 @@ public class StatusViewModel extends BaseViewModel<StatusMvvm.View> implements S
     public StatusViewModel(@AppContext Context context) {
 
     }
+
     public void attachView(@NonNull StatusMvvm.View view, @Nullable Bundle savedInstanceState) {
         super.attachView(view, savedInstanceState);
     }
 
     @Override
     @Bindable
-    public MessageProcessor.EndpointState getEndpointState() {
-        return endpointState;
+    public String getEndpointState() {
+        if (endpointState == null) {
+            return ((StatusActivity) getView()).getResources().getString(R.string.crossMark) + ((StatusActivity) getView()).getResources().getString(R.string.na);
+        }
+
+        String prefix = (endpointState == MessageProcessor.EndpointState.CONNECTED ?
+                ((StatusActivity) getView()).getResources().getString(R.string.checkMark) :
+                ((StatusActivity) getView()).getResources().getString(R.string.crossMark));
+
+        return prefix + endpointState.getLabel(((StatusActivity) getView()).getApplicationContext());
     }
 
     @Override
     @Bindable
     public String getEndpointMessage() {
-        return endpointMessage ;
+        return endpointMessage;
     }
 
     @Override
     @Bindable
-    public int getEndpointQueue() {
-        return queueLength;
+    public String getEndpointQueue() {
+        String prefix = queueLength > 5 ? ((StatusActivity) getView()).getResources().getString(R.string.crossMark) :
+                ((StatusActivity) getView()).getResources().getString(R.string.checkMark);
+        return prefix + queueLength;
     }
 
     @Override
     @Bindable
-    public Date getServiceStarted() {
-        return serviceStarted;
+    public String getServiceStarted() {
+        if (serviceStarted == null) {
+            return ((StatusActivity) getView()).getResources().getString(R.string.crossMark) + ((StatusActivity) getView()).getResources().getString(R.string.na);
+        }
+        return ((StatusActivity) getView()).getResources().getString(R.string.checkMark) + DateFormatter.formatDate(serviceStarted);
     }
 
     @Override
     public String getDozeWhitelisted() {
         boolean bool = Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
                 ((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isIgnoringBatteryOptimizations(App.getContext().getPackageName());
-        return bool ? ((StatusActivity)getView()).getResources().getString(R.string.battery_not_optimized) + " ✅" : ((StatusActivity)getView()).getResources().getString(R.string.battery_optimized) + " ❌";
+
+        return bool ?
+                ((StatusActivity) getView()).getResources().getString(R.string.checkMark) + ((StatusActivity) getView()).getResources().getString(R.string.battery_not_optimized) :
+                ((StatusActivity) getView()).getResources().getString(R.string.crossMark) + ((StatusActivity) getView()).getResources().getString(R.string.battery_optimized);
     }
 
     @Override
     @Bindable
-    public long getLocationUpdated() {
-        return locationUpdated;
+    public String getLocationUpdated() {
+        if (locationUpdated == 0) {
+            return ((StatusActivity) getView()).getResources().getString(R.string.crossMark) + ((StatusActivity) getView()).getResources().getString(R.string.na);
+        }
+        return ((StatusActivity) getView()).getResources().getString(R.string.checkMark) + DateFormatter.formatDate(locationUpdated);
     }
 
     @Subscribe(sticky = true)

@@ -41,4 +41,7 @@
     </string-array>
 
     <string name="valEmpty" translatable="false">""</string>
+
+    <string name="checkMark" translatable="false">✅</string>
+    <string name="crossMark" translatable="false">❌</string>
 </resources>

@@ -15,7 +15,7 @@ public class GeocoderNominatim implements Geocoder {
         this.geocoder = new org.osmdroid.bonuspack.location.GeocoderNominatim(userAgent);
     }
 
-    public synchronized String reverse(double latitude, double longitude) {
+    public synchronized String reverse(double latitude, double longitude, boolean brief) {
         String address = "Resolve failed";
         try {
             long timeDiff = System.currentTimeMillis() - this.lastReverseTime;
@@ -38,18 +38,20 @@ public class GeocoderNominatim implements Geocoder {
                 if (addr.getLocality() != null) {
                     if (addr.getPostalCode() != null) {
                         sb.append(addr.getPostalCode());
+                        sb.append(" ");
                     }
-                    sb.append(" ");
                     sb.append(addr.getLocality());
                     sb.append(", ");
                 }
-                if (addr.getSubAdminArea() != null) {
-                    sb.append(addr.getSubAdminArea());
-                    sb.append(", ");
-                }
-                if (addr.getAdminArea() != null) {
-                    sb.append(addr.getAdminArea());
-                    sb.append(", ");
+                if (!brief) {
+                    if (addr.getSubAdminArea() != null) {
+                        sb.append(addr.getSubAdminArea());
+                        sb.append(", ");
+                    }
+                    if (addr.getAdminArea() != null) {
+                        sb.append(addr.getAdminArea());
+                        sb.append(", ");
+                    }
                 }
                 if (!sb.toString().isEmpty()) {
                     address = sb.toString();

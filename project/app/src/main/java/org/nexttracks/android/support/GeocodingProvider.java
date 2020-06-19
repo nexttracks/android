@@ -68,7 +68,12 @@ public class GeocodingProvider {
         }
     }
 
+    @Deprecated
     public static void resolve(MessageLocation m, TextView tv) {
+        resolve(m, tv, false);
+    }
+
+    public static void resolve(MessageLocation m, TextView tv, boolean brief) {
         if(m.hasGeocoder()) {
             tv.setText(m.getGeocoder());
             return;
@@ -78,11 +83,16 @@ public class GeocodingProvider {
             tv.setText(m.getGeocoder());
         } else {
             tv.setText(m.getGeocoderFallback()); // will print lat : lon until GeocodingProvider is available
-            TextViewLocationResolverTask.run(m, tv);
+            TextViewLocationResolverTask.run(m, tv, brief);
         }
     }
 
+    @Deprecated
     public void resolve(MessageLocation m, BackgroundService s) {
+        resolve(m, s, false);
+    }
+
+    public void resolve(MessageLocation m, BackgroundService s, boolean brief) {
         if(m.hasGeocoder()) {
             s.onGeocodingProviderResult(m);
             return;
@@ -91,7 +101,7 @@ public class GeocodingProvider {
         if(isCachedGeocoderAvailable(m)) {
             s.onGeocodingProviderResult(m);
         } else {
-            NotificationLocationResolverTask.run(m, s);
+            NotificationLocationResolverTask.run(m, s, brief);
         }
     }
 
@@ -100,12 +110,12 @@ public class GeocodingProvider {
 
         private final WeakReference<BackgroundService> service;
 
-        static void run(MessageLocation m, BackgroundService s) {
-            (new NotificationLocationResolverTask(m, s)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        static void run(MessageLocation m, BackgroundService s, boolean brief) {
+            (new NotificationLocationResolverTask(m, s, brief)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
 
-        NotificationLocationResolverTask(MessageLocation m, BackgroundService service) {
-            super(m);
+        NotificationLocationResolverTask(MessageLocation m, BackgroundService service, boolean brief) {
+            super(m, brief);
             this.service = new WeakReference<>(service);
         }
 
@@ -124,12 +134,12 @@ public class GeocodingProvider {
 
         private final WeakReference<TextView> textView;
 
-        static void run(MessageLocation m, TextView tv) {
-            (new TextViewLocationResolverTask(m, tv)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        static void run(MessageLocation m, TextView tv, boolean brief) {
+            (new TextViewLocationResolverTask(m, tv, brief)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
 
-        TextViewLocationResolverTask(MessageLocation m, TextView tv) {
-            super(m);
+        TextViewLocationResolverTask(MessageLocation m, TextView tv, boolean brief) {
+            super(m, brief);
             this.textView = new WeakReference<>(tv);
 
         }
@@ -147,8 +157,10 @@ public class GeocodingProvider {
 
     private static abstract class MessageLocationResolverTask extends AsyncTask<Void, Void, String>  {
         final WeakReference<MessageLocation> message;
-        MessageLocationResolverTask(MessageLocation m) {
+        final boolean brief;
+        MessageLocationResolverTask(MessageLocation m, boolean brief) {
             this.message = new WeakReference<>(m);
+            this.brief = brief;
         }
 
         @Override
@@ -158,7 +170,7 @@ public class GeocodingProvider {
                 return "Resolve failed";
             }
 
-            return geocoder.reverse(m.getLatitude(), m.getLongitude());
+            return geocoder.reverse(m.getLatitude(), m.getLongitude(), brief);
         }
 
         @Override

@@ -239,10 +239,10 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
                 if (region != null) {
                     binding.contactPeek.location.setText(region);
                 } else {
-                    GeocodingProvider.resolve(c.getMessageLocation(), binding.contactPeek.location);
+                    GeocodingProvider.resolve(c.getMessageLocation(), binding.contactPeek.location, true);
                 }
                 BindingConversions.setRelativeTimeSpanString(binding.contactPeek.locationDate, c.getTst());
-                GeocodingProvider.resolve(c.getMessageLocation(), binding.location);
+                GeocodingProvider.resolve(c.getMessageLocation(), binding.location, false);
                 binding.acc.setText(String.format(Locale.getDefault(),"%s m",c.getFusedLocationAccuracy()));
                 binding.tid.setText(c.getTrackerId());
                 binding.id.setText(c.getId());

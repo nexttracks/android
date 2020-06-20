@@ -44,7 +44,6 @@ public interface MapMvvm {
         void onBottomSheetClick();
         void onMenuCenterDeviceClicked();
         void onClearContactClicked();
-        String getContactRegion(FusedContact c);
 
         void restore(String contactId);
         void drag(long waypointId);

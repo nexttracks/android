@@ -271,27 +271,6 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
         }
     }
 
-    @Nullable
-    @Override
-    public String getContactRegion(FusedContact c) {
-        return contactRegions.get(c.getId());
-    }
-
-    @SuppressWarnings("unused")
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEvent(MessageTransition message) {
-        FusedContact c = contactsRepo.getById(message.getContactKey());
-
-        long when = TimeUnit.SECONDS.toMillis(message.getTst());
-        String location = null;
-
-        if (message.getTransition() == Geofence.GEOFENCE_TRANSITION_ENTER) {
-            location = message.getDesc();
-        }
-
-        contactRegions.put(c.getId(), location);
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(Events.FusedContactAdded e) {
         onEvent(e.getContact());

@@ -667,6 +667,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
         if(e.getWaypointModel().hasGeofence()) {
             removeGeofences();
             setupGeofences();
+            setupLocationRequest();
         }
     }
 
@@ -676,6 +677,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
         locationProcessor.publishWaypointMessage(e.getWaypointModel()); // TODO: move to waypointsRepo
         removeGeofences();
         setupGeofences();
+        setupLocationRequest();
     }
 
     @SuppressWarnings("unused")

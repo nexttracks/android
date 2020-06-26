@@ -17,6 +17,7 @@ import timber.log.Timber;
 
 public class RegionActivity extends BaseActivity<UiRegionBinding, RegionMvvm.ViewModel> implements RegionMvvm.View {
 
+    private MenuItem moveButton;
     private MenuItem saveButton;
 
     @Override
@@ -54,7 +55,9 @@ public class RegionActivity extends BaseActivity<UiRegionBinding, RegionMvvm.Vie
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_waypoint, menu);
+        this.moveButton = menu.findItem(R.id.move);
         this.saveButton = menu.findItem(R.id.save);
+        conditionallyShowMoveButton();
         conditionallyEnableSaveButton();
         return true;
     }
@@ -76,6 +79,12 @@ public class RegionActivity extends BaseActivity<UiRegionBinding, RegionMvvm.Vie
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void conditionallyShowMoveButton() {
+        if (moveButton != null) {
+            moveButton.setVisible(viewModel.getWaypoint().getId() != 0);
         }
     }
 

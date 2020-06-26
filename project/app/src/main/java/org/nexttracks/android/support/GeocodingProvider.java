@@ -176,10 +176,22 @@ public class GeocodingProvider {
 
     @BindingAdapter({"android:text", "messageLocation"})
     public static void displayFusedLocationInViewAsync(TextView view, FusedContact c, MessageLocation m) {
-        if(m != null)
-            resolve(m, view, true);
-        else
+        if (m == null) {
             view.setText(R.string.na);
+            return;
+        }
+
+        List<String> regions = m.getInRegions();
+        if (regions != null && !regions.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            for (String region : regions) {
+                sb.append(region);
+                sb.append(", ");
+            }
+            view.setText(sb.substring(0, sb.length() - 2));
+        } else {
+            resolve(m, view, true);
+        }
     }
 
 }

@@ -235,17 +235,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
             binding.contactPeek.name.setText(c.getFusedName());
             if(c.hasLocation()) {
                 ContactImageProvider.setImageViewAsync(binding.contactPeek.image, c);
-                List<String> regions = c.getMessageLocation().getInRegions();
-                if (regions != null && !regions.isEmpty()) {
-                    StringBuilder sb = new StringBuilder();
-                    for (String region : regions) {
-                        sb.append(region);
-                        sb.append(", ");
-                    }
-                    binding.contactPeek.location.setText(sb.substring(0, sb.length() - 2));
-                } else {
-                    GeocodingProvider.resolve(c.getMessageLocation(), binding.contactPeek.location, true);
-                }
+                GeocodingProvider.displayFusedLocationInViewAsync(binding.contactPeek.location, c, c.getMessageLocation());
                 BindingConversions.setRelativeTimeSpanString(binding.contactPeek.locationDate, c.getTst());
                 GeocodingProvider.resolve(c.getMessageLocation(), binding.location, false);
                 binding.acc.setText(String.format(Locale.getDefault(),"%s m",c.getFusedLocationAccuracy()));

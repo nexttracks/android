@@ -18,7 +18,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -36,21 +35,8 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import org.greenrobot.eventbus.EventBus;
-import org.nexttracks.android.data.WaypointModel;
-import org.osmdroid.api.IMapController;
-import org.osmdroid.config.Configuration;
-import org.osmdroid.events.MapListener;
-import org.osmdroid.events.ScrollEvent;
-import org.osmdroid.events.ZoomEvent;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.CustomZoomButtonsController;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.CopyrightOverlay;
-import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.Polygon;
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import org.nexttracks.android.R;
+import org.nexttracks.android.data.WaypointModel;
 import org.nexttracks.android.databinding.UiMapBinding;
 import org.nexttracks.android.model.FusedContact;
 import org.nexttracks.android.services.BackgroundService;
@@ -63,6 +49,16 @@ import org.nexttracks.android.support.RunThingsOnOtherThreads;
 import org.nexttracks.android.support.widgets.BindingConversions;
 import org.nexttracks.android.ui.base.BaseActivity;
 import org.nexttracks.android.ui.welcome.WelcomeActivity;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.CustomZoomButtonsController;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.CopyrightOverlay;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polygon;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -226,6 +222,16 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         }
     }
 
+    private String formatMeters(float meters) {
+        if (meters < 1000) {
+            return String.format(Locale.getDefault(), "%.0f%nm", meters);
+        } else if (meters < 50000) {
+            return String.format(Locale.getDefault(), "%.1f%nkm", meters / 1000);
+        } else {
+            return String.format(Locale.getDefault(), "%.0f%nkm", meters / 1000);
+        }
+    }
+
     @Override
     public void onChanged(@Nullable Object activeContact) {
         if (activeContact != null) {
@@ -238,7 +244,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
                 GeocodingProvider.displayFusedLocationInViewAsync(binding.contactPeek.location, c, c.getMessageLocation());
                 BindingConversions.setRelativeTimeSpanString(binding.contactPeek.locationDate, c.getTst());
                 GeocodingProvider.resolve(c.getMessageLocation(), binding.location, false);
-                binding.acc.setText(String.format(Locale.getDefault(),"%s m",c.getFusedLocationAccuracy()));
+                binding.acc.setText(formatMeters(Float.parseFloat(c.getFusedLocationAccuracy())));
                 binding.tid.setText(c.getTrackerId());
                 binding.id.setText(c.getId());
                 if(viewModel.hasLocation()) {
@@ -248,13 +254,11 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
                     float[] distance = new float[2];
                     Location.distanceBetween(viewModel.getCurrentLocation().getLatitude(), viewModel.getCurrentLocation().getLongitude(), c.getGeoPoint().getLatitude(), c.getGeoPoint().getLongitude(), distance);
 
-                    binding.distance.setText(String.format(Locale.getDefault(),"%d m",Math.round(distance[0])));
+                    binding.distance.setText(formatMeters(distance[0]));
                 } else {
                     binding.distance.setVisibility(View.GONE);
                     binding.distanceLabel.setVisibility(View.GONE);
-
                 }
-
             } else {
                 binding.contactPeek.location.setText(R.string.na);
                 binding.contactPeek.locationDate.setText(R.string.na);

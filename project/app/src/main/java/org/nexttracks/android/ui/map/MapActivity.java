@@ -135,8 +135,6 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
             if (circlePaint != null) {
                 circlePaint.setColor(getResources().getColor(R.color.myLocationCircle));
                 circlePaintField.set(myLocationOverlay, circlePaint);
-            } else {
-                Timber.e("Ereorosihfop");
             }
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();

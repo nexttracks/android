@@ -300,7 +300,6 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
             String waypointId = b.getString(BUNDLE_WAYPOINT_ID);
             if (waypointId != null) {
                 viewModel.drag(Long.parseLong(waypointId));
-                return;
             }
         }
     }
@@ -450,6 +449,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         if (m == null){
             m = new Marker(map, null);
             m.setTitle(contact.getId());
+            m.setAnchor(1f, 1f);
             map.getOverlays().add(m);
             mContacts.put(contact.getId(), m);
         } else {

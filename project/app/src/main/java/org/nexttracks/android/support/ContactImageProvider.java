@@ -1,7 +1,6 @@
 package org.nexttracks.android.support;
 
 import android.content.Context;
-import androidx.databinding.BindingAdapter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -13,16 +12,19 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import androidx.annotation.Nullable;
-import androidx.collection.ArrayMap;
 import android.util.Base64;
 import android.widget.ImageView;
 
-import org.osmdroid.views.overlay.Marker;
+import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
+import androidx.databinding.BindingAdapter;
+
+import org.nexttracks.android.App;
 import org.nexttracks.android.injection.qualifier.AppContext;
 import org.nexttracks.android.injection.scopes.PerApplication;
 import org.nexttracks.android.model.FusedContact;
 import org.nexttracks.android.support.widgets.TextDrawable;
+import org.osmdroid.views.overlay.Marker;
 
 import java.lang.ref.WeakReference;
 
@@ -72,7 +74,7 @@ public class ContactImageProvider {
 
         @Override
         protected BitmapDrawable doInBackground(FusedContact... params) {
-            return new BitmapDrawable(getBitmapFromCache(params[0]));
+            return new BitmapDrawable(App.getContext().getResources(), getBitmapFromCache(params[0]));
         }
 
         @Override
@@ -85,7 +87,6 @@ public class ContactImageProvider {
             }
         }
     }
-
 
     public void setMarkerAsync(Marker marker, FusedContact contact) {
         (new ContactDrawableWorkerTaskForMarker(marker)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, contact);

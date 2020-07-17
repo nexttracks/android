@@ -1,4 +1,4 @@
-package org.owntracks.android.support.preferences
+package org.nexttracks.android.support.preferences
 
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 

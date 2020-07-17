@@ -1,14 +1,14 @@
-package org.owntracks.android.ui.preferences
+package org.nexttracks.android.ui.preferences
 
 import android.os.Bundle
 import androidx.core.app.NotificationManagerCompat
 import androidx.preference.Preference
 import dagger.Binds
 import dagger.Module
-import org.owntracks.android.R
-import org.owntracks.android.injection.modules.android.FragmentModules.BaseFragmentModule
-import org.owntracks.android.injection.scopes.PerFragment
-import org.owntracks.android.support.TimberDebugLogFileTree
+import org.nexttracks.android.R
+import org.nexttracks.android.injection.modules.android.FragmentModules.BaseFragmentModule
+import org.nexttracks.android.injection.scopes.PerFragment
+import org.nexttracks.android.support.TimberDebugLogFileTree
 import timber.log.Timber
 
 @PerFragment

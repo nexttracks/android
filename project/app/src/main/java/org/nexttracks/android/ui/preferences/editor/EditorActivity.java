@@ -135,11 +135,12 @@ public class EditorActivity extends BaseActivity<UiPreferencesEditorBinding, Edi
 
         // Set autocomplete items
         List<Method> exportMethods = preferences.getExportMethods();
-        inputKey.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, Preferences.getImportKeys()));
+        inputKey.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, this.preferences.getImportKeys()));
         inputKey.setOnItemClickListener((adapterView, view, i, l) -> {
             String key = ((AppCompatTextView) view).getText().toString();
             for (Method method : exportMethods) {
-                if (Objects.requireNonNull(method.getAnnotation(Preferences.Export.class)).key().equals(key)) {
+                int keyResId = Objects.requireNonNull(method.getAnnotation(Preferences.Export.class)).keyResId();
+                if (getResources().getString(keyResId).equals(key)) {
                     if (Objects.requireNonNull(inputValue.getText()).toString().isEmpty()) {
                         try {
                             inputValue.setText(Objects.requireNonNull(method.invoke(preferences)).toString());

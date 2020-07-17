@@ -1,20 +1,20 @@
-package org.owntracks.android.support.preferences
+package org.nexttracks.android.support.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import dagger.Binds
 import dagger.Module
-import org.owntracks.android.R
-import org.owntracks.android.injection.qualifier.AppContext
-import org.owntracks.android.injection.scopes.PerApplication
-import org.owntracks.android.services.MessageProcessorEndpointHttp
-import org.owntracks.android.services.MessageProcessorEndpointMqtt
+import org.nexttracks.android.R
+import org.nexttracks.android.injection.qualifier.AppContext
+import org.nexttracks.android.injection.scopes.PerApplication
+import org.nexttracks.android.services.MessageProcessorEndpointHttp
+import org.nexttracks.android.services.MessageProcessorEndpointMqtt
 import java.util.*
 import javax.inject.Inject
 
-private const val FILENAME_PRIVATE = "org.owntracks.android.preferences.private"
-private const val FILENAME_HTTP = "org.owntracks.android.preferences.http"
+private const val FILENAME_PRIVATE = "org.nexttracks.android.preferences.private"
+private const val FILENAME_HTTP = "org.nexttracks.android.preferences.http"
 
 /***
  * Implements a PreferencesStore that uses a SharedPreferecnces as a backend.

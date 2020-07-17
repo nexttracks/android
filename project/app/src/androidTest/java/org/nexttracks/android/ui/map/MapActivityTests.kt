@@ -1,4 +1,4 @@
-package org.owntracks.android.ui.map
+package org.nexttracks.android.ui.map
 
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -21,9 +21,9 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
-import org.owntracks.android.LocationPermissionGranter
-import org.owntracks.android.R
-import org.owntracks.android.ScreenshotTakingRule
+import org.nexttracks.android.LocationPermissionGranter
+import org.nexttracks.android.R
+import org.nexttracks.android.ScreenshotTakingRule
 
 
 @LargeTest

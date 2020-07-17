@@ -1,4 +1,4 @@
-package org.owntracks.android.ui
+package org.nexttracks.android.ui
 
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
@@ -27,9 +27,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
-import org.owntracks.android.R
-import org.owntracks.android.ScreenshotTakingRule
-import org.owntracks.android.ui.preferences.PreferencesActivity
+import org.nexttracks.android.R
+import org.nexttracks.android.ScreenshotTakingRule
+import org.nexttracks.android.ui.preferences.PreferencesActivity
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)

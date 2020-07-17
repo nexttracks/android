@@ -1,4 +1,4 @@
-package org.owntracks.android.support
+package org.nexttracks.android.support
 
 import android.content.Context
 import android.content.res.Resources
@@ -13,11 +13,11 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import org.owntracks.android.R
-import org.owntracks.android.messages.MessageConfiguration
-import org.owntracks.android.services.MessageProcessorEndpointHttp
-import org.owntracks.android.services.MessageProcessorEndpointMqtt
-import org.owntracks.android.support.preferences.PreferencesStore
+import org.nexttracks.android.R
+import org.nexttracks.android.messages.MessageConfiguration
+import org.nexttracks.android.services.MessageProcessorEndpointHttp
+import org.nexttracks.android.services.MessageProcessorEndpointMqtt
+import org.nexttracks.android.support.preferences.PreferencesStore
 import kotlin.reflect.KClass
 
 @RunWith(Parameterized::class)
@@ -182,8 +182,8 @@ class PreferencesGettersAndSetters(
                 on { getString(eq(R.string.preferenceKeyVersion)) } doReturn "_build"
                 on { getString(eq(R.string.preferenceKeyWS)) } doReturn "ws"
                 on { getString(eq(R.string.valIgnoreStaleLocations)) } doReturn "0"
-                on { getString(eq(R.string.valSubTopic)) } doReturn "owntracks/+/+"
-                on { getString(eq(R.string.valPubTopic)) } doReturn "owntracks/%u/%d"
+                on { getString(eq(R.string.valSubTopic)) } doReturn "nexttracks/+/+"
+                on { getString(eq(R.string.valPubTopic)) } doReturn "nexttracks/%u/%d"
                 on { getInteger(any()) } doReturn 0
                 on { getBoolean(any()) } doReturn false
             }

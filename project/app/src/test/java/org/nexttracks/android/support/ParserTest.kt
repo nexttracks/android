@@ -1,4 +1,4 @@
-package org.owntracks.android.support
+package org.nexttracks.android.support
 
 import com.fasterxml.jackson.core.JsonParseException
 import com.nhaarman.mockitokotlin2.doReturn
@@ -9,10 +9,10 @@ import org.junit.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.owntracks.android.App
-import org.owntracks.android.messages.MessageLocation
-import org.owntracks.android.messages.MessageUnknown
-import org.owntracks.android.support.Parser.EncryptionException
+import org.nexttracks.android.App
+import org.nexttracks.android.messages.MessageLocation
+import org.nexttracks.android.messages.MessageUnknown
+import org.nexttracks.android.support.Parser.EncryptionException
 import org.powermock.core.classloader.annotations.PrepareForTest
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream

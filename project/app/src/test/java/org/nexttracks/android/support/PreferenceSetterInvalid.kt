@@ -1,4 +1,4 @@
-package org.owntracks.android.support
+package org.nexttracks.android.support
 
 import android.content.Context
 import android.content.res.Resources
@@ -7,8 +7,8 @@ import com.nhaarman.mockitokotlin2.mock
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.owntracks.android.messages.MessageConfiguration
-import org.owntracks.android.support.preferences.PreferencesStore
+import org.nexttracks.android.messages.MessageConfiguration
+import org.nexttracks.android.support.preferences.PreferencesStore
 
 class PreferenceSetterInvalid {
     private lateinit var mockResources: Resources

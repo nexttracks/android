@@ -2,10 +2,13 @@ package org.nexttracks.android.injection.modules.android.ActivityModules;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.nexttracks.android.injection.modules.android.FragmentModules.PreferencesFragmentModule;
 import org.nexttracks.android.injection.scopes.PerActivity;
 import org.nexttracks.android.injection.scopes.PerFragment;
+import org.nexttracks.android.ui.preferences.AdvancedFragment;
+import org.nexttracks.android.ui.preferences.NotificationFragment;
 import org.nexttracks.android.ui.preferences.PreferencesActivity;
+import org.nexttracks.android.ui.preferences.PreferencesFragment;
+import org.nexttracks.android.ui.preferences.ReportingFragment;
 
 import dagger.Binds;
 import dagger.Module;
@@ -18,8 +21,20 @@ public abstract class PreferencesActivityModule {
     @PerActivity
     abstract AppCompatActivity bindActivity(PreferencesActivity a);
 
-    @ContributesAndroidInjector(modules = {PreferencesFragmentModule.class})
+    @ContributesAndroidInjector(modules = {PreferencesFragment.FragmentModule.class})
     @PerFragment
     abstract org.nexttracks.android.ui.preferences.PreferencesFragment bindPreferencesFragment();
+
+    @ContributesAndroidInjector(modules = {ReportingFragment.FragmentModule.class})
+    @PerFragment
+    abstract org.nexttracks.android.ui.preferences.ReportingFragment bindReportingPreferencesFragment();
+
+    @ContributesAndroidInjector(modules = {NotificationFragment.FragmentModule.class})
+    @PerFragment
+    abstract org.nexttracks.android.ui.preferences.NotificationFragment bindNotificationPreferencesFragment();
+
+    @ContributesAndroidInjector(modules = {AdvancedFragment.FragmentModule.class})
+    @PerFragment
+    abstract org.nexttracks.android.ui.preferences.AdvancedFragment bindAdvancedPreferencesFragment();
 
 }

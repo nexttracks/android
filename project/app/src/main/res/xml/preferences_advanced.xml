@@ -15,7 +15,7 @@
     <PreferenceCategory
         app:iconSpaceReserved="false"
         app:title="@string/preferencesCategoryAdvancedLocator">
-        <org.owntracks.android.support.widgets.EditIntegerPreference
+        <org.nexttracks.android.support.widgets.EditIntegerPreference
             android:digits="0123456789"
             android:inputType="number"
             app:defaultValue="@integer/valIgnoreInaccurateLocations"
@@ -24,7 +24,7 @@
             app:key="@string/preferenceKeyIgnoreInaccurateLocations"
             app:summary="@string/preferencesIgnoreInaccurateLocationsSummary"
             app:title="@string/preferencesIgnoreInaccurateLocations" />
-        <org.owntracks.android.support.widgets.EditIntegerPreference
+        <org.nexttracks.android.support.widgets.EditIntegerPreference
             android:digits="0123456789"
             android:inputType="number"
             app:defaultValue="@integer/valLocatorInterval"
@@ -33,7 +33,7 @@
             app:key="@string/preferenceKeyLocatorInterval"
             app:summary="@string/preferencesLocatorIntervalSummary"
             app:title="@string/preferencesLocatorInterval" />
-        <org.owntracks.android.support.widgets.EditIntegerPreference
+        <org.nexttracks.android.support.widgets.EditIntegerPreference
             android:digits="0123456789"
             android:inputType="number"
             app:defaultValue="@integer/valMoveModeLocatorInterval"
@@ -73,12 +73,6 @@
             app:key="@string/preferenceKeyGeocodeEnabled"
             app:summary="@string/preferencesGeocodeSummary"
             app:title="@string/preferencesGeocode" />
-        <EditTextPreference
-            app:dialogMessage="@string/preferencesOpencageGeocoderApiKeyDialog"
-            app:iconSpaceReserved="false"
-            app:key="@string/preferenceKeyOpencageGeocoderApiKey"
-            app:summary="@string/preferencesOpencageGeocoderApiKeySummary"
-            app:title="@string/preferencesOpencageGeocoderApiKey" />
     </PreferenceCategory>
 
 </PreferenceScreen>

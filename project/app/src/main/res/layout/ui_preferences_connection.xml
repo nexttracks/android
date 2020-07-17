@@ -15,12 +15,10 @@
             type="org.nexttracks.android.ui.preferences.connection.ConnectionMvvm.ViewModel" />
     </data>
 
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/frame"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
-
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -69,7 +67,6 @@
                         android:layout_marginEnd="6dip"
                         android:layout_marginTop="6dip"
                         android:layout_marginRight="6dip"
-                        android:layout_marginBottom="6dip"
                         android:layout_weight="1">
 
                         <TextView
@@ -122,7 +119,6 @@
                         android:layout_marginEnd="6dip"
                         android:layout_marginTop="6dip"
                         android:layout_marginRight="6dip"
-                        android:layout_marginBottom="6dip"
                         android:layout_weight="1">
 
                         <TextView
@@ -164,7 +160,6 @@
                         android:layout_marginEnd="6dip"
                         android:layout_marginTop="6dip"
                         android:layout_marginRight="6dip"
-                        android:layout_marginBottom="6dip"
                         android:layout_weight="1">
 
                         <TextView
@@ -207,7 +202,6 @@
                         android:layout_marginEnd="6dip"
                         android:layout_marginTop="6dip"
                         android:layout_marginRight="6dip"
-                        android:layout_marginBottom="6dip"
                         android:layout_weight="1">
 
                         <TextView
@@ -250,7 +244,6 @@
                         android:layout_marginEnd="6dip"
                         android:layout_marginTop="6dip"
                         android:layout_marginRight="6dip"
-                        android:layout_marginBottom="6dip"
                         android:layout_weight="1">
 
                         <TextView

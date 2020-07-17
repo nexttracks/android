@@ -1,4 +1,4 @@
-package org.owntracks.android
+package org.nexttracks.android
 
 import android.util.Log
 import androidx.test.runner.screenshot.BasicScreenCaptureProcessor

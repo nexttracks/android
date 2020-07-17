@@ -10,17 +10,17 @@
     <Preference
         android:key="reportingScreen"
         android:title="@string/preferencesReporting"
-        app:fragment="org.owntracks.android.ui.preferences.ReportingFragment"
+        app:fragment="org.nexttracks.android.ui.preferences.ReportingFragment"
         app:iconSpaceReserved="false" />
     <Preference
         android:key="notificationScreen"
         android:title="@string/preferencesNotification"
-        app:fragment="org.owntracks.android.ui.preferences.NotificationFragment"
+        app:fragment="org.nexttracks.android.ui.preferences.NotificationFragment"
         app:iconSpaceReserved="false" />
     <Preference
         android:key="advancedScreen"
         android:title="@string/preferencesAdvanced"
-        app:fragment="org.owntracks.android.ui.preferences.AdvancedFragment"
+        app:fragment="org.nexttracks.android.ui.preferences.AdvancedFragment"
         app:iconSpaceReserved="false" />
     <Preference
         android:key="configuration"
@@ -28,91 +28,7 @@
         app:iconSpaceReserved="false" />
     <Preference
         android:key="informationScreen"
-        android:title="@string/preferencesInfo" >
-        <!--suppress AndroidElementNotAllowed -->
-        <org.nexttracks.android.support.widgets.ToolbarPreference
-            android:key="information"
-            android:title="@string/preferencesInfo" />
-
-        <Preference
-            android:key="documentation"
-            android:summary="@string/preferencesDocumentationSummary"
-            android:title="@string/preferencesDocumentation" />
-
-        <Preference
-            android:key="repo"
-            android:summary="@string/preferencesRepositorySummary"
-            android:title="@string/preferencesRepository" />
-
-        <PreferenceScreen
-            android:key="licensesScreen"
-            android:summary="@string/preferencesLicensesSummary"
-            android:title="@string/preferencesLicenses">
-            <!--suppress AndroidElementNotAllowed -->
-            <org.nexttracks.android.support.widgets.ToolbarPreference
-                android:key="licenses"
-                android:title="@string/preferencesLicenses" />
-
-            <Preference
-                android:key="eclipse-paho"
-                android:title="Eclipse Foundation"
-                android:summary="Paho MQTTv3.1 Java Client" />
-            <Preference
-                android:key="greenrobot-eventbus"
-                android:title="Greenrobot"
-                android:summary="EventBus" />
-            <Preference
-                android:key="greenrobot-greendao"
-                android:title="Greenrobot"
-                android:summary="GreenDao" />
-            <Preference
-                android:key="altbeacon-android-beacon-library"
-                android:title="AltBeacon"
-                android:summary="Android-Beacon-Library" />
-            <Preference
-                android:key="rengwuxian-materialedittext"
-                android:title="Rengwuxian"
-                android:summary="MaterialEditText" />
-            <Preference
-                android:key="mikepenz-materialdrawer"
-                android:title="Mikepenz"
-                android:summary="MaterialDrawer, Materialize" />
-            <Preference
-                android:key="dagger2"
-                android:title="Google"
-                android:summary="Dagger2" />
-            <Preference
-                android:key="zxing"
-                android:title="Zebra Crossing"
-                android:summary="Zxing Scanner" />
-            <Preference
-                android:key="jackson"
-                android:title="Fasterxml"
-                android:summary="Jackson" />
-            <Preference
-                android:key="okhttp"
-                android:title="Squareup"
-                android:summary="Okhttp3" />
-            <Preference
-                android:key="timber"
-                android:title="Jacke Wharton"
-                android:summary="Timber" />
-            <Preference
-                android:key="osmdroid"
-                android:title="osmdroid"
-                android:summary="osmdroid" />
-            <Preference
-                android:key="osmbonuspack"
-                android:title="MKergall"
-                android:summary="OSMBonusPack" />
-            <Preference
-                android:key="lost"
-                android:title="lostzen"
-                android:summary="Lost" />
-        </PreferenceScreen>
-
-        <Preference
-            android:key="version"
-            android:title="@string/preferencesVersion" />
-    </PreferenceScreen>
+        android:title="@string/preferencesInfo"
+        app:fragment="org.nexttracks.android.ui.preferences.InfoFragment"
+        app:iconSpaceReserved="false" />
 </PreferenceScreen>

@@ -1,23 +1,23 @@
-package org.owntracks.android.support
+package org.nexttracks.android.support
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 import org.greenrobot.eventbus.EventBus
-import org.owntracks.android.BuildConfig
-import org.owntracks.android.R
-import org.owntracks.android.injection.qualifier.AppContext
-import org.owntracks.android.injection.scopes.PerApplication
-import org.owntracks.android.messages.MessageConfiguration
-import org.owntracks.android.services.LocationProcessor
-import org.owntracks.android.services.MessageProcessorEndpointHttp
-import org.owntracks.android.services.MessageProcessorEndpointMqtt
-import org.owntracks.android.services.worker.Scheduler
-import org.owntracks.android.support.Events.ModeChanged
-import org.owntracks.android.support.Events.MonitoringChanged
-import org.owntracks.android.support.preferences.OnModeChangedPreferenceChangedListener
-import org.owntracks.android.support.preferences.PreferencesStore
+import org.nexttracks.android.BuildConfig
+import org.nexttracks.android.R
+import org.nexttracks.android.injection.qualifier.AppContext
+import org.nexttracks.android.injection.scopes.PerApplication
+import org.nexttracks.android.messages.MessageConfiguration
+import org.nexttracks.android.services.LocationProcessor
+import org.nexttracks.android.services.MessageProcessorEndpointHttp
+import org.nexttracks.android.services.MessageProcessorEndpointMqtt
+import org.nexttracks.android.services.worker.Scheduler
+import org.nexttracks.android.support.Events.ModeChanged
+import org.nexttracks.android.support.Events.MonitoringChanged
+import org.nexttracks.android.support.preferences.OnModeChangedPreferenceChangedListener
+import org.nexttracks.android.support.preferences.PreferencesStore
 import timber.log.Timber
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
@@ -57,7 +57,7 @@ class Preferences @Inject constructor(@AppContext c: Context, private val eventB
 
     // need to iterated thought hierarchy in order to retrieve methods from above the current instance
     // iterate though the list of methods declared in the class represented by klass variable, and insert those annotated with the specified annotation
-    private val exportMethods: List<Method>
+    val exportMethods: List<Method>
         get() = Preferences::class.java
                 .parentClasses()
                 .flatMap { it.declaredMethods.asSequence() }

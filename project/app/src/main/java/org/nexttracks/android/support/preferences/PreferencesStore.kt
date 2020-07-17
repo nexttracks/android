@@ -1,4 +1,4 @@
-package org.owntracks.android.support.preferences
+package org.nexttracks.android.support.preferences
 
 /***
  * Allows a preferences class to read and write values from some sort of store

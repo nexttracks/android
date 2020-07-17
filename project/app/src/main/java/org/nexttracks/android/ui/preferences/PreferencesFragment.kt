@@ -1,17 +1,17 @@
-package org.owntracks.android.ui.preferences
+package org.nexttracks.android.ui.preferences
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.preference.Preference
 import dagger.Binds
 import dagger.Module
-import org.owntracks.android.R
-import org.owntracks.android.injection.modules.android.FragmentModules.BaseFragmentModule
-import org.owntracks.android.injection.scopes.PerFragment
-import org.owntracks.android.services.MessageProcessorEndpointHttp
-import org.owntracks.android.services.MessageProcessorEndpointMqtt
-import org.owntracks.android.ui.preferences.connection.ConnectionActivity
-import org.owntracks.android.ui.preferences.editor.EditorActivity
+import org.nexttracks.android.R
+import org.nexttracks.android.injection.modules.android.FragmentModules.BaseFragmentModule
+import org.nexttracks.android.injection.scopes.PerFragment
+import org.nexttracks.android.services.MessageProcessorEndpointHttp
+import org.nexttracks.android.services.MessageProcessorEndpointMqtt
+import org.nexttracks.android.ui.preferences.connection.ConnectionActivity
+import org.nexttracks.android.ui.preferences.editor.EditorActivity
 
 class PreferencesFragment : AbstractPreferenceFragment() {
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {

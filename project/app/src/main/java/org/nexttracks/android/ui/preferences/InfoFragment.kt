@@ -1,11 +1,11 @@
-package org.owntracks.android.ui.preferences
+package org.nexttracks.android.ui.preferences
 
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import org.owntracks.android.R
+import org.nexttracks.android.R
 
 class InfoFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

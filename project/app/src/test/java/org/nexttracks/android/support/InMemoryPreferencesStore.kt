@@ -1,7 +1,7 @@
-package org.owntracks.android.support
+package org.nexttracks.android.support
 
-import org.owntracks.android.support.preferences.OnModeChangedPreferenceChangedListener
-import org.owntracks.android.support.preferences.PreferencesStore
+import org.nexttracks.android.support.preferences.OnModeChangedPreferenceChangedListener
+import org.nexttracks.android.support.preferences.PreferencesStore
 
 class InMemoryPreferencesStore : PreferencesStore {
     private val valueMap: MutableMap<String, Any> = HashMap()

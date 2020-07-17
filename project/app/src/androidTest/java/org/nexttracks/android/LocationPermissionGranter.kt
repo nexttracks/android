@@ -1,4 +1,4 @@
-package org.owntracks.android
+package org.nexttracks.android
 
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION

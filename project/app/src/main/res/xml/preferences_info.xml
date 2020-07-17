@@ -11,15 +11,6 @@
             android:action="android.intent.action.VIEW"
             android:data="@string/preferencesDocumentationSummary" />
     </Preference>
-    <Preference
-        android:key="twitter"
-        android:summary="@string/preferencesTwitterSummary"
-        android:title="@string/preferencesTwitter"
-        app:iconSpaceReserved="false">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:data="@string/preferencesTwitterSummary" />
-    </Preference>
 
     <Preference
         android:key="repo"
@@ -35,7 +26,7 @@
         android:key="licensesScreen"
         android:summary="@string/preferencesLicensesSummary"
         android:title="@string/preferencesLicenses"
-        app:fragment="org.owntracks.android.ui.preferences.LicenseFragment"
+        app:fragment="org.nexttracks.android.ui.preferences.LicenseFragment"
         app:iconSpaceReserved="false" />
 
     <Preference

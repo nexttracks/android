@@ -2,7 +2,6 @@
 plugins {
     id("com.github.triplet.play") version "2.6.2"
     id("com.android.application")
-
     id("io.objectbox")
     id("kotlin-android")
     id("kotlin-android-extensions")
@@ -12,7 +11,7 @@ plugins {
 
 android {
     compileSdkVersion 29
-    ndkVersion "21.2.6472646" //TODO wait for google to fix bug in AGP 4.0.0: https://issuetracker.google.com/issues/144111441
+    ndkVersion "21.3.6528147" //TODO wait for google to fix bug in AGP 4.0.0: https://issuetracker.google.com/issues/144111441
     defaultConfig {
         applicationId "org.nexttracks.android"
         minSdkVersion 21
@@ -29,6 +28,10 @@ android {
         }
         resConfigs "en", "de", "fr", "es"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+/* TODO Get this lot sorted when the orchestrator / coverage / clearPackageData bug gets fixed */
+//        testInstrumentationRunnerArguments clearPackageData: 'true'
+//        testInstrumentationRunnerArguments coverageFilePath: '/sdcard/'
+//        testInstrumentationRunnerArguments coverage: 'true'
     }
 
     signingConfigs {
@@ -108,6 +111,7 @@ android {
                 html.enabled = false
             }
         }
+//        execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 
     compileOptions {
@@ -120,29 +124,11 @@ android {
     buildToolsVersion = '29.0.3'
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 apply from: "publishing.gradle"
 apply from: "dependencies.gradle"
-
-repositories {
-    mavenCentral()
-}
-
-
-task jacocoCombinedTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-    def debugTree = fileTree(dir: "${buildDir}/intermediates/javac/debug", excludes: fileFilter)
-    def mainSrc = "${project.projectDir}/src/main/java"
-
-    sourceDirectories.setFrom  files([mainSrc])
-    classDirectories.setFrom files([debugTree])
-    executionData.setFrom  fileTree(dir: "$buildDir", includes: [
-            "jacoco/testDebugUnitTest.exec",
-            "outputs/code_coverage/debugAndroidTest/connected/*coverage.ec"
-    ])
-}
+apply from: "coverage.gradle"
+apply from: "connectedTestScreenshotTasks.gradle"

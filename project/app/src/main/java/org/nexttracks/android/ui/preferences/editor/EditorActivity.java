@@ -151,6 +151,9 @@ public class EditorActivity extends BaseActivity<UiPreferencesEditorBinding, Edi
                 }
             }
         });
+
+        MaterialAutoCompleteTextView view = layout.findViewById(R.id.inputKey);
+        view.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, preferences.getImportKeys()));
     }
 
     @Override

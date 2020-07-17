@@ -60,6 +60,7 @@ import org.nexttracks.android.support.GeocodingProvider;
 import org.nexttracks.android.support.Preferences;
 import org.nexttracks.android.support.RunThingsOnOtherThreads;
 import org.nexttracks.android.support.ServiceBridge;
+import org.nexttracks.android.support.preferences.OnModeChangedPreferenceChangedListener;
 import org.nexttracks.android.ui.map.MapActivity;
 
 import java.util.LinkedList;
@@ -71,7 +72,7 @@ import javax.inject.Inject;
 import dagger.android.DaggerService;
 import timber.log.Timber;
 
-public class BackgroundService extends DaggerService implements LostApiClient.ConnectionCallbacks, Preferences.OnPreferenceChangedListener, ServiceBridge.ServiceBridgeInterface {
+public class BackgroundService extends DaggerService implements LostApiClient.ConnectionCallbacks, OnModeChangedPreferenceChangedListener, ServiceBridge.ServiceBridgeInterface {
     private static final int INTENT_REQUEST_CODE_LOCATION = 1263;
     private static final int INTENT_REQUEST_CODE_GEOFENCE = 1264;
     private static final int INTENT_REQUEST_CODE_CLEAR_EVENTS = 1263;
@@ -80,7 +81,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
     private static final String NOTIFICATION_CHANNEL_ONGOING = "O";
 
     private static final int NOTIFICATION_ID_EVENT_GROUP = 2;
-    private static final String NOTIFICATION_CHANNEL_EVENTS = "E";
+    public static final String NOTIFICATION_CHANNEL_EVENTS = "E";
 
     private static int notificationEventsID = 3;
 
@@ -270,8 +271,8 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
                     setupLocationRequest();
                     return;
                 case INTENT_ACTION_CHANGE_MONITORING:
-                    if (intent.hasExtra(Preferences.Keys.MONITORING)) {
-                        preferences.setMonitoring(intent.getIntExtra(Preferences.Keys.MONITORING, preferences.getMonitoring()));
+                    if(intent.hasExtra(preferences.getPreferenceKey(R.string.preferenceKeyMonitoring))) {
+                        preferences.setMonitoring(intent.getIntExtra(preferences.getPreferenceKey(R.string.preferenceKeyMonitoring), preferences.getMonitoring()));
                     } else {
                         // Step monitoring mode if no mode is specified
                         preferences.setMonitoringNext();
@@ -390,7 +391,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
             case LocationProcessor.MONITORING_MANUAL:
                 return getString(R.string.monitoring_manual);
             case LocationProcessor.MONITORING_SIGNIFICANT:
-                return getString(R.string.monitoring_signifficant);
+                return getString(R.string.monitoring_significant);
             case LocationProcessor.MONITORING_MOVE:
                 return getString(R.string.monitoring_move);
         }
@@ -817,10 +818,10 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (Preferences.Keys.LOCATOR_INTERVAL.equals(key) ||
-                Preferences.Keys.LOCATOR_DISPLACEMENT.equals(key) ||
-                Preferences.Keys.LOCATOR_PRIORITY.equals(key) ||
-                Preferences.Keys.LOCATOR_INTERVAL_MOVE_MODE.equals(key)
+        if (preferences.getPreferenceKey(R.string.preferenceKeyLocatorInterval).equals(key) ||
+                preferences.getPreferenceKey(R.string.preferenceKeyLocatorDisplacement).equals(key) ||
+                preferences.getPreferenceKey(R.string.preferenceKeyLocatorPriority).equals(key) ||
+                preferences.getPreferenceKey(R.string.preferenceKeyMoveModeLocatorInterval).equals(key)
         ) {
             Timber.d("locator preferences changed. Resetting location request.");
             setupLocationRequest();

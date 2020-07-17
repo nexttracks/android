@@ -58,7 +58,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{vm.endpointState, default=Connected}"
+                android:text="@string/status_endpoint_state_hint"
                 android:ellipsize="end"
                 style="@style/ListItemSecondary" />
 
@@ -92,7 +92,17 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/endpoint_queue"
+                android:text="@string/status_endpoint_state_message_hint"
+                android:ellipsize="end"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:visibility="@{vm.endpointMessage!=null}"
+                style="@style/ListItemSecondary" />
+            <TextView
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{org.owntracks.android.support.widgets.BindingConversions.convertToString(vm.endpointQueue)}"
                 android:ellipsize="none"
                 style="@style/ListItemPrimary" />
 
@@ -101,7 +111,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{org.nexttracks.android.support.widgets.BindingConversions.convertToString(vm.endpointQueue)}"
+                android:text="@string/status_endpoint_queue_hint"
                 android:ellipsize="end"
                 android:paddingBottom="@dimen/activity_horizontal_margin"
                 style="@style/ListItemSecondary" />
@@ -120,7 +130,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{vm.locationUpdated}"
+                android:text="@string/status_last_background_update_hint"
                 android:ellipsize="end"
                 android:paddingBottom="@dimen/activity_horizontal_margin"
                 style="@style/ListItemSecondary" />
@@ -139,7 +149,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{vm.serviceStarted}"
+                android:text="@string/status_background_service_started_hint"
                 android:ellipsize="end"
                 android:paddingBottom="@dimen/activity_horizontal_margin"
                 style="@style/ListItemSecondary" />
@@ -164,7 +174,7 @@
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{vm.dozeWhitelisted}"
+                    android:text="@string/status_battery_optimization_whitelisted_hint"
                     android:ellipsize="end"
                     android:paddingBottom="@dimen/activity_horizontal_margin"
                     style="@style/ListItemSecondary" />

@@ -1,34 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="root">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="root"
+    app:title="@string/title_activity_preferences">
     <Preference
         android:key="connectionScreen"
-        android:title="@string/preferencesServer">
-    </Preference>
-
-
-    <PreferenceScreen
+        android:title="@string/preferencesServer"
+        app:iconSpaceReserved="false" />
+    <Preference
         android:key="reportingScreen"
-        android:title="@string/preferencesReporting" >
-    </PreferenceScreen>
-
-    <PreferenceScreen
+        android:title="@string/preferencesReporting"
+        app:fragment="org.owntracks.android.ui.preferences.ReportingFragment"
+        app:iconSpaceReserved="false" />
+    <Preference
         android:key="notificationScreen"
-        android:title="@string/preferencesNotification" >
-
-    </PreferenceScreen>
-    <PreferenceScreen
+        android:title="@string/preferencesNotification"
+        app:fragment="org.owntracks.android.ui.preferences.NotificationFragment"
+        app:iconSpaceReserved="false" />
+    <Preference
         android:key="advancedScreen"
-        android:title="@string/preferencesAdvanced" >
-
-    </PreferenceScreen>
-
+        android:title="@string/preferencesAdvanced"
+        app:fragment="org.owntracks.android.ui.preferences.AdvancedFragment"
+        app:iconSpaceReserved="false" />
     <Preference
         android:key="configuration"
-        android:title="@string/configurationManagement">
-    </Preference>
-
-    <PreferenceScreen
+        android:title="@string/configurationManagement"
+        app:iconSpaceReserved="false" />
+    <Preference
         android:key="informationScreen"
         android:title="@string/preferencesInfo" >
         <!--suppress AndroidElementNotAllowed -->

@@ -1,17 +1,16 @@
 package org.nexttracks.android.ui.preferences;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.nexttracks.android.injection.scopes.PerFragment;
 import org.nexttracks.android.support.Preferences;
 import org.nexttracks.android.ui.base.viewmodel.BaseViewModel;
 
 import javax.inject.Inject;
 
 
-@PerFragment
 public class PreferencesFragmentViewModel extends BaseViewModel<PreferencesFragmentMvvm.View> implements PreferencesFragmentMvvm.ViewModel<PreferencesFragmentMvvm.View> {
     private final Preferences preferences;
 
@@ -23,8 +22,7 @@ public class PreferencesFragmentViewModel extends BaseViewModel<PreferencesFragm
     public void attachView(@NonNull PreferencesFragmentMvvm.View view, @Nullable Bundle savedInstanceState) {
         super.attachView(view, savedInstanceState);
         view.loadRoot();
-        view.setVersion();
-        view.setModeSummary(preferences.getModeId());
+        view.setModeSummary(preferences.getMode());
     }
 
     @Override

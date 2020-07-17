@@ -19,23 +19,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.nexttracks.android.App;
 import org.nexttracks.android.messages.MessageBase;
+import org.nexttracks.android.R;
 import org.nexttracks.android.messages.MessageCard;
 import org.nexttracks.android.messages.MessageClear;
-import org.nexttracks.android.messages.MessageCmd;
-import org.nexttracks.android.messages.MessageEvent;
-import org.nexttracks.android.messages.MessageLocation;
-import org.nexttracks.android.messages.MessageTransition;
-import org.nexttracks.android.messages.MessageWaypoint;
-import org.nexttracks.android.messages.MessageWaypoints;
 import org.nexttracks.android.services.MessageProcessor.EndpointState;
 import org.nexttracks.android.services.worker.Scheduler;
 import org.nexttracks.android.support.Events;
 import org.nexttracks.android.support.Parser;
 import org.nexttracks.android.support.Preferences;
-import org.nexttracks.android.support.SocketFactory;
-import org.nexttracks.android.support.interfaces.StatefulServiceMessageProcessor;
-import org.nexttracks.android.support.interfaces.ConfigurationIncompleteException;
 import org.nexttracks.android.support.RunThingsOnOtherThreads;
+import org.nexttracks.android.support.SocketFactory;
+import org.nexttracks.android.support.interfaces.ConfigurationIncompleteException;
+import org.nexttracks.android.support.interfaces.StatefulServiceMessageProcessor;
+import org.nexttracks.android.support.preferences.OnModeChangedPreferenceChangedListener;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -57,7 +53,7 @@ import timber.log.Timber;
 
 import static org.nexttracks.android.support.RunThingsOnOtherThreads.NETWORK_HANDLER_THREAD_NAME;
 
-public class MessageProcessorEndpointMqtt extends MessageProcessorEndpoint implements StatefulServiceMessageProcessor, Preferences.OnPreferenceChangedListener {
+public class MessageProcessorEndpointMqtt extends MessageProcessorEndpoint implements StatefulServiceMessageProcessor, OnModeChangedPreferenceChangedListener {
     public static final int MODE_ID = 0;
 
     private CustomMqttClient mqttClient;
@@ -275,8 +271,8 @@ public class MessageProcessorEndpointMqtt extends MessageProcessorEndpoint imple
         connectOptions.setMqttVersion(preferences.getMqttProtocolLevel());
         try {
             if (preferences.getTls()) {
-                String tlsCaCrt = preferences.getTlsCaCrtName();
-                String tlsClientCrt = preferences.getTlsClientCrtName();
+                String tlsCaCrt = preferences.getTlsCaCrt();
+                String tlsClientCrt = preferences.getTlsClientCrt();
 
                 SocketFactory.SocketFactoryOptions socketFactoryOptions = new SocketFactory.SocketFactoryOptions();
 
@@ -501,21 +497,20 @@ public class MessageProcessorEndpointMqtt extends MessageProcessorEndpoint imple
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (preferences.getModeId() != MessageProcessorEndpointMqtt.MODE_ID) {
+        if (preferences.getMode() != MessageProcessorEndpointMqtt.MODE_ID) {
             return;
         }
-        if (Preferences.Keys.MQTT_PROTOCOL_LEVEL.equals(key) ||
-                Preferences.Keys.HOST.equals(key) ||
-                Preferences.Keys.PASSWORD.equals(key) ||
-                Preferences.Keys.PORT.equals(key) ||
-                Preferences.Keys.CLIENT_ID.equals(key) ||
-                Preferences.Keys.TLS.equals(key) ||
-                Preferences.Keys.TLS_CA_CRT.equals(key) ||
-                Preferences.Keys.TLS_CLIENT_CRT.equals(key) ||
-                Preferences.Keys.TLS_CLIENT_CRT_PASSWORD.equals(key) ||
-                Preferences.Keys.WS.equals(key) ||
-                Preferences.Keys.DEVICE_ID.equals(key)
-
+        if (preferences.getPreferenceKey(R.string.preferenceKeyMqttProtocolLevel).equals(key) ||
+                preferences.getPreferenceKey(R.string.preferenceKeyHost).equals(key) ||
+                preferences.getPreferenceKey(R.string.preferenceKeyPassword).equals(key) ||
+                preferences.getPreferenceKey(R.string.preferenceKeyPort).equals(key) ||
+                preferences.getPreferenceKey(R.string.preferenceKeyClientId).equals(key) ||
+                preferences.getPreferenceKey(R.string.preferenceKeyTLS).equals(key) ||
+                preferences.getPreferenceKey(R.string.preferenceKeyTLSCaCrt).equals(key) ||
+                preferences.getPreferenceKey(R.string.preferenceKeyTLSClientCrt).equals(key) ||
+                preferences.getPreferenceKey(R.string.preferenceKeyTLSClientCrtPassword).equals(key) ||
+                preferences.getPreferenceKey(R.string.preferenceKeyWS).equals(key) ||
+                preferences.getPreferenceKey(R.string.preferenceKeyDeviceId).equals(key)
         ) {
             Timber.d("MQTT preferences changed. Reconnecting to broker. ThreadId: %s", Thread.currentThread());
             reconnect();

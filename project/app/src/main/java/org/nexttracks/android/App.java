@@ -17,8 +17,8 @@ import org.nexttracks.android.services.MessageProcessor;
 import org.nexttracks.android.support.Parser;
 import org.nexttracks.android.support.Preferences;
 import org.nexttracks.android.support.RunThingsOnOtherThreads;
+import org.nexttracks.android.support.TimberDebugLogFileTree;
 import org.nexttracks.android.support.TimberDebugLogTree;
-import org.nexttracks.android.support.TimberLogFileTree;
 import org.nexttracks.android.ui.map.MapActivity;
 
 import javax.inject.Inject;
@@ -52,10 +52,12 @@ public class App extends DaggerApplication  {
         WorkManager.initialize(this, new Configuration.Builder().build());
 
         super.onCreate();
-
-        if(preferences.getLogDebug()) {
-            Timber.plant(new TimberLogFileTree(this));
+        if (preferences.getDebugLog()) {
+            Timber.plant(new TimberDebugLogFileTree(this.context));
+        } else {
+            preferences.setDebugLog(false);
         }
+
 
         if(BuildConfig.DEBUG) {
             Timber.plant(new TimberDebugLogTree());

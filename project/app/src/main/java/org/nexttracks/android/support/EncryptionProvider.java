@@ -2,13 +2,16 @@ package org.nexttracks.android.support;
 
 
 import android.content.SharedPreferences;
-import androidx.annotation.NonNull;
 import android.util.Base64;
+
+import androidx.annotation.NonNull;
 
 import org.libsodium.jni.crypto.Random;
 import org.libsodium.jni.crypto.SecretBox;
-import org.nexttracks.android.injection.scopes.PerApplication;
 
+import org.nexttracks.android.R;
+import org.nexttracks.android.injection.scopes.PerApplication;
+import org.nexttracks.android.support.preferences.OnModeChangedPreferenceChangedListener;
 
 import javax.inject.Inject;
 
@@ -92,7 +95,7 @@ public class EncryptionProvider {
         return Base64.encodeToString(out, Base64.NO_WRAP);
     }
 
-    private class SecretBoxManager implements Preferences.OnPreferenceChangedListener {
+    private class SecretBoxManager implements OnModeChangedPreferenceChangedListener {
         SecretBoxManager() {
             preferences.registerOnPreferenceChangedListener(this);
         }
@@ -104,7 +107,7 @@ public class EncryptionProvider {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if (Preferences.Keys._ENCRYPTION_KEY.equals(key))
+            if (preferences.getPreferenceKey(R.string.preferenceKeyEncryptionKey).equals(key))
                 initializeSecretBox();
         }
     }

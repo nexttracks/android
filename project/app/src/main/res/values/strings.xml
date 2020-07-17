@@ -14,8 +14,8 @@
     <string name="preferencesLicenses">"Libraries"</string>
     <string name="preferencesLicensesSummary">"Thanks to the authors of included libraries"</string>
     <string name="preferencesNotification">Notifications</string>
-    <string name="preferencesNotificationEvents">Events </string>
-    <string name="preferencesNotificationEventsSummary">Notify about received events </string>
+    <string name="preferencesNotificationEvents">Events</string>
+    <string name="preferencesNotificationEventsSummary">Notify about received events</string>
     <string name="preferencesNotificationLocationSummary">"Display last reported location and time"</string>
     <string name="preferencesNotificationLocation">"Last reported location"</string>
     <string name="preferencesAdvanced">"Advanced"</string>
@@ -62,6 +62,7 @@
     <string name="preferencesIdentification">Identification</string>
     <string name="preferencesParameters">Parameters</string>
     <string name="preferencesKeepalive">Keepalive</string>
+    <string name="preferencesKeepaliveValidationError" formatted="true">Keepalive should be a minimum of %d</string>
     <string name="seconds">Seconds</string>
     <string name="preferencesProfileId">Mode</string>
     <string name="mode_mqtt_private_label">MQTT</string>
@@ -98,6 +99,7 @@
     <string name="mqtt_private_description">Connect to your own private NextTracks setup and share your location with family or friends</string>
     <string name="permissions_heading">Permissions</string>
     <string name="permissions_description">NextTracks requires access to your location. Please grant this permission before continuing.</string>
+    <string name="external_storage_permissions_description">NextTracks requires access to your external storage in order to save the debug log to your device</string>
     <string name="permissions_granted">Permissions have been granted</string>
     <string name="icon_description_nexttracks">NextTracks</string>
     <string name="enjoy_description">Select preferences from the menu and configure NextTracks for your server before using it</string>
@@ -145,6 +147,7 @@
     <string name="ERROR_DATADISABLED">Data connection not available</string>
     <string name="ERROR_CONFIGURATION">Configuration incomplete</string>
 	<string name="notificationChannelOngoing">Ongoing</string>
+    <string name="debugChannelOngoing">Debug</string>
 	<string name="notificationChannelOngoingDescription">Required to receive location updates in the background</string>
 	<string name="notificationChannelEventsDescription">Region transmissions</string>
     <string name="region_unknown">Status unknown</string>
@@ -152,7 +155,7 @@
     <string name="region_outside">Currently outside</string>
     <string name="monitoring_quiet">Quiet monitoring mode</string>
     <string name="monitoring_manual">Manual monitoring mode</string>
-    <string name="monitoring_signifficant">Significant changes monitoring mode</string>
+    <string name="monitoring_significant">Significant changes monitoring mode</string>
     <string name="monitoring_move">Move monitoring mode</string>
     <string name="notificationChangeMonitoring">Change Monitoring</string>
     <string name="preferencesDebugLog">Debug log</string>
@@ -176,4 +179,10 @@
     <string name="status">Status</string>
     <string name="move">Move</string>
     <string name="preferencesClientId">Client ID</string>
+    <string name="status_endpoint_state_hint">Endpoint state</string>
+    <string name="status_endpoint_state_message_hint">Endpoint state message</string>
+    <string name="status_endpoint_queue_hint">Endpoint queue</string>
+    <string name="status_last_background_update_hint">Location service last background update</string>
+    <string name="status_background_service_started_hint">Background service started</string>
+    <string name="status_battery_optimization_whitelisted_hint">Battery optimization whitelisted</string>
 </resources>

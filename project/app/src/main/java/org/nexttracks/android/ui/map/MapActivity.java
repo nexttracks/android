@@ -345,7 +345,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
                 break;
             case LocationProcessor.MONITORING_SIGNIFICANT:
                 item.setIcon(R.drawable.ic_play_white_36dp);
-                item.setTitle(R.string.monitoring_signifficant);
+                item.setTitle(R.string.monitoring_significant);
 
                 break;
             case LocationProcessor.MONITORING_MOVE:
@@ -387,7 +387,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         }else if (newmode == LocationProcessor.MONITORING_MANUAL)  {
             Toast.makeText(this, R.string.monitoring_manual, Toast.LENGTH_SHORT).show();
         } else if (newmode == LocationProcessor.MONITORING_SIGNIFICANT)  {
-            Toast.makeText(this, R.string.monitoring_signifficant, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.monitoring_significant, Toast.LENGTH_SHORT).show();
         } else  {
             Toast.makeText(this, R.string.monitoring_move, Toast.LENGTH_SHORT).show();
         }
@@ -601,7 +601,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         PopupMenu popupMenu = new PopupMenu(this, v, Gravity.START); //new PopupMenu(this, v);
         popupMenu.getMenuInflater().inflate(R.menu.menu_popup_contacts, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(this);
-        if (preferences.getModeId() == MessageProcessorEndpointHttp.MODE_ID)
+        if (preferences.getMode() == MessageProcessorEndpointHttp.MODE_ID)
             popupMenu.getMenu().removeItem(R.id.menu_clear);
         popupMenu.show();
     }

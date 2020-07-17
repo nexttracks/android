@@ -9,20 +9,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.greenrobot.eventbus.EventBus;
 import org.nexttracks.android.App;
 import org.nexttracks.android.BuildConfig;
+import org.nexttracks.android.R;
 import org.nexttracks.android.messages.MessageBase;
-import org.nexttracks.android.messages.MessageClear;
-import org.nexttracks.android.messages.MessageCmd;
-import org.nexttracks.android.messages.MessageEvent;
-import org.nexttracks.android.messages.MessageLocation;
-import org.nexttracks.android.messages.MessageTransition;
-import org.nexttracks.android.messages.MessageWaypoint;
-import org.nexttracks.android.messages.MessageWaypoints;
 import org.nexttracks.android.services.MessageProcessor.EndpointState;
 import org.nexttracks.android.services.worker.Scheduler;
 import org.nexttracks.android.support.Parser;
 import org.nexttracks.android.support.Preferences;
 import org.nexttracks.android.support.SocketFactory;
 import org.nexttracks.android.support.interfaces.ConfigurationIncompleteException;
+import org.nexttracks.android.support.preferences.OnModeChangedPreferenceChangedListener;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -43,7 +38,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import timber.log.Timber;
 
-public class MessageProcessorEndpointHttp extends MessageProcessorEndpoint implements Preferences.OnPreferenceChangedListener {
+public class MessageProcessorEndpointHttp extends MessageProcessorEndpoint implements OnModeChangedPreferenceChangedListener {
     public static final int MODE_ID = 3;
 
     // Headers according to https://github.com/owntracks/recorder#http-mode
@@ -91,8 +86,8 @@ public class MessageProcessorEndpointHttp extends MessageProcessorEndpoint imple
 
     @Nullable
     private SocketFactory getSocketFactory() {
-        String tlsCaCrt = preferences.getTlsCaCrtName();
-        String tlsClientCrt = preferences.getTlsClientCrtName();
+        String tlsCaCrt = preferences.getTlsCaCrt();
+        String tlsClientCrt = preferences.getTlsClientCrt();
 
         if(tlsCaCrt.length() == 0 && tlsClientCrt.length() == 0) {
             return null;
@@ -130,7 +125,7 @@ public class MessageProcessorEndpointHttp extends MessageProcessorEndpoint imple
     }
 
     private OkHttpClient getHttpClient() {
-        if(preferences.getDontReuseHTTPClient()) {
+        if(preferences.getDontReuseHttpClient()) {
             return createHttpClient();
         }
 
@@ -300,9 +295,15 @@ public class MessageProcessorEndpointHttp extends MessageProcessorEndpoint imple
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(Preferences.Keys.URL.equals(key) || Preferences.Keys.USERNAME.equals(key) || Preferences.Keys.PASSWORD.equals(key) || Preferences.Keys.DEVICE_ID.equals(key))
+        if (
+                preferences.getPreferenceKey(R.string.preferenceKeyURL).equals(key)
+                        || preferences.getPreferenceKey(R.string.preferenceKeyUsername).equals(key)
+                        || preferences.getPreferenceKey(R.string.preferenceKeyPassword).equals(key)
+                        || preferences.getPreferenceKey(R.string.preferenceKeyDeviceId).equals(key))
             loadEndpointUrl();
-        else if(Preferences.Keys.TLS_CLIENT_CRT.equals(key) || Preferences.Keys.TLS_CLIENT_CRT_PASSWORD.equals(key) ||Preferences.Keys.TLS_CA_CRT.equals(key))
+        else if (preferences.getPreferenceKey(R.string.preferenceKeyTLSClientCrt).equals(key)
+                || preferences.getPreferenceKey(R.string.preferenceKeyTLSClientCrtPassword).equals(key)
+                || preferences.getPreferenceKey(R.string.preferenceKeyTLSCaCrt).equals(key))
             mHttpClient = null;
     }
 

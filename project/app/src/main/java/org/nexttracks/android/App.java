@@ -17,7 +17,6 @@ import org.nexttracks.android.services.MessageProcessor;
 import org.nexttracks.android.support.Parser;
 import org.nexttracks.android.support.Preferences;
 import org.nexttracks.android.support.RunThingsOnOtherThreads;
-import org.nexttracks.android.support.TimberDebugLogFileTree;
 import org.nexttracks.android.support.TimberDebugLogTree;
 import org.nexttracks.android.ui.map.MapActivity;
 
@@ -52,28 +51,25 @@ public class App extends DaggerApplication  {
         WorkManager.initialize(this, new Configuration.Builder().build());
 
         super.onCreate();
-        if (preferences.getDebugLog()) {
-            Timber.plant(new TimberDebugLogFileTree(this.context));
-        } else {
-            preferences.setDebugLog(false);
-        }
-
 
         if(BuildConfig.DEBUG) {
             Timber.plant(new TimberDebugLogTree());
-
             Timber.e("StrictMode enabled in DEBUG build");
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectDiskWrites()
                     .detectNetwork()
-                    .penaltyLog()
+                    .penaltyFlashScreen()
                     .penaltyDialog()
                     .build());
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
                     .detectLeakedSqlLiteObjects()
                     .detectLeakedClosableObjects()
+                    .detectFileUriExposure()
                     .penaltyLog()
                     .build());
 
+        } else {
+            Timber.plant(new Timber.DebugTree());
         }
         for(Timber.Tree t : Timber.forest()) {
                 Timber.v("Planted trees :%s", t);

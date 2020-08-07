@@ -141,4 +141,5 @@
     <string name="notificationChangeMonitoring">Changer mode de surveillance</string>
     <string name="preferencesGeocode">Géocodage</string>
     <string name="preferencesGeocodeSummary">Activer le géocodage. Redémarrage nécessaire.</string>
+    <string name="distance_label">Distance</string>
 </resources>

@@ -39,6 +39,7 @@ class PreferencesFragment : AbstractPreferenceFragment() {
     companion object {
         private const val UI_PREFERENCE_SCREEN_CONNECTION = "connectionScreen"
         private const val UI_SCREEN_CONFIGURATION = "configuration"
+        private const val UI_LOGS = "logs"
     }
 
     @Module(includes = [BaseFragmentModule::class])

@@ -131,33 +131,33 @@ public class LocationProcessor {
     }
 
 
-    void onWaypointTransition(@NonNull WaypointModel w, @NonNull final Location l, final int transition, @NonNull final String trigger) {
-        Timber.v("geofence %s/%s transition:%s, trigger:%s", w.getTst(), w.getDescription(), transition == Geofence.GEOFENCE_TRANSITION_ENTER ? "enter" : "exit", trigger);
+    void onWaypointTransition(@NonNull WaypointModel waypointModel, @NonNull final Location location, final int transition, @NonNull final String trigger) {
+        Timber.v("geofence %s/%s transition:%s, trigger:%s", waypointModel.getTst(), waypointModel.getDescription(), transition == Geofence.GEOFENCE_TRANSITION_ENTER ? "enter" : "exit", trigger);
 
-        if (ignoreLowAccuracy(l)) {
+        if (ignoreLowAccuracy(location)) {
             Timber.d("ignoring transition: low accuracy ");
             return;
         }
 
         // Don't send transition if the region is already triggered
         // If the region status is unknown, send transition only if the device is inside
-        if (((transition == w.getLastTransition()) || (w.isUnknown() && transition == Geofence.GEOFENCE_TRANSITION_EXIT))) {
-            Timber.d("ignoring initial or duplicate transition");
-            w.setLastTransition(transition);
-            waypointsRepo.update(w, false);
+        if (((transition == waypointModel.getLastTransition()) || (waypointModel.isUnknown() && transition == Geofence.GEOFENCE_TRANSITION_EXIT))) {
+            Timber.d("ignoring initial or duplicate transition: %s", waypointModel.getDescription());
+            waypointModel.setLastTransition(transition);
+            waypointsRepo.update(waypointModel, false);
             return;
         }
 
-        w.setLastTransition(transition);
-        w.setLastTriggeredNow();
-        waypointsRepo.update(w, false);
+        waypointModel.setLastTransition(transition);
+        waypointModel.setLastTriggeredNow();
+        waypointsRepo.update(waypointModel, false);
 
         if(preferences.getMonitoring() ==MONITORING_QUIET) {
             Timber.v("message suppressed by monitoring settings: %s", preferences.getMonitoring());
             return;
         }
 
-        publishTransitionMessage(w, l, transition, trigger);
+        publishTransitionMessage(waypointModel, location, transition, trigger);
         if (trigger.equals(MessageTransition.TRIGGER_CIRCULAR)) {
             publishLocationMessage(MessageLocation.REPORT_TYPE_CIRCULAR);
         }

@@ -12,9 +12,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.media.AudioManager;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkRequest;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
@@ -164,7 +161,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
 
             @Override
             public void onLocationResult(LocationResult locationResult) {
-                Timber.tag("location").i("Locationresult received: %s", locationResult);
+                Timber.i("Locationresult received: %s", locationResult);
                 onLocationChanged(locationResult.getLastLocation(), MessageLocation.REPORT_TYPE_DEFAULT);
             }
         };
@@ -176,6 +173,7 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
 
             @Override
             public void onLocationResult(LocationResult locationResult) {
+                Timber.i("Ondemand Locationresult received: %s", locationResult);
                 Timber.tag("location").i("Ondemand Locationresult received: %s", locationResult);
                 onLocationChanged(locationResult.getLastLocation(), MessageLocation.REPORT_TYPE_RESPONSE);
             }
@@ -195,44 +193,8 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
 
         preferences.registerOnPreferenceChangedListener(this);
 
-        // registerWifiStateReceiver(); Testing only
     }
 
-    private void registerWifiStateReceiver() {
-        Timber.v("registering broadcast receiver");
-        //IntentFilter intentFilter = new IntentFilter();
-        //intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        //intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-
-        //WifiStateReceiver receiver = new WifiStateReceiver();
-        //registerReceiver(receiver, intentFilter);
-
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkRequest.Builder builder = new NetworkRequest.Builder();
-
-        connectivityManager.registerNetworkCallback(
-                builder.build(),
-                new ConnectivityManager.NetworkCallback() {
-
-                    @Override
-                    public void onAvailable(Network network) {
-                        Timber.v("network available %s", network.toString());
-
-
-                    }
-
-
-                    @Override
-                    public void onLost(Network network) {
-                        Timber.v("network lost %s", network.toString());
-
-
-                    }
-                }
-
-        );
-    }
 
     @Override
     public void onDestroy() {
@@ -519,12 +481,12 @@ public class BackgroundService extends DaggerService implements LostApiClient.Co
             Timber.e("no location provided");
             return;
         }
-        Timber.tag("outgoing").v("location update received: tst:%s, acc:%s, lat:%s, lon:%s type:%s", location.getTime(), location.getAccuracy(), location.getLatitude(), location.getLongitude(), reportType);
+        Timber.v("location update received: tst:%s, acc:%s, lat:%s, lon:%s type:%s", location.getTime(), location.getAccuracy(), location.getLatitude(), location.getLongitude(), reportType);
 
         if (location.getTime() > locationRepo.getCurrentLocationTime()) {
             locationProcessor.onLocationChanged(location, reportType);
         } else {
-            Timber.tag("outgoing").v("Not re-sending message with same timestamp as last");
+            Timber.v("Not re-sending message with same timestamp as last");
         }
     }
 

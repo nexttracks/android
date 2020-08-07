@@ -33,4 +33,5 @@
         android:key="version"
         android:title="@string/preferencesVersion"
         app:iconSpaceReserved="false" />
+
 </PreferenceScreen>

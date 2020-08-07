@@ -1,13 +1,11 @@
 package org.nexttracks.android.injection.components;
 
-import androidx.annotation.NonNull;
-
 import org.nexttracks.android.App;
 import org.nexttracks.android.injection.modules.AppModule;
 import org.nexttracks.android.injection.modules.ObjectboxWaypointsModule;
 import org.nexttracks.android.injection.modules.android.AndroindBindingModule;
 import org.nexttracks.android.injection.scopes.PerApplication;
-import org.nexttracks.android.services.worker.MQTTKeepaliveWorker;
+import org.nexttracks.android.services.worker.MQTTMaybeReconnectAndPingWorker;
 import org.nexttracks.android.services.worker.MQTTReconnectWorker;
 import org.nexttracks.android.services.worker.SendLocationPingWorker;
 import org.nexttracks.android.support.preferences.SharedPreferencesStoreModule;
@@ -41,7 +39,7 @@ public interface AppComponent extends AndroidInjector<DaggerApplication>  {
     @Override
     void inject(DaggerApplication instance);
     void inject(App app);
-    void inject(MQTTKeepaliveWorker worker);
+    void inject(MQTTMaybeReconnectAndPingWorker worker);
     void inject(MQTTReconnectWorker worker);
     void inject(SendLocationPingWorker worker);
 

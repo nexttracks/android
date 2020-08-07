@@ -56,8 +56,8 @@ public class App extends DaggerApplication  {
             Timber.plant(new TimberDebugLogTree());
             Timber.e("StrictMode enabled in DEBUG build");
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                    .detectDiskWrites()
-                    .detectNetwork()
+//                    .detectDiskWrites()
+//                    .detectNetwork()
                     .penaltyFlashScreen()
                     .penaltyDialog()
                     .build());

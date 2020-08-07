@@ -94,7 +94,7 @@ class LogViewerActivity : BaseActivity<UiPreferencesLogsBinding, NoOpViewModel>(
             logExportUri = Uri.parse("content://${BuildConfig.APPLICATION_ID}.log/$key")
             val shareIntent = ShareCompat.IntentBuilder.from(this)
                     .setType("text/plain")
-                    .setSubject("Owntracks Log File")
+                    .setSubject("NextTracks Log File")
                     .setChooserTitle(R.string.exportLogFilePrompt)
                     .setStream(logExportUri)
                     .createChooserIntent()
@@ -323,7 +323,7 @@ class LogViewerActivity : BaseActivity<UiPreferencesLogsBinding, NoOpViewModel>(
         override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor? =
                 logForUri(uri)?.let {
                     val m = MatrixCursor(arrayOf(OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE), 1)
-                    m.addRow(arrayOf("owntracks-log.txt", it.size.toLong()))
+                    m.addRow(arrayOf("nexttracks-log.txt", it.size.toLong()))
                     m
                 }
 

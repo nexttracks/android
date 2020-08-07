@@ -1,6 +1,7 @@
 package org.nexttracks.android.ui.status;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,13 +14,12 @@ import androidx.databinding.Bindable;
 import org.greenrobot.eventbus.Subscribe;
 import org.nexttracks.android.App;
 import org.nexttracks.android.BR;
-import org.nexttracks.android.R;
 import org.nexttracks.android.injection.qualifier.AppContext;
 import org.nexttracks.android.injection.scopes.PerActivity;
 import org.nexttracks.android.services.MessageProcessor;
-import org.nexttracks.android.support.DateFormatter;
 import org.nexttracks.android.support.Events;
 import org.nexttracks.android.ui.base.viewmodel.BaseViewModel;
+import org.nexttracks.android.ui.preferences.LogViewerActivity;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -31,17 +31,17 @@ import timber.log.Timber;
 
 @PerActivity
 public class StatusViewModel extends BaseViewModel<StatusMvvm.View> implements StatusMvvm.ViewModel<StatusMvvm.View> {
+    private final Context context;
     private MessageProcessor.EndpointState endpointState;
     private String endpointMessage;
 
     private Date serviceStarted;
     private long locationUpdated;
-    private boolean locationPermission;
     private int queueLength;
 
     @Inject
     public StatusViewModel(@AppContext Context context) {
-
+        this.context = context;
     }
 
     public void attachView(@NonNull StatusMvvm.View view, @Nullable Bundle savedInstanceState) {
@@ -50,16 +50,8 @@ public class StatusViewModel extends BaseViewModel<StatusMvvm.View> implements S
 
     @Override
     @Bindable
-    public String getEndpointState() {
-        if (endpointState == null) {
-            return ((StatusActivity) getView()).getResources().getString(R.string.crossMark) + ((StatusActivity) getView()).getResources().getString(R.string.na);
-        }
-
-        String prefix = (endpointState == MessageProcessor.EndpointState.CONNECTED ?
-                ((StatusActivity) getView()).getResources().getString(R.string.checkMark) :
-                ((StatusActivity) getView()).getResources().getString(R.string.crossMark));
-
-        return prefix + endpointState.getLabel(((StatusActivity) getView()).getApplicationContext());
+    public MessageProcessor.EndpointState getEndpointState() {
+        return endpointState;
     }
 
     @Override
@@ -70,38 +62,26 @@ public class StatusViewModel extends BaseViewModel<StatusMvvm.View> implements S
 
     @Override
     @Bindable
-    public String getEndpointQueue() {
-        String prefix = queueLength > 5 ? ((StatusActivity) getView()).getResources().getString(R.string.crossMark) :
-                ((StatusActivity) getView()).getResources().getString(R.string.checkMark);
-        return prefix + queueLength;
+    public int getEndpointQueue() {
+        return queueLength;
     }
 
     @Override
     @Bindable
-    public String getServiceStarted() {
-        if (serviceStarted == null) {
-            return ((StatusActivity) getView()).getResources().getString(R.string.crossMark) + ((StatusActivity) getView()).getResources().getString(R.string.na);
-        }
-        return ((StatusActivity) getView()).getResources().getString(R.string.checkMark) + DateFormatter.formatDate(serviceStarted);
+    public Date getServiceStarted() {
+        return serviceStarted;
     }
 
     @Override
-    public String getDozeWhitelisted() {
-        boolean bool = Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
+    public boolean getDozeWhitelisted() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
                 ((PowerManager) App.getContext().getSystemService(Context.POWER_SERVICE)).isIgnoringBatteryOptimizations(App.getContext().getPackageName());
-
-        return bool ?
-                ((StatusActivity) getView()).getResources().getString(R.string.checkMark) + ((StatusActivity) getView()).getResources().getString(R.string.battery_not_optimized) :
-                ((StatusActivity) getView()).getResources().getString(R.string.crossMark) + ((StatusActivity) getView()).getResources().getString(R.string.battery_optimized);
     }
 
     @Override
     @Bindable
-    public String getLocationUpdated() {
-        if (locationUpdated == 0) {
-            return ((StatusActivity) getView()).getResources().getString(R.string.crossMark) + ((StatusActivity) getView()).getResources().getString(R.string.na);
-        }
-        return ((StatusActivity) getView()).getResources().getString(R.string.checkMark) + DateFormatter.formatDate(locationUpdated);
+    public long getLocationUpdated() {
+        return locationUpdated;
     }
 
     @Subscribe(sticky = true)
@@ -131,4 +111,8 @@ public class StatusViewModel extends BaseViewModel<StatusMvvm.View> implements S
         notifyPropertyChanged(BR.endpointQueue);
     }
 
+    public void viewLogs() {
+        Intent intent = new Intent(context, LogViewerActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 }

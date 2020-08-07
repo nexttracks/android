@@ -12,12 +12,12 @@ public interface StatusMvvm {
     }
 
     interface ViewModel<V extends MvvmView> extends MvvmViewModel<V> {
-        String getEndpointState();
+        MessageProcessor.EndpointState getEndpointState();
         String getEndpointMessage();
-        String getEndpointQueue();
+        int getEndpointQueue();
 
-        String getLocationUpdated();
-        String getServiceStarted();
-        String getDozeWhitelisted();
+        long getLocationUpdated();
+        Date getServiceStarted();
+        boolean getDozeWhitelisted();
     }
 }

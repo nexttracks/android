@@ -1,5 +1,7 @@
 package org.nexttracks.android.injection.components;
 
+import androidx.annotation.NonNull;
+
 import org.nexttracks.android.App;
 import org.nexttracks.android.injection.modules.AppModule;
 import org.nexttracks.android.injection.modules.ObjectboxWaypointsModule;

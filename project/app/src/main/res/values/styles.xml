@@ -52,10 +52,17 @@
     <color name="buttonTint">@color/textSecondary</color>
     <color name="background">#fffafafa</color>
 
+    <color name="green">#4caf50</color>
+    <color name="red">#f44336</color>
+
     <color name="primary">#2196f3</color>
     <color name="secondary">#0c7cd5</color>
     <color name="accent">@color/primary</color>
-    <color name="myLocationCircle">#4caf50</color>
-    <color name="other">#f44336</color>
+    <color name="myLocationCircle">@color/green</color>
+    <color name="other">@color/red</color>
     <color name="ic_launcher_background">#3893dc</color>
+    <color name="log_debug_tag_color">#607d8b</color>
+    <color name="log_error_tag_color">@color/red</color>
+    <color name="log_info_tag_color">@color/green</color>
+    <color name="log_warning_tag_color">#ffc107</color>
 </resources>

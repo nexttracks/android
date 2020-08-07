@@ -4,6 +4,7 @@ import org.nexttracks.android.injection.modules.android.ActivityModules.Connecti
 import org.nexttracks.android.injection.modules.android.ActivityModules.ContactsActivityModule;
 import org.nexttracks.android.injection.modules.android.ActivityModules.EditorActivityModule;
 import org.nexttracks.android.injection.modules.android.ActivityModules.LoadActivityModule;
+import org.nexttracks.android.injection.modules.android.ActivityModules.LogViewerActivityModule;
 import org.nexttracks.android.injection.modules.android.ActivityModules.MapActivityModule;
 import org.nexttracks.android.injection.modules.android.ActivityModules.PreferencesActivityModule;
 import org.nexttracks.android.injection.modules.android.ActivityModules.RegionActivityModule;
@@ -15,6 +16,7 @@ import org.nexttracks.android.injection.scopes.PerActivity;
 import org.nexttracks.android.injection.scopes.PerReceiver;
 import org.nexttracks.android.injection.scopes.PerService;
 import org.nexttracks.android.support.receiver.StartBackgroundServiceReceiver;
+import org.nexttracks.android.ui.preferences.LogViewerActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -36,6 +38,10 @@ public abstract class AndroindBindingModule {
     @PerActivity
     @ContributesAndroidInjector(modules = {ConnectionActivityModule.class})
     abstract org.nexttracks.android.ui.preferences.connection.ConnectionActivity bindConnectionActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = {LogViewerActivityModule.class})
+    abstract LogViewerActivity bindLogViewerActivity();
 
     @PerActivity
     @ContributesAndroidInjector(modules = {EditorActivityModule.class})
@@ -67,11 +73,5 @@ public abstract class AndroindBindingModule {
 
     @PerReceiver
     @ContributesAndroidInjector
-    abstract StartBackgroundServiceReceiver bindBootCompleteReceiver();
-
-    @PerReceiver
-    @ContributesAndroidInjector
-    abstract org.nexttracks.android.support.receiver.WifiStateReceiver bindWifiStateReceiver();
-
-
+    abstract StartBackgroundServiceReceiver bindBackgroundServiceReceiver();
 }

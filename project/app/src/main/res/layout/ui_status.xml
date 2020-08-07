@@ -13,7 +13,6 @@
             type="org.nexttracks.android.ui.status.StatusViewModel" />
     </data>
 
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/frame"
         android:layout_width="fill_parent"
@@ -46,26 +45,51 @@
                 android:paddingTop="@dimen/activity_horizontal_margin"
                 android:paddingBottom="@dimen/activity_horizontal_margin">
 
-
                 <TextView
-                    android:id="@+id/connectedStatus"
                     style="@style/ListItemPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="none"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:text="@string/endpoint_state" />
+
+                <TextView
+                    android:id="@+id/connectedStatus"
+                    style="@style/ListItemSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:text="@{vm.endpointState, default=Connected}" />
 
-                <TextView
-                    style="@style/ListItemSecondary"
+                <TableLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:paddingBottom="@dimen/activity_horizontal_margin"
-                    android:text="@string/status_endpoint_state_hint" />
+                    android:shrinkColumns="*">
+
+                    <TableRow android:layout_width="wrap_content">
+
+                        <TextView
+                            style="@style/ListItemSecondary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/activity_horizontal_margin"
+                            android:text="@string/crossMark"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            style="@style/ListItemSecondary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:paddingRight="@dimen/activity_horizontal_margin"
+                            android:paddingBottom="@dimen/activity_horizontal_margin"
+                            android:text="@{vm.endpointMessage ?? @string/na, default=@string/na}"
+                            android:visibility="@{vm.endpointMessage!=null}" />
+                    </TableRow>
+                </TableLayout>
 
                 <TextView
                     style="@style/ListItemPrimary"
@@ -74,8 +98,7 @@
                     android:ellipsize="none"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:text="@{vm.endpointMessage ?? @string/na, default=@string/na}"
-                    android:visibility="@{vm.endpointMessage!=null}" />
+                    android:text="@string/endpoint_queue" />
 
                 <TextView
                     style="@style/ListItemSecondary"
@@ -85,19 +108,18 @@
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:paddingBottom="@dimen/activity_horizontal_margin"
-                    android:text="@string/status_endpoint_state_message_hint"
-                    android:visibility="@{vm.endpointMessage!=null}" />
-
-                <TextView
-                    style="@style/ListItemPrimary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="none"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
                     android:text="@{org.nexttracks.android.support.widgets.BindingConversions.convertToString(vm.endpointQueue)}" />
 
                 <TextView
+                    style="@style/ListItemPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="none"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:text="@string/last_background_update" />
+
+                <TextView
                     style="@style/ListItemSecondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -105,7 +127,7 @@
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:paddingBottom="@dimen/activity_horizontal_margin"
-                    android:text="@string/status_endpoint_queue_hint" />
+                    android:text="@{vm.locationUpdated}" />
 
                 <TextView
                     style="@style/ListItemPrimary"
@@ -114,7 +136,7 @@
                     android:ellipsize="none"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:text="@{vm.locationUpdated != 0 ? DateFormatter.formatDate(vm.locationUpdated) : @string/na}" />
+                    android:text="@string/background_service_started" />
 
                 <TextView
                     style="@style/ListItemSecondary"
@@ -124,27 +146,7 @@
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:paddingBottom="@dimen/activity_horizontal_margin"
-                    android:text="@string/status_last_background_update_hint" />
-
-                <TextView
-                    style="@style/ListItemPrimary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="none"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:text="@{vm.serviceStarted != null ? DateFormatter.formatDate(vm.serviceStarted) : @string/na}" />
-
-                <TextView
-                    style="@style/ListItemSecondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:paddingBottom="@dimen/activity_horizontal_margin"
-                    android:text="@string/status_background_service_started_hint" />
-
+                    android:text="@{vm.serviceStarted}" />
 
                 <LinearLayout
                     android:id="@+id/dozeWhiteListed"
@@ -159,7 +161,7 @@
                         android:ellipsize="none"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:paddingRight="@dimen/activity_horizontal_margin"
-                        android:text="@{vm.dozeWhitelisted}" />
+                        android:text="@string/battery_optimization" />
 
                     <TextView
                         style="@style/ListItemSecondary"
@@ -169,30 +171,10 @@
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:paddingRight="@dimen/activity_horizontal_margin"
                         android:paddingBottom="@dimen/activity_horizontal_margin"
-                        android:text="@string/status_battery_optimization_whitelisted_hint" />
+                        android:text="@{vm.dozeWhitelisted}" />
                 </LinearLayout>
+
             </LinearLayout>
         </ScrollView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center|bottom"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/ListItemPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="@{() -> vm.viewLogs()}"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:text="@string/viewLogs" />
-        </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

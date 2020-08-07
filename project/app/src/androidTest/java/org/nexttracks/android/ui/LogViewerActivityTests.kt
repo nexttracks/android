@@ -51,7 +51,7 @@ class LogViewerActivityTests {
     fun logViewerActivityShowsTitle() {
         // Wait for the logviewer coroutine to start
         sleep(5, TimeUnit.SECONDS)
-        assertDisplayed(R.string.logViewerActivityTitle)
+        assertDisplayed(R.string.logs)
     }
 
     @Test

@@ -58,4 +58,16 @@
         android:summary="Timber"
         android:title="Jacke Wharton"
         app:iconSpaceReserved="false" />
+    <Preference
+        android:key="osmdroid"
+        android:summary="osmdroid"
+        android:title="osmdroid" />
+    <Preference
+        android:key="osmbonuspack"
+        android:summary="OSMBonusPack"
+        android:title="MKergall" />
+    <Preference
+        android:key="lost"
+        android:summary="Lost"
+        android:title="lostzen" />
 </PreferenceScreen>

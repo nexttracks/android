@@ -169,13 +169,6 @@
     <string name="preferencesDebugLog">Debug Log</string>
     <string name="monitoring_mode">Monitoring</string>
     <string name="preferencesClientId">Client ID</string>
-    <string name="status_endpoint_state_hint">Endpunktstatus</string>
-    <string name="status_endpoint_state_message_hint">Endpunkt Statusnachricht</string>
-    <string name="status_endpoint_queue_hint">Endpunktschlange</string>
-    <string name="status_last_background_update_hint">Letzer Update vom Standortservice</string>
-    <string name="status_background_service_started_hint">Standortservice gestartet</string>
-    <string name="status_battery_optimization_whitelisted_hint">Batterieoptimierung ermöglicht</string>
     <string name="clear_log">Löschen</string>
-    <string name="viewLogs">Logs ansehen</string>
-    <string name="logViewerActivityTitle">Logs</string>
+    <string name="logs">Logs</string>
 </resources>

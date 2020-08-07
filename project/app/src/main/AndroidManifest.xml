@@ -223,7 +223,7 @@
         <activity
             android:name=".ui.preferences.LogViewerActivity"
             android:clearTaskOnLaunch="true"
-            android:label="@string/logViewerActivityTitle"
+            android:label="@string/logs"
             android:launchMode="singleTask" />
 
         <activity

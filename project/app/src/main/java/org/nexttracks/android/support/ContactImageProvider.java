@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.collection.ArrayMap;
 import androidx.databinding.BindingAdapter;
-
 import org.nexttracks.android.App;
 import org.nexttracks.android.injection.qualifier.AppContext;
 import org.nexttracks.android.injection.scopes.PerApplication;
@@ -79,7 +78,6 @@ public class ContactImageProvider {
 
         @Override
         protected void onPostExecute(BitmapDrawable result) {
-
             Marker marker = target.get();
             if(marker != null) {
                 marker.setIcon(result);

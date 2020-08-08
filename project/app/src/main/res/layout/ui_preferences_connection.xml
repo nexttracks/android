@@ -133,14 +133,6 @@
                     </RelativeLayout>
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:drawable/divider_horizontal_bright"
-					android:contentDescription="@string/divider"
-                    android:scaleType="matrix"
-                    android:src="@android:drawable/divider_horizontal_bright" />
-
                 <LinearLayout
                     android:baselineAligned="false"
                     android:id="@+id/identification"
@@ -172,15 +164,6 @@
 
                     </RelativeLayout>
                 </LinearLayout>
-
-                <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:drawable/divider_horizontal_bright"
-					android:contentDescription="@string/divider"
-                    android:scaleType="matrix"
-                    android:src="@android:drawable/divider_horizontal_bright"
-                    android:visibility="@{vm.modeId != MessageProcessorEndpointHttp.MODE_ID}" />
 
                 <LinearLayout
                     android:baselineAligned="false"
@@ -214,15 +197,6 @@
 
                     </RelativeLayout>
                 </LinearLayout>
-
-                <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:drawable/divider_horizontal_bright"
-					android:contentDescription="@string/divider"
-                    android:scaleType="matrix"
-                    android:src="@android:drawable/divider_horizontal_bright"
-                    android:visibility="@{vm.modeId != MessageProcessorEndpointHttp.MODE_ID}" />
 
                 <LinearLayout
                     android:baselineAligned="false"

@@ -61,13 +61,16 @@
     <Preference
         android:key="osmdroid"
         android:summary="osmdroid"
-        android:title="osmdroid" />
+        android:title="osmdroid"
+        app:iconSpaceReserved="false" />
     <Preference
         android:key="osmbonuspack"
         android:summary="OSMBonusPack"
-        android:title="MKergall" />
+        android:title="MKergall"
+        app:iconSpaceReserved="false" />
     <Preference
         android:key="lost"
         android:summary="Lost"
-        android:title="lostzen" />
+        android:title="lostzen"
+        app:iconSpaceReserved="false" />
 </PreferenceScreen>

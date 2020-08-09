@@ -77,8 +77,8 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
     private static final long ZOOM_LEVEL_STREET = 15;
     private final int PERMISSIONS_REQUEST_CODE = 1;
 
-    private final WeakHashMap<String, Marker> mContacts = new WeakHashMap<>();
-    public final WeakHashMap<Long, DraggablePolygon> mWaypoints = new WeakHashMap<>();
+    private final WeakHashMap<String, Marker> contacts = new WeakHashMap<>();
+    public final WeakHashMap<Long, DraggablePolygon> waypoints = new WeakHashMap<>();
     private MapView map;
     private BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
     private boolean isMapReady = false;
@@ -412,11 +412,11 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
     @Override
     public void clearContacts() {
         if (isMapReady) {
-            for (Marker m : mContacts.values()) {
+            for (Marker m : contacts.values()) {
                 m.remove(map);
             }
         }
-        mContacts.clear();
+        contacts.clear();
     }
 
     @Override
@@ -424,7 +424,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         if(contact == null)
             return;
 
-        Marker m = mContacts.get(contact.getId());
+        Marker m = contacts.get(contact.getId());
         if(m != null)
             m.remove(map);
     }
@@ -434,7 +434,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         if(contact == null)
             return null;
 
-        return mContacts.get(contact.getId());
+        return contacts.get(contact.getId());
     }
 
     @Override
@@ -445,14 +445,18 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         }
 
         Timber.v("updating contact: %s", contact.getId());
-        Marker m = mContacts.get(contact.getId());
+        Marker m = contacts.get(contact.getId());
 
-        if (m == null){
+        if (m == null || m.getTitle() == null){
             m = new Marker(map, null);
-            m.setTitle(contact.getId());
             m.setAnchor(0.5f, 0.5f);
             map.getOverlays().add(m);
-            mContacts.put(contact.getId(), m);
+            // If a marker has been removed, its title will be null. Doing anything with it will make it explode
+            if (m != null) {
+                this.removeContact(contact);
+            }
+            m.setTitle(contact.getId());
+            contacts.put(contact.getId(), m);
         } else {
             this.map.invalidate();
         }
@@ -464,11 +468,11 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
     @Override
     public void clearWaypoints() {
         if (isMapReady) {
-            for (Polygon p : mWaypoints.values()) {
+            for (Polygon p : waypoints.values()) {
                 map.getOverlayManager().remove(p);
             }
         }
-        mWaypoints.clear();
+        waypoints.clear();
     }
 
     @Override
@@ -476,7 +480,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         if(waypoint == null)
             return;
 
-        Polygon p = mWaypoints.get(waypoint.getId());
+        Polygon p = waypoints.get(waypoint.getId());
         Timber.v("removing waypoint: %s", waypoint.getDescription());
         if(p != null) {
             map.getOverlayManager().remove(p);
@@ -488,7 +492,7 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         if(waypoint == null)
             return null;
 
-        return mWaypoints.get(waypoint.getId());
+        return waypoints.get(waypoint.getId());
     }
 
     @Override
@@ -499,14 +503,14 @@ public class MapActivity extends BaseActivity<UiMapBinding, MapMvvm.ViewModel> i
         }
 
         Timber.v("updating waypoint: %s", waypoint.getDescription());
-        DraggablePolygon p = mWaypoints.get(waypoint.getId());
+        DraggablePolygon p = waypoints.get(waypoint.getId());
 
         if (p == null) {
             p = new DraggablePolygon(map, waypoint.getGeofenceRadius());
             p.setOnClickListener((polygon, mapView, eventPos) -> false);
             colorWaypoint(p, R.color.primary);
             map.getOverlays().add(p);
-            mWaypoints.put(waypoint.getId(), p);
+            waypoints.put(waypoint.getId(), p);
         } else {
             this.map.invalidate();
         }

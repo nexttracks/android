@@ -49,7 +49,7 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
     private FusedContact activeContact;
     private WaypointModel draggedWaypoint;
     private MessageProcessor messageProcessor;
-    private Location mLocation;
+    private Location location;
 
     private static final int VIEW_FREE = 0;
     private static final int VIEW_CONTACT = 1;
@@ -181,7 +181,7 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
     @Override
     @Nullable
     public GeoPoint getCurrentLocation() {
-        return mLocation != null ? new GeoPoint(mLocation.getLatitude(), mLocation.getLongitude()) : null;
+        return location != null ? new GeoPoint(location.getLatitude(), location.getLongitude()) : null;
     }
 
     @Override
@@ -241,7 +241,7 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
 
     @Override
     public boolean hasLocation() {
-        return mLocation != null;
+        return location != null;
     }
 
 
@@ -334,9 +334,9 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
     public void onEvent(@NonNull Location l) {
         Timber.v("location source updated");
 
-        this.mLocation = l;
+        this.location = l;
 //        if (mListener != null) {
-//            this.mListener.onLocationChanged(this.mLocation);
+//            this.mListener.onLocationChanged(this.location);
 //        }
         if(mode == VIEW_DEVICE) {
             liveCamera.postValue(getCurrentLocation());
@@ -349,8 +349,8 @@ public class MapViewModel extends BaseViewModel<MapMvvm.View> implements MapMvvm
 //    public void activate( onLocationChangedListener) {
 //       Timber.v("location source activated");
 //       mListener = onLocationChangedListener;
-//       if (mLocation != null)
-//           this.mListener.onLocationChanged(mLocation);
+//       if (location != null)
+//           this.mListener.onLocationChanged(location);
 //    }
 
     // Map Callback

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    <data>
+        <import type="android.view.View"/>
+        <variable name="vm" type="org.nexttracks.android.ui.preferences.account.AccountViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical" >
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:elevation="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginEnd="@dimen/default_spacing">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="@dimen/default_spacing"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/preferenceKeyUsername"
+                    android:background="@android:color/transparent"
+                    android:textCursorDrawable="@drawable/cursor_white"
+                    android:gravity="bottom"
+                    android:inputType="text"
+                    android:id="@+id/username"
+                    android:text="@={vm.account.username}"
+                    app:met_floatingLabel="normal"
+                    app:met_baseColor="@color/textPrimary"
+                    app:met_primaryColor="@color/accent" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="@dimen/default_spacing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/preferenceKeyPassword"
+                    android:enabled="true"
+                    android:id="@+id/password"
+                    android:text="@={vm.account.password}"
+                    android:inputType="textPassword"
+                    app:met_floatingLabel="normal"
+                    app:met_baseColor="@color/textPrimary"
+                    app:met_primaryColor="@color/accent"
+                    />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_marginStart="@dimen/default_spacing"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/preferenceKeyHost"
+                    android:enabled="true"
+                    android:id="@+id/hostname"
+                    android:text="@={vm.account.hostname}"
+                    android:inputType="text"
+                    app:met_floatingLabel="normal"
+                    app:met_baseColor="@color/textPrimary"
+                    app:met_primaryColor="@color/accent"
+                    />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="@dimen/default_spacing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/preferenceKeyPort"
+                    android:id="@+id/port"
+                    android:maxLength="5"
+                    android:digits="0123456789"
+                    android:inputType="number|textNoSuggestions"
+                    app:met_floatingLabel="normal"
+                    app:met_baseColor="@color/textPrimary"
+                    app:met_primaryColor="@color/accent"
+                    android:text='@={vm.portText}'
+                    />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>

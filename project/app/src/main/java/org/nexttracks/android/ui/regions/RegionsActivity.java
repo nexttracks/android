@@ -56,12 +56,9 @@ public class RegionsActivity extends BaseActivity<UiRegionsBinding, RegionsMvvm.
                 viewModel.exportWaypoints();
                 return true;
 
-
-
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onClick(@NonNull final WaypointModel model, @NonNull View view, boolean longClick) {

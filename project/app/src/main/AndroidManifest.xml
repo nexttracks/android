@@ -214,6 +214,12 @@
         </activity>
 
         <activity
+            android:name=".ui.preferences.account.AccountActivity"
+            android:clearTaskOnLaunch="true"
+            android:label="@string/preferencesAccount"
+            android:launchMode="singleTask" />
+
+        <activity
             android:name=".ui.preferences.accounts.AccountsActivity"
             android:clearTaskOnLaunch="true"
             android:label="@string/preferencesAccounts"

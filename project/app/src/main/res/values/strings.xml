@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">NextTracks</string>
     <string name="preferencesAccounts">"Accounts"</string>
+    <string name="preferencesAccount">Account</string>
     <string name="preferencesServer">"Connection"</string>
     <string name="preferencesHost">"Host"</string>
     <string name="preferencesPort">"Port"</string>

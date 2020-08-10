@@ -1,5 +1,6 @@
 package org.nexttracks.android.support;
 
+import org.nexttracks.android.data.AccountModel;
 import org.nexttracks.android.data.WaypointModel;
 import org.nexttracks.android.model.FusedContact;
 
@@ -140,6 +141,33 @@ public class Events {
         }
         public FusedContact getContact() {
             return this.fusedContact;
+        }
+    }
+
+    public static class AccountEvent extends E {
+        private final AccountModel m;
+
+        AccountEvent(AccountModel m) {
+            this.m = m;
+        }
+        public AccountModel getAccountModel() {
+            return this.m;
+        }
+    }
+
+    public static class AccountAdded extends AccountEvent {
+        public AccountAdded(AccountModel m) {
+            super(m);
+        }
+    }
+    public static class AccountUpdated extends AccountEvent {
+        public AccountUpdated(AccountModel m) {
+            super(m);
+        }
+    }
+    public static class AccountRemoved extends AccountEvent {
+        public AccountRemoved(AccountModel m) {
+            super(m);
         }
     }
 }

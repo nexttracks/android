@@ -4,6 +4,10 @@
     android:key="root"
     app:title="@string/title_activity_preferences">
     <Preference
+        android:key="accountsScreen"
+        android:title="@string/preferencesAccounts"
+        app:iconSpaceReserved="false" />
+    <Preference
         android:key="connectionScreen"
         android:title="@string/preferencesServer"
         app:iconSpaceReserved="false" />

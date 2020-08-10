@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import org.greenrobot.eventbus.EventBus;
+import org.nexttracks.android.App;
 import org.nexttracks.android.data.MyObjectBox;
 import org.nexttracks.android.data.WaypointModel;
 import org.nexttracks.android.data.WaypointModel_;
@@ -27,12 +28,10 @@ public class ObjectboxWaypointsRepo extends WaypointsRepo  {
 
     public ObjectboxWaypointsRepo(@AppContext Context context, EventBus eventBus, Preferences preferences) {
         super(eventBus);
-        BoxStore boxStore = MyObjectBox.builder().androidContext(context).build();
-        this.box = boxStore.boxFor(org.nexttracks.android.data.WaypointModel.class);
+        this.box = ((App) App.getApplication()).getBoxStore().boxFor(org.nexttracks.android.data.WaypointModel.class);
         this.preferences = preferences;
         if(!preferences.isObjectboxMigrated()) {
             migrateLegacyData(context);
-
         }
     }
 

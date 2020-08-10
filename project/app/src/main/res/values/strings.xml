@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NextTracks</string>
+    <string name="preferencesAccounts">"Accounts"</string>
     <string name="preferencesServer">"Connection"</string>
     <string name="preferencesHost">"Host"</string>
     <string name="preferencesPort">"Port"</string>
@@ -179,4 +180,5 @@
     <string name="clear_log">Clear</string>
     <string name="logs">Logs</string>
     <string name="exportLogFilePrompt">Export log file</string>
+    <string name="addAccount">Add account</string>
 </resources>

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import org.nexttracks.android.App;
 import org.nexttracks.android.injection.modules.AppModule;
+import org.nexttracks.android.injection.modules.ObjectboxAccountsModule;
 import org.nexttracks.android.injection.modules.ObjectboxWaypointsModule;
 import org.nexttracks.android.injection.modules.android.AndroindBindingModule;
 import org.nexttracks.android.injection.scopes.PerApplication;
@@ -22,6 +23,7 @@ import dagger.android.support.DaggerApplication;
 @Component(modules={
         AppModule.class,
         ObjectboxWaypointsModule.class,
+        ObjectboxAccountsModule.class,
         AndroidSupportInjectionModule.class,
         AndroindBindingModule.class,
         SharedPreferencesStoreModule.class}

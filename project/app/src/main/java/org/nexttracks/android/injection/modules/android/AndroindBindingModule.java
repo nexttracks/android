@@ -1,5 +1,6 @@
 package org.nexttracks.android.injection.modules.android;
 
+import org.nexttracks.android.injection.modules.android.ActivityModules.AccountsActivityModule;
 import org.nexttracks.android.injection.modules.android.ActivityModules.ConnectionActivityModule;
 import org.nexttracks.android.injection.modules.android.ActivityModules.ContactsActivityModule;
 import org.nexttracks.android.injection.modules.android.ActivityModules.EditorActivityModule;
@@ -34,6 +35,10 @@ public abstract class AndroindBindingModule {
     @PerActivity
     @ContributesAndroidInjector(modules = {PreferencesActivityModule.class})
     abstract org.nexttracks.android.ui.preferences.PreferencesActivity bindPreferencesActivity();
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = {AccountsActivityModule.class})
+    abstract org.nexttracks.android.ui.preferences.accounts.AccountsActivity bindAccountsActivity();
 
     @PerActivity
     @ContributesAndroidInjector(modules = {ConnectionActivityModule.class})

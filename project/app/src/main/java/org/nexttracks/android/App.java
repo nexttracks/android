@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.work.Configuration;
 import androidx.work.WorkManager;
 
+import org.nexttracks.android.data.MyObjectBox;
 import org.nexttracks.android.injection.components.AppComponent;
 import org.nexttracks.android.injection.components.AppComponentProvider;
 import org.nexttracks.android.injection.components.DaggerAppComponent;
@@ -24,6 +25,7 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
+import io.objectbox.BoxStore;
 import timber.log.Timber;
 
 public class App extends DaggerApplication  {
@@ -44,6 +46,8 @@ public class App extends DaggerApplication  {
     @Inject
     @AppContext
     Context context;
+
+    BoxStore boxStore;
 
     @Override
     public void onCreate() {
@@ -99,7 +103,7 @@ public class App extends DaggerApplication  {
         return appComponent;
     }
 
-    private static Application getApplication() {
+    public static Application getApplication() {
         return sApplication;
     }
 
@@ -109,4 +113,10 @@ public class App extends DaggerApplication  {
         return getApplication().getApplicationContext();
     }
 
+    public synchronized BoxStore getBoxStore() {
+        if (boxStore == null) {
+            boxStore = MyObjectBox.builder().androidContext(getApplicationContext()).build();
+        }
+        return boxStore;
+    }
 }

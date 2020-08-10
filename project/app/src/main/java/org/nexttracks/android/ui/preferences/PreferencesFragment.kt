@@ -10,6 +10,7 @@ import org.nexttracks.android.injection.modules.android.FragmentModules.BaseFrag
 import org.nexttracks.android.injection.scopes.PerFragment
 import org.nexttracks.android.services.MessageProcessorEndpointHttp
 import org.nexttracks.android.services.MessageProcessorEndpointMqtt
+import org.nexttracks.android.ui.preferences.accounts.AccountsActivity
 import org.nexttracks.android.ui.preferences.connection.ConnectionActivity
 import org.nexttracks.android.ui.preferences.editor.EditorActivity
 
@@ -19,6 +20,8 @@ class PreferencesFragment : AbstractPreferenceFragment() {
         setPreferencesFromResource(R.xml.preferences_root, rootKey)
         // Have to do these manually here, as there's an android bug that prevents the activity from being found when launched from intent declared on the preferences XML.
         findPreference<Preference>(UI_SCREEN_CONFIGURATION)!!.intent = Intent(context, EditorActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+
+        findPreference<Preference>(UI_PREFERENCE_SCREEN_ACCOUNTS)!!.intent = Intent(context, AccountsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
 
         //TODO move this to a preferences fragment rather than its own activity.
         findPreference<Preference>(UI_PREFERENCE_SCREEN_CONNECTION)!!.intent = Intent(context, ConnectionActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
@@ -37,6 +40,7 @@ class PreferencesFragment : AbstractPreferenceFragment() {
         }
 
     companion object {
+        private const val UI_PREFERENCE_SCREEN_ACCOUNTS = "accountsScreen"
         private const val UI_PREFERENCE_SCREEN_CONNECTION = "connectionScreen"
         private const val UI_SCREEN_CONFIGURATION = "configuration"
         private const val UI_LOGS = "logs"

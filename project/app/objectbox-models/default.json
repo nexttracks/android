@@ -58,9 +58,44 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "2:7066647936491088674",
+      "lastPropertyId": "5:7665983957403417637",
+      "name": "AccountModel",
+      "properties": [
+        {
+          "id": "1:3881717148995325144",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5526772008268519981",
+          "name": "username",
+          "type": 9
+        },
+        {
+          "id": "3:2370851859905873589",
+          "name": "password",
+          "type": 9
+        },
+        {
+          "id": "4:2261434083168705375",
+          "name": "hostname",
+          "type": 9
+        },
+        {
+          "id": "5:7665983957403417637",
+          "name": "port",
+          "type": 3,
+          "flags": 4
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:4484003322503948018",
+  "lastEntityId": "2:7066647936491088674",
   "lastIndexId": "1:3621608531039221384",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

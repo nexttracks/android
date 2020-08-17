@@ -10,7 +10,7 @@ interface AccountsMvvm {
     interface View : MvvmView
 
     interface ViewModel<V : MvvmView?> : MvvmViewModel<V> {
-        val accountsList: List<AccountModel>
+        val accountsList: Query<AccountModel>
 
         fun delete(model: AccountModel)
     }

@@ -182,4 +182,5 @@
     <string name="logs">Logs</string>
     <string name="exportLogFilePrompt">Export log file</string>
     <string name="addAccount">Add account</string>
+    <string name="accountListPlaceholder">No accounts added yet</string>
 </resources>

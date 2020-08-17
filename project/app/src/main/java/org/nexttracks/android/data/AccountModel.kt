@@ -9,4 +9,5 @@ import io.objectbox.annotation.Unique
 @Entity
 data class AccountModel(var username: String, var password: String, var hostname: String, var port: Int) : BaseObservable() {
     @Id var id: Long = 0
+    constructor() : this("", "", "", -1)
 }

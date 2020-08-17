@@ -7,14 +7,12 @@ import android.view.Menu
 import android.view.MenuItem
 import org.nexttracks.android.R
 import org.nexttracks.android.databinding.UiAccountBinding
-import org.nexttracks.android.databinding.UiAccountsBinding
 import org.nexttracks.android.ui.base.BaseActivity
 import org.nexttracks.android.ui.base.view.MvvmView
-import org.nexttracks.android.ui.preferences.accounts.AccountsActivity
 
 class AccountActivity : BaseActivity<UiAccountBinding, AccountViewModel>(), MvvmView, TextWatcher {
 
-    lateinit var saveButton: MenuItem
+    var saveButton: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +24,11 @@ class AccountActivity : BaseActivity<UiAccountBinding, AccountViewModel>(), Mvvm
         binding.password.addTextChangedListener(this)
         binding.hostname.addTextChangedListener(this)
         binding.port.addTextChangedListener(this)
+
+        val b = navigator.getExtrasBundle(intent)
+        if (b != null) {
+            viewModel.loadAccount(b.getLong("accountId", 0))
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -46,7 +49,7 @@ class AccountActivity : BaseActivity<UiAccountBinding, AccountViewModel>(), Mvvm
         return super.onOptionsItemSelected(item)
     }
 
-    override fun afterTextChanged(s: Editable?) {
+    override fun afterTextChanged(s: Editable) {
         conditionallyEnableSaveButton()
     }
 
@@ -57,7 +60,7 @@ class AccountActivity : BaseActivity<UiAccountBinding, AccountViewModel>(), Mvvm
     }
 
     private fun conditionallyEnableSaveButton() {
-        saveButton.isEnabled = viewModel.canSaveAccount()
-        saveButton.icon.alpha = if (viewModel.canSaveAccount()) 255 else 130
+        saveButton?.isEnabled = viewModel.canSaveAccount()
+        saveButton?.icon?.alpha = if (viewModel.canSaveAccount()) 255 else 130
     }
 }

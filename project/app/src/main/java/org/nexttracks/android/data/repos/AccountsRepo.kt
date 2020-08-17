@@ -1,14 +1,13 @@
 package org.nexttracks.android.data.repos
 
-import io.objectbox.android.ObjectBoxLiveData
 import io.objectbox.query.Query
 import org.greenrobot.eventbus.EventBus
 import org.nexttracks.android.data.AccountModel
 import org.nexttracks.android.support.Events.*
 
 abstract class AccountsRepo protected constructor(private val eventBus: EventBus) {
-    abstract operator fun get(id: Long): AccountModel
-    abstract val all: List<AccountModel>
+    abstract operator fun get(id: Long): AccountModel?
+    abstract val all: Query<AccountModel>
 
     fun insert(w: AccountModel) {
         insertImpl(w)

@@ -8,7 +8,10 @@ import androidx.databinding.Bindable;
 
 import org.nexttracks.android.BR;
 import org.nexttracks.android.R;
+import org.nexttracks.android.data.repos.AccountsRepo;
+import org.nexttracks.android.data.repos.WaypointsRepo;
 import org.nexttracks.android.injection.scopes.PerActivity;
+import org.nexttracks.android.messages.MessageAccount;
 import org.nexttracks.android.messages.MessageConfiguration;
 import org.nexttracks.android.support.Parser;
 import org.nexttracks.android.support.Preferences;
@@ -27,6 +30,12 @@ public class EditorViewModel extends BaseViewModel<EditorMvvm.View> implements E
     private String effectiveConfiguration;
 
     @Inject
+    WaypointsRepo waypointsRepo;
+
+    @Inject
+    AccountsRepo accountsRepo;
+
+    @Inject
     public EditorViewModel(Preferences preferences, Parser parser) {
         this.preferences = preferences;
         this.parser = parser;
@@ -41,6 +50,11 @@ public class EditorViewModel extends BaseViewModel<EditorMvvm.View> implements E
         try {
             MessageConfiguration m = preferences.exportToMessage();
             m.set(preferences.getPreferenceKey(R.string.preferenceKeyPassword), "********");
+            m.setWaypoints(waypointsRepo.exportToMessage());
+            m.setAccounts(accountsRepo.exportToMessage());
+            for (MessageAccount account : m.getAccounts()) {
+                account.setPassword("********");
+            }
             setEffectiveConfiguration(parser.toJsonPlainPretty(m));
         } catch (IOException e) {
             getView().displayLoadFailed();

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import org.nexttracks.android.support.MessageAccountCollection;
 import org.nexttracks.android.support.interfaces.IncomingMessageProcessor;
 import org.nexttracks.android.support.MessageWaypointCollection;
 import org.nexttracks.android.support.interfaces.OutgoingMessageProcessor;
@@ -24,6 +25,9 @@ public class MessageConfiguration extends MessageBase{
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private MessageWaypointCollection waypoints;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private MessageAccountCollection accounts;
+
     @Override
     public void processIncomingMessage(IncomingMessageProcessor handler) {
         handler.processIncomingMessage(this);
@@ -35,6 +39,14 @@ public class MessageConfiguration extends MessageBase{
 
     public void setWaypoints(MessageWaypointCollection waypoints) {
         this.waypoints = waypoints;
+    }
+
+    public MessageAccountCollection getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(MessageAccountCollection accounts) {
+        this.accounts = accounts;
     }
 
     @JsonAnyGetter

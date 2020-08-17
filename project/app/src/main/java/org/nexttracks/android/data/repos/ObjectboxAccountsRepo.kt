@@ -15,6 +15,8 @@ class ObjectboxAccountsRepo(@AppContext context: Context, eventBus: EventBus, pr
     private val box: Box<AccountModel> = (App.getApplication() as App).boxStore.boxFor(AccountModel::class.java)
     override val all: Query<AccountModel>
         get() = box.query().order(AccountModel_.username).build()
+    override val allList: List<AccountModel>
+        get() = box.all
 
     override fun get(id: Long): AccountModel? {
         return box.query().equal(AccountModel_.id, id).build().findUnique()

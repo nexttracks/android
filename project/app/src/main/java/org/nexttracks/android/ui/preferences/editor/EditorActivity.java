@@ -22,6 +22,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.nexttracks.android.App;
 import org.nexttracks.android.R;
+import org.nexttracks.android.data.repos.AccountsRepo;
 import org.nexttracks.android.data.repos.WaypointsRepo;
 import org.nexttracks.android.databinding.UiPreferencesEditorBinding;
 import org.nexttracks.android.messages.MessageConfiguration;
@@ -47,6 +48,9 @@ public class EditorActivity extends BaseActivity<UiPreferencesEditorBinding, Edi
 
     @Inject
     WaypointsRepo waypointsRepo;
+
+    @Inject
+    AccountsRepo accountsRepo;
 
     @Inject
     Parser parser;
@@ -105,7 +109,7 @@ public class EditorActivity extends BaseActivity<UiPreferencesEditorBinding, Edi
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         LayoutInflater inflater = getLayoutInflater();
-        final View layout = inflater.inflate(R.layout.ui_preferences_editor_dialog,null);
+        final View layout = inflater.inflate(R.layout.ui_preferences_editor_dialog, null);
         final MaterialAutoCompleteTextView inputKey = layout.findViewById(R.id.inputKey);
         final MaterialEditText inputValue = layout.findViewById(R.id.inputValue);
 
@@ -160,7 +164,7 @@ public class EditorActivity extends BaseActivity<UiPreferencesEditorBinding, Edi
     @Override
     public boolean exportConfigurationToFile(String exportStr) {
         File cDir = getBaseContext().getCacheDir();
-        File tempFile = new File(cDir.getPath() + "/config.otrc") ;
+        File tempFile = new File(cDir.getPath() + "/config.otrc");
 
         try {
             FileWriter writer = new FileWriter(tempFile);
@@ -200,6 +204,7 @@ public class EditorActivity extends BaseActivity<UiPreferencesEditorBinding, Edi
     private void displayPreferencesValueForKeySetFailedKey() {
         Toast.makeText(this, R.string.preferencesEditorKeyError, Toast.LENGTH_SHORT).show();
     }
+
     private void displayPreferencesValueForKeySetFailedValue() {
         Toast.makeText(this, R.string.preferencesEditorValueError, Toast.LENGTH_SHORT).show();
     }
@@ -207,14 +212,17 @@ public class EditorActivity extends BaseActivity<UiPreferencesEditorBinding, Edi
     private String getExportString() throws IOException {
         MessageConfiguration message = preferences.exportToMessage();
         message.setWaypoints(waypointsRepo.exportToMessage());
+        message.setAccounts(accountsRepo.exportToMessage());
         return parser.toJsonPlainPretty(message);
     }
 
     static class ExportTask extends AsyncTask<Void, Void, Boolean> {
         WeakReference<EditorActivity> ref;
+
         ExportTask(EditorActivity activity) {
             ref = new WeakReference<>(activity);
         }
+
         @Override
         protected Boolean doInBackground(Void... voids) {
             String exportStr;
@@ -223,14 +231,14 @@ public class EditorActivity extends BaseActivity<UiPreferencesEditorBinding, Edi
             } catch (IOException e) {
                 return false;
             }
-            if(ref.get() != null)
+            if (ref.get() != null)
                 ref.get().exportConfigurationToFile(exportStr);
             return true;
         }
 
         @Override
         protected void onPostExecute(Boolean success) {
-            if(ref.get() != null) {
+            if (ref.get() != null) {
                 if (success) {
                     ref.get().displayExportToFileSuccessful();
                 } else {

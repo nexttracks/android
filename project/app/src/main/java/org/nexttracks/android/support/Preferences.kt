@@ -645,6 +645,12 @@ class Preferences @Inject constructor(@AppContext c: Context, private val eventB
     val pubTopicWaypointsPart: String
         get() = "/waypoints"
 
+    val pubTopicAccounts: String
+        get() = pubTopicBase + pubTopicAccountsPart
+
+    val pubTopicAccountsPart: String
+        get() = "/accounts"
+
     val pubTopicEvents: String
         get() = pubTopicBase + pubTopicEventsPart
 
@@ -672,6 +678,12 @@ class Preferences @Inject constructor(@AppContext c: Context, private val eventB
         get() = 0
 
     val pubRetainWaypoints: Boolean
+        get() = false
+
+    val pubQosAccounts: Int
+        get() = 0
+
+    val pubRetainAccounts: Boolean
         get() = false
 
     val pubQosLocations: Int

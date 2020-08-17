@@ -9,7 +9,7 @@ import org.nexttracks.android.support.interfaces.IncomingMessageProcessor
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "_type")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-class MessageAccount(var id: Long, var username: String, var password: String, var hostname: String, var port: Int) : MessageBase() {
+class MessageAccount(var id: Long, var username: String, var password: String, var hostname: String, var port: Int, var enabled: Boolean) : MessageBase() {
     public override fun getBaseTopicSuffix(): String {
         return BASETOPIC_SUFFIX
     }

@@ -12,29 +12,41 @@
 
     <LinearLayout
         android:id="@+id/textview_container"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/title"
-            style="@style/ListItemPrimary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="@{account.username}" />
-
-        <TextView
-            android:id="@+id/text"
-            style="@style/ListItemSecondary"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="none"
-            android:singleLine="false"
-            android:text="@{account.hostname}" />
+            android:orientation="vertical">
 
+            <TextView
+                style="@style/ListItemPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{account.username}" />
+
+            <TextView
+                style="@style/ListItemSecondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="none"
+                android:singleLine="false"
+                android:text="@{account.hostname}" />
+
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/enabled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
+            android:checked="@{account.enabled}" />
     </LinearLayout>
+
 </layout>

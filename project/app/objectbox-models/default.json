@@ -61,7 +61,7 @@
     },
     {
       "id": "2:7066647936491088674",
-      "lastPropertyId": "5:7665983957403417637",
+      "lastPropertyId": "6:3855592451018742287",
       "name": "AccountModel",
       "properties": [
         {
@@ -89,6 +89,12 @@
           "id": "5:7665983957403417637",
           "name": "port",
           "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "6:3855592451018742287",
+          "name": "enabled",
+          "type": 1,
           "flags": 4
         }
       ],

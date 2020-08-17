@@ -51,10 +51,10 @@ abstract class AccountsRepo protected constructor(private val eventBus: EventBus
     }
 
     open fun toDaoObject(messageAccount: MessageAccount): AccountModel {
-        return AccountModel(messageAccount.id, messageAccount.username, messageAccount.password, messageAccount.hostname, messageAccount.port)
+        return AccountModel(messageAccount.id, messageAccount.username, messageAccount.password, messageAccount.hostname, messageAccount.port, messageAccount.enabled)
     }
 
     open fun fromDaoObject(a: AccountModel): MessageAccount {
-        return MessageAccount(a.id, a.username, a.password, a.hostname, a.port)
+        return MessageAccount(a.id, a.username, a.password, a.hostname, a.port, a.enabled)
     }
 }

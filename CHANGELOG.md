@@ -1,5 +1,12 @@
 # Changelog
 
+### Version 3.2.1
+
+* add logviewer
+* remove specific ndk dependency
+* minor ux improvements
+* bugfixes
+
 ### Version 3.2.0
 
 * add range circle for regions

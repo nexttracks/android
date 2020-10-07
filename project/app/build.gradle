@@ -17,8 +17,8 @@ android {
         targetSdkVersion 29
 
         // Note: always bump BOTH versionCode and versionName!
-        versionCode 32000
-        versionName "3.2.0"
+        versionCode 32100
+        versionName "3.2.1"
 
         javaCompileOptions {
             annotationProcessorOptions {

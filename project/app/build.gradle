@@ -11,7 +11,6 @@ plugins {
 
 android {
     compileSdkVersion 29
-    ndkVersion "21.3.6528147" //TODO wait for google to fix bug in AGP 4.0.0: https://issuetracker.google.com/issues/144111441
     defaultConfig {
         applicationId "org.nexttracks.android"
         minSdkVersion 21
